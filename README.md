@@ -18,10 +18,13 @@
 
 Accomplished and solutions-driven **Senior Full Stack Developer** with **6+ years of experience** in designing, developing, and maintaining robust and scalable web applications. Currently serving as **Acting Team Lead** at T2 - Business Research & Development.
 
-- Based in **Riyadh, Saudi Arabia**
-- Originally from **Syria**
-- Passionate about **Clean Architecture** and **Best Practices**
-- Strong believer in **continuous learning** and **knowledge sharing**
+- 🔭 I'm currently working on **Enterprise Communication Platforms & Distributed Systems**
+- 🌱 I'm currently learning **.NET Aspire, Generative AI & Cloud Architecture**
+- 👯 I'm looking to collaborate on **Open Source .NET Projects**
+- 💬 Ask me about **C#, ASP.NET Core, Vue.js, Clean Architecture, Microservices**
+- 📫 How to reach me: **shadeeaqeel00@gmail.com**
+- 📍 Based in **Riyadh, Saudi Arabia** | Originally from **Syria**
+- ⚡ Fun fact: **I've been on the honour list for 5 consecutive years during my CS degree!**
 
 ---
 
