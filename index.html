@@ -15,6 +15,9 @@
     <!-- Vue 3 -->
     <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
 
+    <!-- html2pdf.js for PDF generation -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -261,14 +264,14 @@
               >
                 <icon :name="darkMode ? 'sun' : 'moon'" :size="20"></icon>
               </button>
-              <a
-                href="pdf/Shadi akil -Senior Full Stack NET Developer - 2024.pdf"
-                download="Shadi_Akil_CV.pdf"
-                class="hidden sm:flex items-center px-5 py-2.5 rounded-xl text-sm font-semibold transition-all duration-300 bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white shadow-lg shadow-blue-500/25 hover:shadow-blue-500/40 hover:scale-105"
+              <button
+                @click="downloadCV"
+                :disabled="isDownloading"
+                class="hidden sm:flex items-center px-5 py-2.5 rounded-xl text-sm font-semibold transition-all duration-300 bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white shadow-lg shadow-blue-500/25 hover:shadow-blue-500/40 hover:scale-105 disabled:opacity-70 disabled:cursor-wait"
               >
-                <icon name="download" :size="16" :class="isRTL ? 'ml-2' : 'mr-2'"></icon>
-                {{ t.downloadCV }}
-              </a>
+                <icon :name="isDownloading ? 'coffee' : 'download'" :size="16" :class="[isRTL ? 'ml-2' : 'mr-2', isDownloading ? 'animate-pulse' : '']"></icon>
+                {{ isDownloading ? (lang === 'ar' ? 'جاري التحميل...' : 'Generating...') : t.downloadCV }}
+              </button>
             </div>
           </div>
         </div>
@@ -1131,6 +1134,7 @@
           const darkMode = ref(getInitialDarkMode());
           const lang = ref(getInitialLang());
           const activeCategory = ref("All");
+          const isDownloading = ref(false);
 
           const toggleDarkMode = () => {
             darkMode.value = !darkMode.value;
@@ -1139,6 +1143,66 @@
           const toggleLang = () => {
             lang.value = lang.value === "en" ? "ar" : "en";
             activeCategory.value = lang.value === "ar" ? "الكل" : "All";
+          };
+
+          const downloadCV = async () => {
+            if (isDownloading.value) return;
+            isDownloading.value = true;
+
+            try {
+              // Fetch the CV HTML content
+              const response = await fetch('cv-download.html');
+              const htmlContent = await response.text();
+
+              // Create a temporary container
+              const container = document.createElement('div');
+              container.innerHTML = htmlContent;
+
+              // Extract just the body content
+              const bodyContent = container.querySelector('.container');
+              if (!bodyContent) {
+                throw new Error('CV content not found');
+              }
+
+              // Extract styles from the fetched HTML
+              const styleTag = container.querySelector('style');
+              const tempDiv = document.createElement('div');
+              tempDiv.innerHTML = bodyContent.innerHTML;
+
+              // Apply inline styles for PDF generation
+              if (styleTag) {
+                const styleElement = document.createElement('style');
+                styleElement.textContent = styleTag.textContent;
+                tempDiv.prepend(styleElement);
+              }
+
+              // Configure html2pdf options
+              const opt = {
+                margin: [10, 10, 10, 10],
+                filename: 'Shadi_Akil_CV.pdf',
+                image: { type: 'jpeg', quality: 0.98 },
+                html2canvas: { 
+                  scale: 2, 
+                  useCORS: true,
+                  letterRendering: true
+                },
+                jsPDF: { 
+                  unit: 'mm', 
+                  format: 'a4', 
+                  orientation: 'portrait' 
+                },
+                pagebreak: { mode: ['avoid-all', 'css', 'legacy'] }
+              };
+
+              // Generate and download PDF
+              await html2pdf().set(opt).from(bodyContent).save();
+            } catch (error) {
+              console.error('Error generating PDF:', error);
+              // Fallback: open the HTML CV in a new tab
+              window.open('cv-download.html', '_blank');
+            } finally {
+              isDownloading.value = false;
+            }
           };
 
           const isRTL = computed(() => lang.value === "ar");
@@ -1643,6 +1707,8 @@
             lang,
             toggleLang,
             isRTL,
+            isDownloading,
+            downloadCV,
             t,
             activeCategory,
             categories,

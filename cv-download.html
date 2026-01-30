@@ -1,0 +1,679 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Shadi Akil - Senior Full Stack .NET Developer - CV</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    
+    <style>
+      :root {
+        --primary: #2563eb;
+        --text-dark: #111827;
+        --text-medium: #374151;
+        --text-light: #6b7280;
+        --border: #e5e7eb;
+        --bg-subtle: #f9fafb;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+        line-height: 1.5;
+        color: var(--text-dark);
+        background: #e5e7eb;
+        font-size: 10pt;
+        min-height: 100vh;
+        padding: 40px 20px;
+      }
+
+      .container {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 40px;
+        background: #fff;
+        border-radius: 8px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+      }
+
+      /* Header */
+      .header {
+        border-bottom: 2px solid var(--text-dark);
+        padding-bottom: 20px;
+        margin-bottom: 24px;
+      }
+
+      .header h1 {
+        font-size: 26pt;
+        font-weight: 700;
+        color: var(--text-dark);
+        margin-bottom: 4px;
+        letter-spacing: -0.5px;
+      }
+
+      .header h2 {
+        font-size: 12pt;
+        font-weight: 500;
+        color: var(--text-light);
+        margin-bottom: 16px;
+      }
+
+      .contact-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        font-size: 9.5pt;
+        color: var(--text-medium);
+      }
+
+      .contact-item {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+
+      .contact-item a {
+        color: var(--primary);
+        text-decoration: none;
+      }
+
+      .contact-item a:hover {
+        text-decoration: underline;
+      }
+
+      /* Sections */
+      .section {
+        margin-bottom: 22px;
+      }
+
+      .section-title {
+        font-size: 11pt;
+        font-weight: 700;
+        color: var(--text-dark);
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        border-bottom: 1px solid var(--border);
+        padding-bottom: 6px;
+        margin-bottom: 12px;
+      }
+
+      /* Summary */
+      .summary {
+        color: var(--text-medium);
+        font-size: 10pt;
+        line-height: 1.7;
+        text-align: justify;
+      }
+
+      /* Experience */
+      .experience-item {
+        margin-bottom: 18px;
+        page-break-inside: avoid;
+      }
+
+      .experience-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+        margin-bottom: 2px;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+
+      .experience-title {
+        font-size: 11pt;
+        font-weight: 600;
+        color: var(--text-dark);
+      }
+
+      .experience-period {
+        font-size: 9.5pt;
+        color: var(--text-light);
+        font-weight: 500;
+      }
+
+      .experience-company {
+        font-size: 10pt;
+        color: var(--text-light);
+        margin-bottom: 8px;
+      }
+
+      .experience-achievements {
+        list-style: none;
+        padding-left: 0;
+      }
+
+      .experience-achievements li {
+        font-size: 9.5pt;
+        color: var(--text-medium);
+        margin-bottom: 4px;
+        padding-left: 14px;
+        position: relative;
+        line-height: 1.5;
+      }
+
+      .experience-achievements li::before {
+        content: '•';
+        position: absolute;
+        left: 0;
+        color: var(--text-light);
+      }
+
+      /* Project */
+      .project-item {
+        padding: 16px;
+        background: var(--bg-subtle);
+        border: 1px solid var(--border);
+        border-radius: 6px;
+      }
+
+      .project-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+        margin-bottom: 4px;
+      }
+
+      .project-name {
+        font-size: 11pt;
+        font-weight: 600;
+        color: var(--text-dark);
+      }
+
+      .project-tagline {
+        font-size: 9.5pt;
+        color: var(--text-light);
+        font-style: italic;
+        margin-bottom: 8px;
+      }
+
+      .project-stats {
+        display: flex;
+        gap: 24px;
+        margin-bottom: 10px;
+        font-size: 9pt;
+      }
+
+      .project-stat {
+        text-align: center;
+      }
+
+      .project-stat-value {
+        font-size: 14pt;
+        font-weight: 700;
+        color: var(--primary);
+      }
+
+      .project-stat-label {
+        color: var(--text-light);
+        font-size: 8pt;
+      }
+
+      .project-description {
+        font-size: 9.5pt;
+        color: var(--text-medium);
+        margin-bottom: 10px;
+        line-height: 1.6;
+      }
+
+      .project-tech {
+        font-size: 9pt;
+        color: var(--text-light);
+      }
+
+      .project-tech strong {
+        color: var(--text-medium);
+      }
+
+      /* Skills */
+      .skills-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+      }
+
+      .skill-category {
+        padding: 12px;
+        background: var(--bg-subtle);
+        border: 1px solid var(--border);
+        border-radius: 4px;
+      }
+
+      .skill-category-title {
+        font-size: 9.5pt;
+        font-weight: 600;
+        color: var(--text-dark);
+        margin-bottom: 4px;
+      }
+
+      .skill-list {
+        font-size: 9pt;
+        color: var(--text-medium);
+        line-height: 1.5;
+      }
+
+      /* Education */
+      .education-item {
+        margin-bottom: 10px;
+      }
+
+      .education-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+
+      .education-title {
+        font-size: 10.5pt;
+        font-weight: 600;
+        color: var(--text-dark);
+      }
+
+      .education-period {
+        font-size: 9pt;
+        color: var(--text-light);
+      }
+
+      .education-institution {
+        font-size: 9.5pt;
+        color: var(--text-light);
+      }
+
+      .education-details {
+        font-size: 9pt;
+        color: var(--primary);
+        font-weight: 500;
+      }
+
+      /* Certifications */
+      .cert-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 8px;
+      }
+
+      .cert-item {
+        font-size: 9pt;
+        padding: 8px 10px;
+        background: var(--bg-subtle);
+        border: 1px solid var(--border);
+        border-radius: 4px;
+      }
+
+      .cert-name {
+        color: var(--text-dark);
+        font-weight: 500;
+        display: block;
+        margin-bottom: 2px;
+      }
+
+      .cert-provider {
+        color: var(--text-light);
+        font-size: 8.5pt;
+      }
+
+      /* Two Column Layout */
+      .two-columns {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 24px;
+      }
+
+      /* Languages */
+      .language-item {
+        display: flex;
+        justify-content: space-between;
+        font-size: 9.5pt;
+        padding: 6px 0;
+        border-bottom: 1px solid var(--border);
+      }
+
+      .language-item:last-child {
+        border-bottom: none;
+      }
+
+      .language-name {
+        color: var(--text-dark);
+        font-weight: 500;
+      }
+
+      .language-level {
+        color: var(--text-light);
+      }
+
+      /* Strengths */
+      .strengths-list {
+        list-style: none;
+        padding: 0;
+      }
+
+      .strengths-list li {
+        font-size: 9.5pt;
+        color: var(--text-medium);
+        padding: 4px 0;
+        padding-left: 16px;
+        position: relative;
+      }
+
+      .strengths-list li::before {
+        content: '✓';
+        position: absolute;
+        left: 0;
+        color: var(--primary);
+        font-size: 9pt;
+      }
+
+      /* Download Button */
+      .download-btn {
+        position: fixed;
+        bottom: 24px;
+        right: 24px;
+        background: var(--text-dark);
+        color: white;
+        border: none;
+        padding: 12px 20px;
+        border-radius: 6px;
+        font-size: 13px;
+        font-weight: 500;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        transition: all 0.2s ease;
+      }
+
+      .download-btn:hover {
+        background: var(--primary);
+        transform: translateY(-2px);
+      }
+
+      .download-btn svg {
+        width: 18px;
+        height: 18px;
+      }
+
+      /* Print Styles */
+      @media print {
+        body {
+          font-size: 9.5pt;
+          background: #fff;
+          padding: 0;
+        }
+
+        .container {
+          padding: 0;
+          max-width: 100%;
+          box-shadow: none;
+          border-radius: 0;
+        }
+
+        .download-btn {
+          display: none !important;
+        }
+
+        .section {
+          page-break-inside: avoid;
+        }
+
+        .experience-item {
+          page-break-inside: avoid;
+        }
+
+        @page {
+          margin: 0.5in;
+          size: A4;
+        }
+      }
+
+      /* Responsive */
+      @media (max-width: 600px) {
+        .container {
+          padding: 24px;
+        }
+
+        .skills-grid,
+        .cert-grid,
+        .two-columns {
+          grid-template-columns: 1fr;
+        }
+
+        .contact-row {
+          gap: 12px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <!-- Header -->
+      <header class="header">
+        <h1>Shadi Akil</h1>
+        <h2>Senior Full Stack .NET Developer | Acting Team Lead</h2>
+        <div class="contact-row">
+          <span class="contact-item">shadeeaqeel00@gmail.com</span>
+          <span class="contact-item">+966 53 628 4611</span>
+          <span class="contact-item">Riyadh, KSA</span>
+          <span class="contact-item">Syrian</span>
+          <span class="contact-item">Transferable Iqama</span>
+        </div>
+        <div class="contact-row" style="margin-top: 8px;">
+          <span class="contact-item"><a href="https://github.com/shadiaqeel">github.com/shadiaqeel</a></span>
+          <span class="contact-item"><a href="https://www.linkedin.com/in/shadi-akil-503456107">LinkedIn</a></span>
+          <span class="contact-item"><a href="https://shadiaqeel.github.io/Portfolio/">Portfolio</a></span>
+        </div>
+      </header>
+
+      <!-- Professional Summary -->
+      <section class="section">
+        <h3 class="section-title">Professional Summary</h3>
+        <p class="summary">
+          Accomplished and solutions-driven Senior Full Stack Developer with 6+ years of expertise in designing, developing, and maintaining robust and scalable web applications. Proficient in the .NET ecosystem, including ASP.NET Core and Entity Framework, with extensive front-end experience using Vue.js to create intuitive and user-centric interfaces. Adept at managing and optimizing SQL databases to ensure high performance and data integrity. Skilled in leading projects through the full development lifecycle, collaborating cross-functionally, and implementing best practices in coding standards and software architecture.
+        </p>
+      </section>
+
+      <!-- Work Experience -->
+      <section class="section">
+        <h3 class="section-title">Work Experience</h3>
+
+        <div class="experience-item">
+          <div class="experience-header">
+            <span class="experience-title">Senior Full Stack .NET Developer | Acting Team Lead</span>
+            <span class="experience-period">Jan 2025 – Present</span>
+          </div>
+          <div class="experience-company">T2 - Business Research & Development, Riyadh</div>
+          <ul class="experience-achievements">
+            <li>Acting as Team Lead, managing and coordinating team activities</li>
+            <li>Follow-up on teams' tasks and ensure timely delivery</li>
+            <li>Led the architecture and design of complex software systems</li>
+            <li>Mentored junior developers and conducted code reviews</li>
+            <li>Drove technical decisions and best practices across the team</li>
+            <li>Optimized application performance and scalability</li>
+          </ul>
+        </div>
+
+        <div class="experience-item">
+          <div class="experience-header">
+            <span class="experience-title">Full Stack .NET Developer</span>
+            <span class="experience-period">Feb 2020 – Dec 2024</span>
+          </div>
+          <div class="experience-company">T2 - Business Research & Development, Riyadh</div>
+          <ul class="experience-achievements">
+            <li>Designed and developed software systems for digital solutions</li>
+            <li>Facilitated team communication and followed up on task execution</li>
+            <li>Provided accurate time estimations for project roadmaps</li>
+            <li>Supported the Operations/Support team with critical resolutions</li>
+            <li>Researched and implemented new backend solutions</li>
+          </ul>
+        </div>
+
+        <div class="experience-item">
+          <div class="experience-header">
+            <span class="experience-title">Trainee Network Engineer</span>
+            <span class="experience-period">Jun 2018 – Dec 2018</span>
+          </div>
+          <div class="experience-company">Solutions by STC, Saudi Arabia</div>
+          <ul class="experience-achievements">
+            <li>Gained hands-on experience in network infrastructure and telecommunications</li>
+            <li>Assisted in network configuration and troubleshooting</li>
+            <li>Collaborated with senior engineers on network maintenance tasks</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- Key Project -->
+      <section class="section">
+        <h3 class="section-title">Key Project</h3>
+        <div class="project-item">
+          <div class="project-header">
+            <span class="project-name">RiCH - Enterprise Communication Platform</span>
+          </div>
+          <div class="project-tagline">The Most Powerful Communication Platform in Saudi Arabia</div>
+          
+          <div class="project-stats">
+            <div class="project-stat">
+              <div class="project-stat-value">70%+</div>
+              <div class="project-stat-label">SMS Traffic in KSA</div>
+            </div>
+            <div class="project-stat">
+              <div class="project-stat-value">95%</div>
+              <div class="project-stat-label">Banks Coverage</div>
+            </div>
+            <div class="project-stat">
+              <div class="project-stat-value">5+</div>
+              <div class="project-stat-label">Channels</div>
+            </div>
+          </div>
+          
+          <p class="project-description">
+            A robust platform helping enterprises manage and centralize all communication. Supports multi-channel communication (SMS, Voice, Fax, Email, WhatsApp) with enterprise-grade security.
+          </p>
+          <div class="project-tech">
+            <strong>Tech:</strong> ASP.NET Core, Vue.js, SQL Server, RabbitMQ, Redis, Cassandra, Elasticsearch
+          </div>
+        </div>
+      </section>
+
+      <!-- Technical Skills -->
+      <section class="section">
+        <h3 class="section-title">Technical Skills</h3>
+        <div class="skills-grid">
+          <div class="skill-category">
+            <div class="skill-category-title">Backend</div>
+            <div class="skill-list">C#, ASP.NET Core, .NET 6, Entity Framework, LINQ, SignalR</div>
+          </div>
+          <div class="skill-category">
+            <div class="skill-category-title">Frontend</div>
+            <div class="skill-list">Vue.js, JavaScript, TypeScript, HTML/CSS, jQuery</div>
+          </div>
+          <div class="skill-category">
+            <div class="skill-category-title">Databases</div>
+            <div class="skill-list">SQL Server, MySQL, Oracle, Cassandra, Redis</div>
+          </div>
+          <div class="skill-category">
+            <div class="skill-category-title">Message Brokers & Search</div>
+            <div class="skill-list">RabbitMQ, Apache Kafka, IBM MQ, Elasticsearch, Solr</div>
+          </div>
+          <div class="skill-category">
+            <div class="skill-category-title">DevOps & Tools</div>
+            <div class="skill-list">Git, Azure DevOps, Docker, JetBrains Profilers</div>
+          </div>
+          <div class="skill-category">
+            <div class="skill-category-title">Architecture</div>
+            <div class="skill-list">Clean Architecture, SOLID, Microservices, .NET Aspire</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Education -->
+      <section class="section">
+        <h3 class="section-title">Education</h3>
+        <div class="education-item">
+          <div class="education-header">
+            <span class="education-title">Bachelor's Degree in Computer Science</span>
+            <span class="education-period">2014 – 2019</span>
+          </div>
+          <div class="education-institution">Yarmouk University, Jordan</div>
+          <div class="education-details">GPA: 4.0 (89.4%) • Honour list for 5 consecutive years</div>
+        </div>
+      </section>
+
+      <!-- Certifications -->
+      <section class="section">
+        <h3 class="section-title">Certifications</h3>
+        <div class="cert-grid">
+          <div class="cert-item">
+            <span class="cert-name">.NET Aspire and GenAI Distributed Architectures</span>
+            <span class="cert-provider">Udemy • Oct 2025</span>
+          </div>
+          <div class="cert-item">
+            <span class="cert-name">Project Management with ChatGPT</span>
+            <span class="cert-provider">Udemy • Jun 2025</span>
+          </div>
+          <div class="cert-item">
+            <span class="cert-name">Complete Agile & Scrum Course</span>
+            <span class="cert-provider">Udemy • Mar 2025</span>
+          </div>
+          <div class="cert-item">
+            <span class="cert-name">Understanding Cloud Computing</span>
+            <span class="cert-provider">DataCamp • Dec 2024</span>
+          </div>
+          <div class="cert-item">
+            <span class="cert-name">Data Transformation in Power BI</span>
+            <span class="cert-provider">DataCamp • Nov 2024</span>
+          </div>
+          <div class="cert-item">
+            <span class="cert-name">Problem Solving & Critical Thinking</span>
+            <span class="cert-provider">edX • Sep 2020</span>
+          </div>
+          <div class="cert-item">
+            <span class="cert-name">CCNP-RS</span>
+            <span class="cert-provider">Cisco • Nov 2019</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- Languages & Strengths -->
+      <div class="two-columns">
+        <section class="section">
+          <h3 class="section-title">Languages</h3>
+          <div class="language-item">
+            <span class="language-name">Arabic</span>
+            <span class="language-level">Native</span>
+          </div>
+          <div class="language-item">
+            <span class="language-name">English</span>
+            <span class="language-level">Professional Working</span>
+          </div>
+        </section>
+
+        <section class="section">
+          <h3 class="section-title">Strengths</h3>
+          <ul class="strengths-list">
+            <li>Problem-solving & Analytical Thinking</li>
+            <li>Strong Attention to Detail</li>
+            <li>Team Leadership & Collaboration</li>
+            <li>Adaptability & Quick Learning</li>
+          </ul>
+        </section>
+      </div>
+    </div>
+
+    <!-- Download Button -->
+    <button class="download-btn" onclick="window.print()">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
+      Download PDF
+    </button>
+  </body>
+</html>
