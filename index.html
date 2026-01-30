@@ -345,7 +345,7 @@
 
         <!-- Experience Section -->
         <section class="mb-24">
-          <h2 class="text-3xl font-bold mb-10 flex items-center gap-3">
+          <h2 class="text-3xl font-bold mb-10 flex items-center gap-3" :class="darkMode ? 'text-slate-100' : 'text-slate-800'">
             <span class="p-2 rounded-lg bg-gradient-to-br from-blue-500/20 to-purple-500/20">
               <icon name="briefcase" class="text-blue-500"></icon>
             </span>
@@ -427,6 +427,69 @@
                       <span :class="darkMode ? 'text-slate-300' : 'text-slate-600'">{{ item }}</span>
                     </li>
                   </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Projects Section -->
+        <section class="mb-24">
+          <h2 class="text-3xl font-bold mb-10 flex items-center gap-3" :class="darkMode ? 'text-slate-100' : 'text-slate-800'">
+            <span class="p-2 rounded-lg bg-gradient-to-br from-blue-500/20 to-purple-500/20">
+              <icon name="rocket" class="text-blue-500"></icon>
+            </span>
+            {{ t.projects }}
+          </h2>
+
+          <div class="grid gap-6">
+            <div
+              v-for="project in projects"
+              :key="project.id"
+              class="p-8 rounded-3xl border transition-all duration-300 card-glow"
+              :class="darkMode ? 'bg-slate-900/50 border-slate-800' : 'bg-white border-slate-200 shadow-sm'"
+            >
+              <div class="flex flex-col lg:flex-row justify-between items-start gap-6">
+                <div class="flex-1">
+                  <div class="flex items-center gap-4 mb-4">
+                    <h3 class="text-2xl font-bold gradient-text">{{ project.name }}</h3>
+                    <a
+                      :href="project.url"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      class="p-2 rounded-lg transition-all duration-300 hover:scale-110"
+                      :class="darkMode ? 'bg-slate-800 text-blue-400 hover:bg-slate-700' : 'bg-slate-100 text-blue-600 hover:bg-slate-200'"
+                    >
+                      <icon name="external-link" :size="18"></icon>
+                    </a>
+                  </div>
+
+                  <p class="mb-6 text-lg leading-relaxed" :class="darkMode ? 'text-slate-400' : 'text-slate-600'">{{ project.description[lang] }}</p>
+
+                  <!-- Features -->
+                  <div class="mb-6">
+                    <h4 class="font-semibold mb-3" :class="darkMode ? 'text-slate-200' : 'text-slate-700'">
+                      {{ lang === 'ar' ? 'المميزات الرئيسية' : 'Key Features' }}
+                    </h4>
+                    <ul class="grid sm:grid-cols-2 gap-2">
+                      <li v-for="(feature, idx) in project.features[lang]" :key="idx" class="flex items-start gap-2">
+                        <span class="mt-2 w-1.5 h-1.5 rounded-full bg-gradient-to-r from-blue-500 to-purple-500 flex-shrink-0"></span>
+                        <span :class="darkMode ? 'text-slate-300' : 'text-slate-600'">{{ feature }}</span>
+                      </li>
+                    </ul>
+                  </div>
+
+                  <!-- Technologies -->
+                  <div class="flex flex-wrap gap-2">
+                    <span
+                      v-for="(tech, idx) in project.technologies"
+                      :key="idx"
+                      class="px-3 py-1.5 rounded-lg text-sm font-medium"
+                      :class="darkMode ? 'bg-blue-500/10 text-blue-400 border border-blue-500/20' : 'bg-blue-50 text-blue-700 border border-blue-200'"
+                    >
+                      {{ tech }}
+                    </span>
+                  </div>
                 </div>
               </div>
             </div>
@@ -753,6 +816,8 @@
             zap: '<polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>',
             heart:
               '<path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/>',
+            rocket:
+              '<path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/><path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/><path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"/><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"/>',
           };
 
           const path = computed(() => icons[props.name] || "");
@@ -831,6 +896,7 @@
                 strengths: "Strengths",
                 languages: "Languages",
                 personalSkills: "Personal Skills",
+                projects: "Projects",
               },
               ar: {
                 openToOpportunities: "متاح للفرص الوظيفية",
@@ -847,6 +913,7 @@
                 strengths: "نقاط القوة",
                 languages: "اللغات",
                 personalSkills: "المهارات الشخصية",
+                projects: "المشاريع",
               },
             };
             return translations[lang.value];
@@ -1045,6 +1112,37 @@
             ar: ["التفكير النقدي", "حل المشكلات", "القيادة", "العمل الجماعي", "التواصل", "إدارة الوقت", "الإبداع", "التكيف"],
           };
 
+          const projects = [
+            {
+              id: 1,
+              name: "RiCH",
+              description: {
+                en: "A robust platform that helps enterprises manage and centralize all their communication in one place. By using this intuitive platform, businesses can communicate with their targeted audiences using SMS, Voice, Fax, Email, and WhatsApp in an easier and more effective way. The service is highly secure with a sophisticated encryption system to ensure confidentiality and security.",
+                ar: "منصة قوية تساعد المؤسسات على إدارة ومركزة جميع اتصالاتها في مكان واحد. من خلال استخدام هذه المنصة السهلة، يمكن للشركات التواصل مع جمهورها المستهدف عبر الرسائل القصيرة والمكالمات الصوتية والفاكس والبريد الإلكتروني والواتساب بطريقة أسهل وأكثر فعالية. الخدمة آمنة للغاية مع نظام تشفير متطور لضمان السرية والأمان.",
+              },
+              url: "https://t2.sa/rich-en",
+              technologies: ["ASP.NET Core", "Vue.js", "SQL Server", "RabbitMQ", "Redis", "Cassandra", "Elasticsearch"],
+              features: {
+                en: [
+                  "Multi-channel communication (SMS, Voice, Fax, Email, WhatsApp)",
+                  "Handles 70%+ of SMS traffic in Saudi Arabia",
+                  "Serves almost all government sectors & 95% of banks",
+                  "Enterprise-grade security & sophisticated encryption",
+                  "Unified platform for all communication needs",
+                  "Trusted by enterprises and SMEs across the kingdom",
+                ],
+                ar: [
+                  "اتصال متعدد القنوات (رسائل، صوت، فاكس، بريد، واتساب)",
+                  "يتعامل مع أكثر من 70% من حركة الرسائل في السعودية",
+                  "يخدم جميع القطاعات الحكومية تقريباً و95% من البنوك",
+                  "أمان بمستوى المؤسسات وتشفير متطور",
+                  "منصة موحدة لجميع احتياجات الاتصال",
+                  "موثوق من المؤسسات والشركات الصغيرة والمتوسطة",
+                ],
+              },
+            },
+          ];
+
           const skillsData = [
             // Backend
             { name: "C#", category: "Backend", level: 95 },
@@ -1120,6 +1218,7 @@
             strengths,
             languagesData,
             personalSkills,
+            projects,
           };
         },
       });
