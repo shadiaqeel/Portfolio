@@ -1,88 +1,1027 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" dir="ltr" class="scroll-smooth">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Shadi Akil | Senior Full Stack .NET Developer</title>
-    
+
     <!-- Favicon -->
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><defs><linearGradient id='grad' x1='0%25' y1='0%25' x2='100%25' y2='100%25'><stop offset='0%25' style='stop-color:%233b82f6'/><stop offset='100%25' style='stop-color:%238b5cf6'/></linearGradient></defs><rect width='100' height='100' rx='20' fill='url(%23grad)'/><text x='50' y='68' font-size='50' text-anchor='middle' fill='white' font-family='monospace'>&lt;/&gt;</text></svg>">
-    
-    <!-- Redirect to portfolio -->
-    <meta http-equiv="refresh" content="0; url=portfolio.html">
-    
+    <link
+      rel="icon"
+      type="image/svg+xml"
+      href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><defs><linearGradient id='grad' x1='0%25' y1='0%25' x2='100%25' y2='100%25'><stop offset='0%25' style='stop-color:%233b82f6'/><stop offset='100%25' style='stop-color:%238b5cf6'/></linearGradient></defs><rect width='100' height='100' rx='20' fill='url(%23grad)'/><text x='50' y='68' font-size='50' text-anchor='middle' fill='white' font-family='monospace'>&lt;/&gt;</text></svg>"
+    />
+
+    <!-- Vue 3 -->
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              slate: {
+                50: "#f8fafc",
+                100: "#f1f5f9",
+                200: "#e2e8f0",
+                300: "#cbd5e1",
+                400: "#94a3b8",
+                500: "#64748b",
+                600: "#475569",
+                700: "#334155",
+                800: "#1e293b",
+                900: "#0f172a",
+                950: "#020617",
+              },
+            },
+            animation: {
+              float: "float 6s ease-in-out infinite",
+              "pulse-slow": "pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite",
+              gradient: "gradient 8s linear infinite",
+              "fade-in": "fadeIn 0.6s ease-out forwards",
+              "slide-up": "slideUp 0.6s ease-out forwards",
+            },
+            keyframes: {
+              float: {
+                "0%, 100%": { transform: "translateY(0px)" },
+                "50%": { transform: "translateY(-20px)" },
+              },
+              gradient: {
+                "0%, 100%": { backgroundPosition: "0% 50%" },
+                "50%": { backgroundPosition: "100% 50%" },
+              },
+              fadeIn: {
+                "0%": { opacity: "0" },
+                "100%": { opacity: "1" },
+              },
+              slideUp: {
+                "0%": { opacity: "0", transform: "translateY(20px)" },
+                "100%": { opacity: "1", transform: "translateY(0)" },
+              },
+            },
+          },
+        },
+      };
+    </script>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Tajawal:wght@300;400;500;700;800;900&display=swap"
+      rel="stylesheet"
+    />
+
     <style>
       * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
+        font-family: "Inter", sans-serif;
       }
-      body {
-        font-family: 'Inter', system-ui, sans-serif;
-        background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
-        min-height: 100vh;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: white;
+
+      /* Arabic font */
+      [dir="rtl"] * {
+        font-family: "Tajawal", sans-serif;
       }
-      .container {
-        text-align: center;
-        padding: 2rem;
+
+      /* RTL margin/padding fixes */
+      [dir="rtl"] .mr-2 {
+        margin-right: 0;
+        margin-left: 0.5rem;
       }
-      .logo {
-        width: 80px;
-        height: 80px;
-        background: linear-gradient(135deg, #3b82f6, #8b5cf6);
-        border-radius: 1rem;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        margin: 0 auto 1.5rem;
-        font-size: 2rem;
-        font-family: monospace;
+      [dir="rtl"] .ml-2 {
+        margin-left: 0;
+        margin-right: 0.5rem;
       }
-      h1 {
-        font-size: 1.5rem;
-        margin-bottom: 0.5rem;
+
+      /* Custom scrollbar */
+      ::-webkit-scrollbar {
+        width: 8px;
       }
-      p {
-        color: #94a3b8;
-        margin-bottom: 1.5rem;
+      ::-webkit-scrollbar-track {
+        background: transparent;
       }
-      a {
-        display: inline-block;
-        padding: 0.75rem 1.5rem;
-        background: linear-gradient(135deg, #3b82f6, #8b5cf6);
-        color: white;
-        text-decoration: none;
-        border-radius: 0.5rem;
-        font-weight: 500;
-        transition: transform 0.2s, box-shadow 0.2s;
+      ::-webkit-scrollbar-thumb {
+        background: linear-gradient(180deg, #3b82f6, #8b5cf6);
+        border-radius: 4px;
       }
-      a:hover {
+
+      [v-cloak] {
+        display: none;
+      }
+
+      /* Prevent flash of light mode */
+      html.dark body {
+        background-color: #020617;
+      }
+
+      /* Gradient text */
+      .gradient-text {
+        background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 50%, #ec4899 100%);
+        background-size: 200% 200%;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        animation: gradient 8s ease infinite;
+      }
+
+      /* Glow effects */
+      .glow-blue {
+        box-shadow: 0 0 40px rgba(59, 130, 246, 0.3);
+      }
+      .glow-purple {
+        box-shadow: 0 0 40px rgba(139, 92, 246, 0.3);
+      }
+
+      /* Card hover glow */
+      .card-glow {
+        transition: all 0.3s ease;
+      }
+      .card-glow:hover {
+        box-shadow: 0 0 30px rgba(59, 130, 246, 0.15);
         transform: translateY(-2px);
-        box-shadow: 0 10px 30px rgba(59, 130, 246, 0.3);
       }
-      .loading {
-        margin-top: 1rem;
-        color: #64748b;
-        font-size: 0.875rem;
+
+      /* Animated gradient border */
+      .gradient-border {
+        position: relative;
+        background: linear-gradient(135deg, #3b82f6, #8b5cf6, #ec4899);
+        padding: 2px;
+        border-radius: 1rem;
+      }
+      .gradient-border-inner {
+        border-radius: calc(1rem - 2px);
+      }
+
+      /* Skill bar animation */
+      .skill-bar {
+        transition: width 1s ease-out;
+      }
+
+      /* Floating animation for decorative elements */
+      .float-1 {
+        animation: float 6s ease-in-out infinite;
+      }
+      .float-2 {
+        animation: float 8s ease-in-out infinite 1s;
+      }
+      .float-3 {
+        animation: float 7s ease-in-out infinite 2s;
+      }
+
+      /* Stagger animations */
+      .stagger-1 {
+        animation-delay: 0.1s;
+      }
+      .stagger-2 {
+        animation-delay: 0.2s;
+      }
+      .stagger-3 {
+        animation-delay: 0.3s;
+      }
+      .stagger-4 {
+        animation-delay: 0.4s;
+      }
+
+      /* Badge pulse */
+      .badge-pulse {
+        animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+      }
+
+      /* Noise texture overlay */
+      .noise-overlay::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+        opacity: 0.02;
+        pointer-events: none;
       }
     </style>
-  </head>
-  <body>
-    <div class="container">
-      <div class="logo">&lt;/&gt;</div>
-      <h1>Shadi Akil</h1>
-      <p>Senior Full Stack .NET Developer</p>
-      <a href="portfolio.html">View Portfolio</a>
-      <p class="loading">Redirecting...</p>
-    </div>
-    
+
+    <!-- Prevent flash of wrong theme -->
     <script>
-      // Fallback redirect if meta refresh doesn't work
-      window.location.href = 'portfolio.html';
+      (function () {
+        const stored = localStorage.getItem("darkMode");
+        const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+        if (stored === "true" || (stored === null && prefersDark)) {
+          document.documentElement.classList.add("dark");
+        }
+      })();
+    </script>
+  </head>
+  <body class="antialiased transition-colors duration-500">
+    <div id="app" v-cloak :class="[darkMode ? 'bg-slate-950 text-slate-100' : 'bg-slate-50 text-slate-800', 'min-h-screen relative noise-overlay']">
+      <!-- Animated Background Blobs -->
+      <div class="fixed inset-0 overflow-hidden pointer-events-none">
+        <div class="absolute -top-40 -right-40 w-96 h-96 bg-blue-500/20 rounded-full blur-3xl float-1"></div>
+        <div class="absolute top-1/2 -left-40 w-80 h-80 bg-purple-500/20 rounded-full blur-3xl float-2"></div>
+        <div class="absolute -bottom-40 right-1/3 w-72 h-72 bg-pink-500/15 rounded-full blur-3xl float-3"></div>
+      </div>
+
+      <!-- Navigation -->
+      <nav
+        class="sticky top-0 z-50 backdrop-blur-xl border-b transition-all duration-300"
+        :class="darkMode ? 'bg-slate-950/80 border-slate-800' : 'bg-white/80 border-slate-200'"
+      >
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div class="flex justify-between items-center h-16">
+            <div class="flex items-center space-x-3">
+              <div class="p-2.5 rounded-xl bg-gradient-to-br from-blue-500 to-purple-600 text-white shadow-lg shadow-blue-500/25">
+                <icon name="code" :size="22"></icon>
+              </div>
+              <span class="font-bold text-xl tracking-tight">Shadi<span class="gradient-text">Akil</span></span>
+            </div>
+
+            <div class="flex items-center gap-3">
+              <!-- Language Toggle -->
+              <button
+                @click="toggleLang"
+                class="p-2.5 rounded-xl transition-all duration-300 hover:scale-110 flex items-center gap-1.5"
+                :class="darkMode ? 'bg-slate-800 text-blue-400 hover:bg-slate-700' : 'bg-slate-100 text-blue-600 hover:bg-slate-200'"
+                aria-label="Toggle Language"
+              >
+                <icon name="globe" :size="18"></icon>
+                <span class="text-sm font-semibold">{{ lang === 'en' ? 'عربي' : 'EN' }}</span>
+              </button>
+              <!-- Dark Mode Toggle -->
+              <button
+                @click="toggleDarkMode"
+                class="p-2.5 rounded-xl transition-all duration-300 hover:scale-110"
+                :class="darkMode ? 'bg-slate-800 text-yellow-400 hover:bg-slate-700' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'"
+                aria-label="Toggle Dark Mode"
+              >
+                <icon :name="darkMode ? 'sun' : 'moon'" :size="20"></icon>
+              </button>
+              <a
+                href="pdf/Shadi akil -Senior Full Stack NET Developer - 2024.pdf"
+                download="Shadi_Akil_CV.pdf"
+                class="hidden sm:flex items-center px-5 py-2.5 rounded-xl text-sm font-semibold transition-all duration-300 bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white shadow-lg shadow-blue-500/25 hover:shadow-blue-500/40 hover:scale-105"
+              >
+                <icon name="download" :size="16" :class="isRTL ? 'ml-2' : 'mr-2'"></icon>
+                {{ t.downloadCV }}
+              </a>
+            </div>
+          </div>
+        </div>
+      </nav>
+
+      <main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16 relative">
+        <!-- Hero Section -->
+        <section class="mb-24">
+          <div class="flex flex-col md:flex-row items-start md:items-center gap-12">
+            <div class="flex-1 space-y-8">
+              <div
+                class="inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium badge-pulse"
+                :class="darkMode ? 'bg-green-500/10 text-green-400 border border-green-500/20' : 'bg-green-50 text-green-700 border border-green-200'"
+              >
+                <span class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
+                {{ t.openToOpportunities }}
+              </div>
+
+              <h1 class="text-5xl md:text-7xl font-black tracking-tight leading-tight">
+                {{ t.seniorFullStack }} <br />
+                <span class="gradient-text">{{ t.dotNetDeveloper }}</span>
+              </h1>
+
+              <p class="text-lg md:text-xl max-w-2xl leading-relaxed" :class="darkMode ? 'text-slate-400' : 'text-slate-600'">
+                {{ profile.summary }}
+              </p>
+
+              <div class="flex flex-wrap gap-3 pt-2">
+                <div
+                  v-for="(value, index) in contactList"
+                  :key="index"
+                  class="flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-medium transition-all duration-300 hover:scale-105 card-glow"
+                  :class="darkMode ? 'bg-slate-800/80 border border-slate-700 text-slate-300' : 'bg-white border border-slate-200 text-slate-600 shadow-sm'"
+                >
+                  <icon :name="value.icon" :size="16" class="text-blue-500"></icon>
+                  <span>{{ value.text }}</span>
+                </div>
+              </div>
+
+              <div class="flex gap-3 pt-4">
+                <a
+                  v-for="social in socialLinks"
+                  :key="social.href"
+                  :href="social.href"
+                  target="_blank"
+                  class="p-3 rounded-xl border transition-all duration-300 hover:scale-110"
+                  :class="darkMode ? 'bg-slate-800/80 border-slate-700 text-slate-400 hover:border-blue-500 hover:text-blue-400 hover:bg-slate-800' : 'bg-white border-slate-200 text-slate-500 hover:border-blue-500 hover:text-blue-500 shadow-sm'"
+                >
+                  <icon :name="social.icon" :size="22"></icon>
+                </a>
+              </div>
+            </div>
+
+            <!-- Tech Stack Cards -->
+            <div class="hidden md:block w-1/3">
+              <div
+                class="relative w-full aspect-square rounded-3xl overflow-hidden p-6 border transition-all duration-500"
+                :class="darkMode ? 'bg-slate-900/50 border-slate-800 glow-blue' : 'bg-white border-slate-200 shadow-2xl'"
+              >
+                <div class="absolute top-0 right-0 w-40 h-40 bg-gradient-to-br from-blue-500/20 to-purple-500/20 rounded-full blur-3xl"></div>
+                <div class="absolute bottom-0 left-0 w-40 h-40 bg-gradient-to-tr from-purple-500/20 to-pink-500/20 rounded-full blur-3xl"></div>
+
+                <div class="grid grid-cols-2 gap-4 h-full relative">
+                  <div
+                    v-for="(tech, index) in techStack"
+                    :key="index"
+                    class="rounded-2xl p-4 flex flex-col justify-center items-center transition-all duration-300 hover:scale-105 cursor-default"
+                    :class="darkMode ? 'bg-slate-800/50 hover:bg-slate-800' : 'bg-slate-50 hover:bg-slate-100'"
+                  >
+                    <icon :name="tech.icon" :size="36" :class="tech.color" class="mb-3"></icon>
+                    <span class="font-bold text-sm" :class="darkMode ? 'text-slate-100' : 'text-slate-800'">{{ tech.name }}</span>
+                    <span class="text-xs mt-1" :class="darkMode ? 'text-slate-500' : 'text-slate-500'">{{ tech.tech }}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Experience Section -->
+        <section class="mb-24">
+          <h2 class="text-3xl font-bold mb-10 flex items-center gap-3">
+            <span class="p-2 rounded-lg bg-gradient-to-br from-blue-500/20 to-purple-500/20">
+              <icon name="briefcase" class="text-blue-500"></icon>
+            </span>
+            {{ t.workExperience }}
+          </h2>
+
+          <!-- Timeline Container -->
+          <div class="relative">
+            <!-- Timeline Line -->
+            <div
+              class="absolute top-0 bottom-0 w-0.5 hidden md:block"
+              :class="[
+                darkMode ? 'bg-gradient-to-b from-blue-500 via-purple-500 to-slate-700' : 'bg-gradient-to-b from-blue-500 via-purple-500 to-slate-300',
+                isRTL ? 'right-6' : 'left-6'
+              ]"
+            ></div>
+
+            <div class="space-y-8">
+              <div v-for="(job, index) in experience" :key="job.id" class="relative" :class="isRTL ? 'md:pr-16' : 'md:pl-16'">
+                <!-- Timeline Dot -->
+                <div class="absolute top-8 hidden md:flex items-center justify-center" :class="isRTL ? 'right-4' : 'left-4'">
+                  <div class="w-5 h-5 rounded-full bg-gradient-to-r from-blue-500 to-purple-500 z-10 flex items-center justify-center">
+                    <div class="w-2 h-2 rounded-full" :class="darkMode ? 'bg-slate-900' : 'bg-white'"></div>
+                  </div>
+                </div>
+
+                <!-- Current Position Indicator -->
+                <div v-if="index === 0" class="absolute top-6 hidden md:block" :class="isRTL ? 'right-1' : 'left-1'">
+                  <div class="w-11 h-11 rounded-full bg-blue-500/20 animate-ping"></div>
+                </div>
+
+                <!-- Experience Card -->
+                <div
+                  class="p-8 rounded-3xl border transition-all duration-300 card-glow"
+                  :class="darkMode ? 'bg-slate-900/50 border-slate-800' : 'bg-white border-slate-200 shadow-sm'"
+                >
+                  <!-- Year Badge (on timeline side) -->
+                  <div class="absolute top-6 hidden md:block" :class="isRTL ? 'right-0 translate-x-full pl-8' : 'left-0 -translate-x-full pr-8'">
+                    <div class="text-sm font-bold whitespace-nowrap" :class="darkMode ? 'text-slate-400' : 'text-slate-500'">
+                      {{ job.period.split(' - ')[0] }}
+                    </div>
+                  </div>
+
+                  <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
+                    <div class="flex items-start gap-4">
+                      <!-- Company Logo -->
+                      <div
+                        v-if="job.logo"
+                        class="w-14 h-14 rounded-xl flex items-center justify-center flex-shrink-0 p-2"
+                        :class="darkMode ? 'bg-white' : 'bg-slate-100'"
+                      >
+                        <img :src="job.logo" :alt="job.company + ' logo'" class="w-full h-full object-contain" />
+                      </div>
+                      <div
+                        v-else
+                        class="w-14 h-14 rounded-xl flex items-center justify-center flex-shrink-0"
+                        :class="darkMode ? 'bg-slate-800' : 'bg-slate-100'"
+                      >
+                        <icon name="briefcase" :size="24" class="text-blue-500"></icon>
+                      </div>
+                      <div>
+                        <h3 class="text-xl font-bold gradient-text">{{ job.role }}</h3>
+                        <div class="font-semibold text-lg mt-1" :class="darkMode ? 'text-slate-300' : 'text-slate-700'">{{ job.company }}</div>
+                      </div>
+                    </div>
+                    <div
+                      class="px-4 py-2 rounded-xl text-sm font-semibold"
+                      :class="darkMode ? 'bg-blue-500/10 text-blue-400 border border-blue-500/20' : 'bg-blue-50 text-blue-700 border border-blue-200'"
+                    >
+                      {{ job.period }}
+                    </div>
+                  </div>
+
+                  <p class="mb-6" :class="darkMode ? 'text-slate-400' : 'text-slate-600'">{{ job.description }}</p>
+
+                  <ul class="space-y-3">
+                    <li v-for="(item, idx) in job.achievements" :key="idx" class="flex items-start gap-3">
+                      <span class="mt-2 w-1.5 h-1.5 rounded-full bg-gradient-to-r from-blue-500 to-purple-500 flex-shrink-0"></span>
+                      <span :class="darkMode ? 'text-slate-300' : 'text-slate-600'">{{ item }}</span>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Education & Certifications Grid -->
+        <div class="grid md:grid-cols-2 gap-8 mb-24">
+          <!-- Education -->
+          <section>
+            <h2 class="text-3xl font-bold mb-8 flex items-center gap-3">
+              <span class="p-2 rounded-lg bg-gradient-to-br from-blue-500/20 to-purple-500/20">
+                <icon name="graduation-cap" class="text-blue-500"></icon>
+              </span>
+              {{ t.education }}
+            </h2>
+            <div class="space-y-4">
+              <div
+                v-for="edu in education"
+                :key="edu.id"
+                class="p-6 rounded-2xl border transition-all duration-300 card-glow"
+                :class="darkMode ? 'bg-slate-900/50 border-slate-800' : 'bg-white border-slate-200 shadow-sm'"
+              >
+                <div class="flex justify-between items-start mb-3 gap-4">
+                  <h3 class="font-bold text-lg" :class="darkMode ? 'text-slate-100' : 'text-slate-800'">{{ edu.degree }}</h3>
+                  <span
+                    class="text-xs px-3 py-1.5 rounded-lg font-semibold flex-shrink-0"
+                    :class="darkMode ? 'bg-purple-500/10 text-purple-400 border border-purple-500/20' : 'bg-purple-50 text-purple-700 border border-purple-200'"
+                  >
+                    {{ edu.period }}
+                  </span>
+                </div>
+                <p class="font-medium mb-2" :class="darkMode ? 'text-slate-300' : 'text-slate-600'">{{ edu.institution }}</p>
+                <p class="text-sm" :class="darkMode ? 'text-slate-500' : 'text-slate-500'">{{ edu.details }}</p>
+              </div>
+            </div>
+          </section>
+
+          <!-- Certifications -->
+          <section>
+            <h2 class="text-3xl font-bold mb-8 flex items-center gap-3">
+              <span class="p-2 rounded-lg bg-gradient-to-br from-blue-500/20 to-purple-500/20">
+                <icon name="award" class="text-blue-500"></icon>
+              </span>
+              {{ t.certifications }}
+            </h2>
+            <div class="space-y-3 max-h-[400px] overflow-y-auto pr-2">
+              <div
+                v-for="(cert, index) in certifications"
+                :key="index"
+                class="p-4 rounded-xl border flex items-center justify-between group transition-all duration-300 hover:scale-[1.02] cursor-pointer"
+                :class="darkMode ? 'bg-slate-900/50 border-slate-800 hover:border-slate-700' : 'bg-white border-slate-200 hover:border-slate-300 shadow-sm'"
+              >
+                <div class="flex-1 min-w-0">
+                  <h3 class="font-semibold text-sm truncate" :class="darkMode ? 'text-slate-100' : 'text-slate-800'">{{ cert.name }}</h3>
+                  <p class="text-xs mt-1" :class="darkMode ? 'text-slate-500' : 'text-slate-500'">{{ cert.provider }} • {{ cert.date }}</p>
+                </div>
+                <icon
+                  name="external-link"
+                  :size="16"
+                  class="ml-3 opacity-0 group-hover:opacity-100 transition-opacity text-blue-500 flex-shrink-0"
+                ></icon>
+              </div>
+            </div>
+          </section>
+        </div>
+
+        <!-- Strengths, Languages, Personal Skills Grid -->
+        <div class="grid md:grid-cols-3 gap-8 mb-24">
+          <!-- Strengths -->
+          <section>
+            <h2 class="text-2xl font-bold mb-6 flex items-center gap-3">
+              <span class="p-2 rounded-lg bg-gradient-to-br from-yellow-500/20 to-orange-500/20">
+                <icon name="star" class="text-yellow-500"></icon>
+              </span>
+              {{ t.strengths }}
+            </h2>
+            <div class="space-y-3">
+              <div
+                v-for="(strength, index) in strengths[lang]"
+                :key="index"
+                class="p-4 rounded-xl border flex items-center gap-3 transition-all duration-300 hover:scale-[1.02]"
+                :class="darkMode ? 'bg-slate-900/50 border-slate-800 hover:border-yellow-500/30' : 'bg-white border-slate-200 hover:border-yellow-400 shadow-sm'"
+              >
+                <span class="w-2 h-2 rounded-full bg-gradient-to-r from-yellow-500 to-orange-500 flex-shrink-0"></span>
+                <span class="text-sm font-medium" :class="darkMode ? 'text-slate-300' : 'text-slate-700'">{{ strength }}</span>
+              </div>
+            </div>
+          </section>
+
+          <!-- Languages -->
+          <section>
+            <h2 class="text-2xl font-bold mb-6 flex items-center gap-3">
+              <span class="p-2 rounded-lg bg-gradient-to-br from-green-500/20 to-emerald-500/20">
+                <icon name="languages" class="text-green-500"></icon>
+              </span>
+              {{ t.languages }}
+            </h2>
+            <div class="space-y-4">
+              <div
+                v-for="(language, index) in languagesData"
+                :key="index"
+                class="p-5 rounded-xl border transition-all duration-300"
+                :class="darkMode ? 'bg-slate-900/50 border-slate-800' : 'bg-white border-slate-200 shadow-sm'"
+              >
+                <div class="flex justify-between items-center mb-3">
+                  <span class="font-semibold" :class="darkMode ? 'text-slate-100' : 'text-slate-800'">{{ language.name[lang] }}</span>
+                  <span
+                    class="text-xs px-3 py-1 rounded-lg font-medium"
+                    :class="darkMode ? 'bg-green-500/10 text-green-400 border border-green-500/20' : 'bg-green-50 text-green-700 border border-green-200'"
+                  >
+                    {{ language.level[lang] }}
+                  </span>
+                </div>
+                <div class="w-full rounded-full h-2 overflow-hidden" :class="darkMode ? 'bg-slate-800' : 'bg-slate-100'">
+                  <div
+                    class="h-full rounded-full bg-gradient-to-r from-green-500 to-emerald-500 skill-bar"
+                    :style="{ width: language.percent + '%' }"
+                  ></div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- Personal Skills -->
+          <section>
+            <h2 class="text-2xl font-bold mb-6 flex items-center gap-3">
+              <span class="p-2 rounded-lg bg-gradient-to-br from-pink-500/20 to-rose-500/20">
+                <icon name="heart" class="text-pink-500"></icon>
+              </span>
+              {{ t.personalSkills }}
+            </h2>
+            <div class="flex flex-wrap gap-2">
+              <span
+                v-for="(skill, index) in personalSkills[lang]"
+                :key="index"
+                class="px-4 py-2 rounded-xl text-sm font-medium transition-all duration-300 hover:scale-105 cursor-default"
+                :class="darkMode ? 'bg-slate-800 text-slate-300 border border-slate-700 hover:border-pink-500/30' : 'bg-white text-slate-700 border border-slate-200 hover:border-pink-400 shadow-sm'"
+              >
+                {{ skill }}
+              </span>
+            </div>
+          </section>
+        </div>
+
+        <!-- Technical Skills Section -->
+        <section class="mb-24">
+          <div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-10 gap-6">
+            <div>
+              <h2 class="text-3xl font-bold mb-3 flex items-center gap-3">
+                <span class="p-2 rounded-lg bg-gradient-to-br from-blue-500/20 to-purple-500/20">
+                  <icon name="terminal" class="text-blue-500"></icon>
+                </span>
+                {{ t.skills }}
+              </h2>
+              <p class="text-lg" :class="darkMode ? 'text-slate-400' : 'text-slate-600'">
+                {{ lang === 'ar' ? 'مجموعة شاملة من الأدوات لبناء حلول قابلة للتوسع' : 'A comprehensive toolset for building scalable solutions.' }}
+              </p>
+            </div>
+            <div class="flex flex-wrap gap-2">
+              <button
+                v-for="cat in categories"
+                :key="cat"
+                @click="activeCategory = cat"
+                class="px-4 py-2 rounded-xl text-sm font-semibold transition-all duration-300"
+                :class="[
+                  activeCategory === cat ? 'bg-gradient-to-r from-blue-500 to-purple-600 text-white shadow-lg shadow-blue-500/25' : '',
+                  activeCategory !== cat && darkMode ? 'bg-slate-800 text-slate-400 hover:bg-slate-700 hover:text-slate-200' : '',
+                  activeCategory !== cat && !darkMode ? 'bg-white text-slate-600 border border-slate-200 hover:bg-slate-50 hover:border-slate-300' : ''
+                ]"
+              >
+                {{ cat }}
+              </button>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+            <div
+              v-for="(skill, index) in filteredSkills"
+              :key="index"
+              class="p-5 rounded-2xl border transition-all duration-300 card-glow group"
+              :class="darkMode ? 'bg-slate-900/50 border-slate-800 hover:border-blue-500/50' : 'bg-white border-slate-200 hover:border-blue-300 shadow-sm'"
+            >
+              <div class="flex justify-between items-center mb-3">
+                <span class="font-semibold" :class="darkMode ? 'text-slate-100' : 'text-slate-800'">{{ skill.name }}</span>
+                <span
+                  class="text-xs px-2.5 py-1 rounded-lg font-medium"
+                  :class="darkMode ? 'bg-slate-800 text-slate-400' : 'bg-slate-100 text-slate-500'"
+                >
+                  {{ skill.level }}%
+                </span>
+              </div>
+              <div class="w-full rounded-full h-2 overflow-hidden" :class="darkMode ? 'bg-slate-800' : 'bg-slate-100'">
+                <div class="h-full rounded-full bg-gradient-to-r from-blue-500 to-purple-500 skill-bar" :style="{ width: skill.level + '%' }"></div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="pt-10 border-t text-center" :class="darkMode ? 'border-slate-800' : 'border-slate-200'">
+          <p class="text-sm" :class="darkMode ? 'text-slate-500' : 'text-slate-500'">
+            &copy; {{ new Date().getFullYear() }} {{ lang === 'ar' ? 'شادي عقيل' : 'Shadi Akil' }}.
+          </p>
+        </footer>
+      </main>
+    </div>
+
+    <script>
+      const { createApp, ref, computed, watch } = Vue;
+
+      // Custom Icon Component
+      const IconComponent = {
+        props: ["name", "size"],
+        template: `
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            :width="size || 24"
+            :height="size || 24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            v-html="path"
+          ></svg>
+        `,
+        setup(props) {
+          const icons = {
+            code: '<polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/>',
+            sun: '<circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/>',
+            moon: '<path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/>',
+            download:
+              '<path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/>',
+            mail: '<rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>',
+            phone:
+              '<path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>',
+            "map-pin": '<path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/>',
+            github:
+              '<path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/><path d="M9 18c-4.51 2-5-2-7-2"/>',
+            linkedin:
+              '<path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9"/><circle cx="4" cy="4" r="2"/>',
+            server:
+              '<rect width="20" height="8" x="2" y="2" rx="2" ry="2"/><rect width="20" height="8" x="2" y="14" rx="2" ry="2"/><line x1="6" x2="6.01" y1="6" y2="6"/><line x1="6" x2="6.01" y1="18" y2="18"/>',
+            layout:
+              '<rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><line x1="3" x2="21" y1="9" y2="9"/><line x1="9" x2="9" y1="9" y2="21"/>',
+            database:
+              '<ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/>',
+            cpu: '<rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6"/><path d="M15 2v2"/><path d="M15 20v2"/><path d="M2 15h2"/><path d="M2 9h2"/><path d="M20 15h2"/><path d="M20 9h2"/><path d="M9 2v2"/><path d="M9 20v2"/>',
+            terminal: '<polyline points="4 17 10 11 4 5"/><line x1="12" x2="20" y1="19" y2="19"/>',
+            briefcase: '<rect width="20" height="14" x="2" y="7" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/>',
+            "graduation-cap":
+              '<path d="M21.42 10.922a1 1 0 0 0-.019-1.838L12.83 5.18a2 2 0 0 0-1.66 0L2.6 9.08a1 1 0 0 0 0 1.832l8.57 3.908a2 2 0 0 0 1.66 0z"/><path d="M22 10v6"/><path d="M6 12.5V16a6 3 0 0 0 12 0v-3.5"/>',
+            award: '<circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/>',
+            "external-link":
+              '<path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" x2="21" y1="14" y2="3"/>',
+            flag: '<path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" x2="4" y1="22" y2="15"/>',
+            globe:
+              '<circle cx="12" cy="12" r="10"/><line x1="2" x2="22" y1="12" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>',
+            star: '<polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>',
+            users:
+              '<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>',
+            languages:
+              '<path d="m5 8 6 6"/><path d="m4 14 6-6 2-3"/><path d="M2 5h12"/><path d="M7 2h1"/><path d="m22 22-5-10-5 10"/><path d="M14 18h6"/>',
+            zap: '<polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>',
+            heart:
+              '<path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/>',
+          };
+
+          const path = computed(() => icons[props.name] || "");
+          return { path };
+        },
+      };
+
+      const app = createApp({
+        components: {
+          icon: IconComponent,
+        },
+        setup() {
+          const getInitialDarkMode = () => {
+            const stored = localStorage.getItem("darkMode");
+            if (stored !== null) return stored === "true";
+            return window.matchMedia("(prefers-color-scheme: dark)").matches;
+          };
+
+          const getInitialLang = () => {
+            return localStorage.getItem("lang") || "en";
+          };
+
+          const darkMode = ref(getInitialDarkMode());
+          const lang = ref(getInitialLang());
+          const activeCategory = ref("All");
+
+          const toggleDarkMode = () => {
+            darkMode.value = !darkMode.value;
+          };
+
+          const toggleLang = () => {
+            lang.value = lang.value === "en" ? "ar" : "en";
+            activeCategory.value = lang.value === "ar" ? "الكل" : "All";
+          };
+
+          const isRTL = computed(() => lang.value === "ar");
+
+          watch(
+            darkMode,
+            (newVal) => {
+              localStorage.setItem("darkMode", newVal);
+              if (newVal) {
+                document.documentElement.classList.add("dark");
+              } else {
+                document.documentElement.classList.remove("dark");
+              }
+            },
+            { immediate: true },
+          );
+
+          watch(
+            lang,
+            (newVal) => {
+              localStorage.setItem("lang", newVal);
+              document.documentElement.setAttribute("lang", newVal);
+              document.documentElement.setAttribute("dir", newVal === "ar" ? "rtl" : "ltr");
+            },
+            { immediate: true },
+          );
+
+          // Translations
+          const t = computed(() => {
+            const translations = {
+              en: {
+                openToOpportunities: "Open to Opportunities",
+                seniorFullStack: "Senior Full Stack",
+                dotNetDeveloper: ".NET Developer",
+                downloadCV: "Download CV",
+                techStack: "Tech Stack",
+                workExperience: "Work Experience",
+                skills: "Technical Skills",
+                education: "Education",
+                certifications: "Certifications",
+                present: "Present",
+                craftedWith: "Crafted with",
+                strengths: "Strengths",
+                languages: "Languages",
+                personalSkills: "Personal Skills",
+              },
+              ar: {
+                openToOpportunities: "متاح للفرص الوظيفية",
+                seniorFullStack: "مطور متكامل أول",
+                dotNetDeveloper: ".NET",
+                downloadCV: "تحميل السيرة الذاتية",
+                techStack: "التقنيات",
+                workExperience: "الخبرة العملية",
+                skills: "المهارات التقنية",
+                education: "التعليم",
+                certifications: "الشهادات",
+                present: "حتى الآن",
+                craftedWith: "صنع بـ",
+                strengths: "نقاط القوة",
+                languages: "اللغات",
+                personalSkills: "المهارات الشخصية",
+              },
+            };
+            return translations[lang.value];
+          });
+
+          const categories = computed(() => {
+            return lang.value === "ar"
+              ? ["الكل", "الخلفية", "الواجهة", "قواعد البيانات", "وسطاء الرسائل", "البحث والتحليلات", "DevOps", "الاختبارات", "الهندسة والممارسات"]
+              : ["All", "Backend", "Frontend", "Database", "Message Brokers", "Search & Analytics", "DevOps", "Testing", "Architecture"];
+          });
+
+          const categoryMap = {
+            الكل: "All",
+            الخلفية: "Backend",
+            الواجهة: "Frontend",
+            "قواعد البيانات": "Database",
+            "وسطاء الرسائل": "Message Brokers",
+            "البحث والتحليلات": "Search & Analytics",
+            الاختبارات: "Testing",
+            "الهندسة والممارسات": "Architecture",
+          };
+
+          // Data
+          const profileData = {
+            en: {
+              name: "Shadi Akil",
+              summary:
+                "Accomplished and solutions-driven Senior Full Stack Developer with expertise in designing, developing, and maintaining robust and scalable web applications. Proficient in the .NET ecosystem, including ASP.NET Core and Entity Framework, with extensive front-end experience using Vue.js to create intuitive and user-centric interfaces. Adept at managing and optimizing SQL databases to ensure high performance and data integrity. Skilled in leading projects through the full development lifecycle, collaborating cross-functionally, and implementing best practices in coding standards and software architecture. Committed to continuous learning and leveraging new technologies to deliver innovative solutions and drive project success.",
+            },
+            ar: {
+              name: "شادي عقيل",
+              summary:
+                "مطور Full Stack أول متميز وموجه نحو الحلول، ذو خبرة واسعة في تصميم وتطوير وصيانة تطبيقات الويب القوية والقابلة للتوسع. متمكن من منظومة .NET بما في ذلك ASP.NET Core و Entity Framework، مع خبرة واسعة في تطوير الواجهات الأمامية باستخدام Vue.js لإنشاء واجهات سهلة الاستخدام. بارع في إدارة وتحسين قواعد بيانات SQL لضمان الأداء العالي وسلامة البيانات. ماهر في قيادة المشاريع خلال دورة التطوير الكاملة، والتعاون مع الفرق المختلفة، وتطبيق أفضل الممارسات في معايير البرمجة وهندسة البرمجيات. ملتزم بالتعلم المستمر واستخدام التقنيات الجديدة لتقديم حلول مبتكرة وتحقيق نجاح المشاريع.",
+            },
+          };
+
+          const profile = computed(() => profileData[lang.value]);
+
+          const contactList = [
+            { icon: "mail", text: "shadeeaqeel00@gmail.com" },
+            { icon: "phone", text: "+966 53 628 4611" },
+            { icon: "map-pin", text: "Riyadh, KSA" },
+            { icon: "flag", text: "Syrian" },
+          ];
+
+          const socialLinks = [
+            { icon: "github", href: "https://github.com/shadiaqeel" },
+            { icon: "linkedin", href: "https://www.linkedin.com/in/shadi-akil-503456107" },
+          ];
+
+          const techStack = [
+            { name: "Backend", tech: ".NET Core", icon: "server", color: "text-blue-500" },
+            { name: "Frontend", tech: "Vue.js", icon: "layout", color: "text-emerald-500" },
+            { name: "Database", tech: "SQL / Redis", icon: "database", color: "text-purple-500" },
+            { name: "DevOps", tech: "Azure / Docker", icon: "cpu", color: "text-orange-500" },
+          ];
+
+          const experience = [
+            {
+              id: 1,
+              role: "Senior Full Stack .NET Developer | Acting Team Lead",
+              company: "T2 - Business Research & Development",
+              logo: "imgs/t2logo.png",
+              period: "Jan 2025 - Present",
+              description: "Promoted to senior role, leading technical initiatives and mentoring team members as Acting Team Lead.",
+              achievements: [
+                "Acting as Team Lead, managing and coordinating team activities.",
+                "Follow-up on teams' tasks and ensure timely delivery.",
+                "Led the architecture and design of complex software systems.",
+                "Mentored junior developers and conducted code reviews.",
+                "Drove technical decisions and best practices across the team.",
+                "Optimized application performance and scalability.",
+              ],
+            },
+            {
+              id: 2,
+              role: "Full Stack .NET Developer",
+              company: "T2 - Business Research & Development",
+              logo: "imgs/t2logo.png",
+              period: "Feb 2020 - Dec 2024",
+              description: "A company focused on providing digital solutions and engaging services.",
+              achievements: [
+                "Designed and developed software systems for digital solutions.",
+                "Facilitated team communication and followed up on task execution.",
+                "Provided accurate time estimations for project roadmaps.",
+                "Supported the Operations/Support team with critical resolutions.",
+                "Researched and implemented new backend solutions.",
+              ],
+            },
+            {
+              id: 3,
+              role: "Trainee Network Engineer",
+              company: "Solutions by STC",
+              logo: "imgs/stclogo.svg",
+              period: "Jun 2018 - Dec 2018",
+              description:
+                "Saudi Telecom Company is a Saudi Arabia-based telecommunications company that offers landline, mobile, Internet services and computer networks.",
+              achievements: [
+                "Gained hands-on experience in network infrastructure and telecommunications.",
+                "Assisted in network configuration and troubleshooting.",
+                "Collaborated with senior engineers on network maintenance tasks.",
+              ],
+            },
+          ];
+
+          const education = [
+            {
+              id: 1,
+              degree: "Bachelor's Degree in Computer Science",
+              institution: "Yarmouk University, Jordan",
+              period: "2014 - 2019",
+              details: "GPA: 4.0 (89.4%). Placed on the honour list for five years.",
+            },
+          ];
+
+          const certifications = [
+            { name: ".NET Aspire and GenAI Develop Distributed Architectures", provider: "Udemy", date: "Oct 2025" },
+            { name: "Project Management with ChatGPT: AI for Project Managers", provider: "Udemy", date: "Jun 2025" },
+            { name: "The Complete Agile & Scrum Project Management Course", provider: "Udemy", date: "Mar 2025" },
+            { name: "Understanding Cloud Computing", provider: "DataCamp", date: "Dec 2024" },
+            { name: "Data Transformation in Power BI", provider: "DataCamp", date: "Nov 2024" },
+            { name: "Exploratory Data Analysis in Python", provider: "DataCamp", date: "Nov 2024" },
+            { name: "Problem Solving and Critical Thinking Skills", provider: "FullbridgeX (edX)", date: "Sep 2020" },
+            { name: "Cisco Certified Network Professional (CCNP-RS)", provider: "Cisco", date: "Nov 2019" },
+          ];
+
+          const strengths = {
+            en: [
+              "Problem-solving and analytical thinking",
+              "Strong attention to detail",
+              "Excellent communication skills",
+              "Team leadership and collaboration",
+              "Adaptability and quick learning",
+              "Time management and organization",
+            ],
+            ar: [
+              "حل المشكلات والتفكير التحليلي",
+              "الاهتمام الدقيق بالتفاصيل",
+              "مهارات تواصل ممتازة",
+              "قيادة الفريق والتعاون",
+              "التكيف والتعلم السريع",
+              "إدارة الوقت والتنظيم",
+            ],
+          };
+
+          const languagesData = [
+            { name: { en: "Arabic", ar: "العربية" }, level: { en: "Native", ar: "اللغة الأم" }, percent: 100 },
+            { name: { en: "English", ar: "الإنجليزية" }, level: { en: "Professional Working", ar: "مهني عملي" }, percent: 50 },
+          ];
+
+          const personalSkills = {
+            en: ["Critical Thinking", "Problem Solving", "Leadership", "Teamwork", "Communication", "Time Management", "Creativity", "Adaptability"],
+            ar: ["التفكير النقدي", "حل المشكلات", "القيادة", "العمل الجماعي", "التواصل", "إدارة الوقت", "الإبداع", "التكيف"],
+          };
+
+          const skillsData = [
+            // Backend
+            { name: "C#", category: "Backend", level: 95 },
+            { name: "ASP.NET Core", category: "Backend", level: 95 },
+            { name: ".NET 6", category: "Backend", level: 95 },
+            { name: "Entity Framework", category: "Backend", level: 90 },
+            { name: "LINQ", category: "Backend", level: 90 },
+            { name: "SignalR", category: "Backend", level: 50 },
+            // Frontend
+            { name: "Vue.js", category: "Frontend", level: 90 },
+            { name: "JavaScript", category: "Frontend", level: 85 },
+            { name: "TypeScript", category: "Frontend", level: 80 },
+            { name: "HTML/CSS", category: "Frontend", level: 70 },
+            { name: "jQuery", category: "Frontend", level: 70 },
+            // Databases
+            { name: "SQL Server", category: "Database", level: 90 },
+            { name: "MySQL", category: "Database", level: 60 },
+            { name: "Oracle", category: "Database", level: 50 },
+            { name: "Cassandra", category: "Database", level: 85 },
+            // Message Brokers
+            { name: "RabbitMQ", category: "Message Brokers", level: 85 },
+            { name: "IBM MQ", category: "Message Brokers", level: 50 },
+            { name: "Apache Kafka", category: "Message Brokers", level: 40 },
+            // Search & Analytics
+            { name: "Elasticsearch", category: "Search & Analytics", level: 80 },
+            { name: "Apache Solr", category: "Search & Analytics", level: 70 },
+            { name: "Power BI", category: "Search & Analytics", level: 75 },
+            // DevOps & Tools
+            { name: "Git/GitHub", category: "DevOps", level: 90 },
+            { name: "Azure DevOps", category: "DevOps", level: 85 },
+            { name: "Docker", category: "DevOps", level: 80 },
+            { name: "Redis", category: "DevOps", level: 80 },
+            { name: "JetBrains dotMemory", category: "DevOps", level: 75 },
+            { name: "JetBrains dotTrace", category: "DevOps", level: 75 },
+            // Testing
+            { name: "NUnit", category: "Testing", level: 80 },
+            { name: "Cypress", category: "Testing", level: 75 },
+            { name: "Selenium", category: "Testing", level: 75 },
+            // Architecture & Practices
+            { name: "Clean Code", category: "Architecture", level: 90 },
+            { name: "SOLID Principles", category: "Architecture", level: 90 },
+            { name: "Clean Architecture", category: "Architecture", level: 80 },
+            { name: "Microservices", category: "Architecture", level: 75 },
+            { name: "Distributed Architecture", category: "Architecture", level: 70 },
+            { name: ".NET Aspire", category: "Architecture", level: 80 },
+            { name: "Generative AI", category: "Architecture", level: 60 },
+          ];
+
+          const filteredSkills = computed(() => {
+            const cat = activeCategory.value;
+            const mappedCat = categoryMap[cat] || cat;
+            return mappedCat === "All" || cat === "الكل" ? skillsData : skillsData.filter((skill) => skill.category === mappedCat);
+          });
+
+          return {
+            darkMode,
+            toggleDarkMode,
+            lang,
+            toggleLang,
+            isRTL,
+            t,
+            activeCategory,
+            categories,
+            categoryMap,
+            filteredSkills,
+            profile,
+            contactList,
+            socialLinks,
+            techStack,
+            experience,
+            education,
+            certifications,
+            strengths,
+            languagesData,
+            personalSkills,
+          };
+        },
+      });
+
+      app.mount("#app");
     </script>
   </body>
 </html>
