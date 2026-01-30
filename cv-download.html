@@ -13,11 +13,14 @@
     <style>
       :root {
         --primary: #2563eb;
+        --primary-light: #3b82f6;
         --text-dark: #111827;
         --text-medium: #374151;
         --text-light: #6b7280;
         --border: #e5e7eb;
         --bg-subtle: #f9fafb;
+        --bg-page: #f3f4f6;
+        --success: #059669;
       }
 
       * {
@@ -30,80 +33,166 @@
         font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
         line-height: 1.5;
         color: var(--text-dark);
-        background: #e5e7eb;
+        background: var(--bg-page);
         font-size: 10pt;
         min-height: 100vh;
         padding: 40px 20px;
       }
 
       .container {
-        max-width: 800px;
+        max-width: 820px;
         margin: 0 auto;
-        padding: 40px;
+        padding: 0;
         background: #fff;
-        border-radius: 8px;
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        border-radius: 12px;
+        box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08), 0 1px 2px rgba(0, 0, 0, 0.04);
+        overflow: hidden;
+      }
+
+      /* Top Accent Bar */
+      .accent-bar {
+        height: 4px;
+        background: var(--primary);
+      }
+
+      .content {
+        padding: 36px 44px;
       }
 
       /* Header */
       .header {
-        border-bottom: 2px solid var(--text-dark);
-        padding-bottom: 20px;
-        margin-bottom: 24px;
+        padding-bottom: 24px;
+        margin-bottom: 28px;
+        border-bottom: 1px solid var(--border);
+      }
+
+      .header-top {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        margin-bottom: 6px;
       }
 
       .header h1 {
-        font-size: 26pt;
+        font-size: 28pt;
         font-weight: 700;
         color: var(--text-dark);
-        margin-bottom: 4px;
         letter-spacing: -0.5px;
+        line-height: 1.1;
+      }
+
+      .status-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        background: #ecfdf5;
+        color: var(--success);
+        font-size: 9pt;
+        font-weight: 600;
+        padding: 6px 12px;
+        border-radius: 20px;
+        border: 1px solid #a7f3d0;
+      }
+
+      .status-badge::before {
+        content: '';
+        width: 6px;
+        height: 6px;
+        background: var(--success);
+        border-radius: 50%;
+        animation: pulse 2s infinite;
+      }
+
+      @keyframes pulse {
+        0%, 100% { opacity: 1; }
+        50% { opacity: 0.5; }
       }
 
       .header h2 {
         font-size: 12pt;
         font-weight: 500;
-        color: var(--text-light);
-        margin-bottom: 16px;
+        color: var(--primary);
+        margin-bottom: 18px;
       }
 
-      .contact-row {
+      .contact-grid {
         display: flex;
         flex-wrap: wrap;
-        gap: 20px;
-        font-size: 9.5pt;
-        color: var(--text-medium);
+        gap: 8px;
+        margin-bottom: 12px;
       }
 
       .contact-item {
-        display: flex;
+        display: inline-flex;
         align-items: center;
         gap: 6px;
+        font-size: 9pt;
+        color: var(--text-medium);
+        background: var(--bg-subtle);
+        padding: 6px 12px;
+        border-radius: 6px;
+        border: 1px solid var(--border);
       }
 
       .contact-item a {
         color: var(--primary);
         text-decoration: none;
+        font-weight: 500;
       }
 
       .contact-item a:hover {
         text-decoration: underline;
       }
 
+      .links-row {
+        display: flex;
+        gap: 16px;
+        font-size: 9pt;
+      }
+
+      .links-row a {
+        color: var(--primary);
+        text-decoration: none;
+        font-weight: 500;
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+      }
+
+      .links-row a:hover {
+        text-decoration: underline;
+      }
+
       /* Sections */
       .section {
-        margin-bottom: 22px;
+        margin-bottom: 26px;
       }
 
       .section-title {
-        font-size: 11pt;
+        font-size: 10pt;
         font-weight: 700;
         color: var(--text-dark);
         text-transform: uppercase;
-        letter-spacing: 1px;
-        border-bottom: 1px solid var(--border);
-        padding-bottom: 6px;
-        margin-bottom: 12px;
+        letter-spacing: 1.5px;
+        margin-bottom: 14px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .section-title::before {
+        content: '';
+        width: 3px;
+        height: 16px;
+        background: var(--primary);
+        border-radius: 2px;
+      }
+
+      .section-title::after {
+        content: '';
+        flex: 1;
+        height: 1px;
+        background: var(--border);
       }
 
       /* Summary */
@@ -112,19 +201,30 @@
         font-size: 10pt;
         line-height: 1.7;
         text-align: justify;
+        padding: 16px;
+        background: var(--bg-subtle);
+        border-radius: 8px;
+        border-left: 3px solid var(--primary);
       }
 
       /* Experience */
       .experience-item {
-        margin-bottom: 18px;
+        margin-bottom: 20px;
+        padding-left: 16px;
+        border-left: 2px solid var(--border);
         page-break-inside: avoid;
+        transition: border-color 0.2s;
+      }
+
+      .experience-item:hover {
+        border-left-color: var(--primary);
       }
 
       .experience-header {
         display: flex;
         justify-content: space-between;
         align-items: baseline;
-        margin-bottom: 2px;
+        margin-bottom: 4px;
         flex-wrap: wrap;
         gap: 8px;
       }
@@ -136,15 +236,19 @@
       }
 
       .experience-period {
-        font-size: 9.5pt;
-        color: var(--text-light);
+        font-size: 9pt;
+        color: #fff;
         font-weight: 500;
+        background: var(--primary);
+        padding: 3px 10px;
+        border-radius: 4px;
       }
 
       .experience-company {
-        font-size: 10pt;
+        font-size: 9.5pt;
         color: var(--text-light);
         margin-bottom: 8px;
+        font-weight: 500;
       }
 
       .experience-achievements {
@@ -156,114 +260,164 @@
         font-size: 9.5pt;
         color: var(--text-medium);
         margin-bottom: 4px;
-        padding-left: 14px;
+        padding-left: 16px;
         position: relative;
         line-height: 1.5;
       }
 
       .experience-achievements li::before {
-        content: '•';
+        content: '›';
         position: absolute;
         left: 0;
-        color: var(--text-light);
+        color: var(--primary);
+        font-weight: bold;
+        font-size: 12pt;
+        line-height: 1.2;
       }
 
       /* Project */
       .project-item {
-        padding: 16px;
-        background: var(--bg-subtle);
+        padding: 20px;
+        background: linear-gradient(135deg, var(--bg-subtle) 0%, #fff 100%);
         border: 1px solid var(--border);
-        border-radius: 6px;
+        border-radius: 10px;
+        position: relative;
+        overflow: hidden;
       }
 
-      .project-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: baseline;
-        margin-bottom: 4px;
+      .project-item::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 3px;
+        background: var(--primary);
       }
 
       .project-name {
-        font-size: 11pt;
-        font-weight: 600;
+        font-size: 12pt;
+        font-weight: 700;
         color: var(--text-dark);
+        margin-bottom: 2px;
       }
 
       .project-tagline {
         font-size: 9.5pt;
         color: var(--text-light);
         font-style: italic;
-        margin-bottom: 8px;
+        margin-bottom: 14px;
       }
 
       .project-stats {
         display: flex;
-        gap: 24px;
-        margin-bottom: 10px;
-        font-size: 9pt;
+        gap: 16px;
+        margin-bottom: 14px;
       }
 
       .project-stat {
         text-align: center;
+        padding: 10px 16px;
+        background: #fff;
+        border-radius: 8px;
+        border: 1px solid var(--border);
+        min-width: 90px;
       }
 
       .project-stat-value {
-        font-size: 14pt;
+        font-size: 16pt;
         font-weight: 700;
         color: var(--primary);
+        line-height: 1.2;
       }
 
       .project-stat-label {
         color: var(--text-light);
         font-size: 8pt;
+        font-weight: 500;
+        text-transform: uppercase;
+        letter-spacing: 0.3px;
       }
 
       .project-description {
         font-size: 9.5pt;
         color: var(--text-medium);
-        margin-bottom: 10px;
+        margin-bottom: 12px;
         line-height: 1.6;
       }
 
       .project-tech {
-        font-size: 9pt;
-        color: var(--text-light);
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
       }
 
-      .project-tech strong {
+      .tech-tag {
+        font-size: 8pt;
         color: var(--text-medium);
+        background: #fff;
+        padding: 4px 10px;
+        border-radius: 4px;
+        border: 1px solid var(--border);
+        font-weight: 500;
       }
 
       /* Skills */
       .skills-grid {
         display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        gap: 12px;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 10px;
       }
 
       .skill-category {
-        padding: 12px;
+        padding: 14px;
         background: var(--bg-subtle);
         border: 1px solid var(--border);
-        border-radius: 4px;
+        border-radius: 8px;
+        border-top: 3px solid var(--primary);
       }
 
       .skill-category-title {
-        font-size: 9.5pt;
-        font-weight: 600;
+        font-size: 9pt;
+        font-weight: 700;
         color: var(--text-dark);
-        margin-bottom: 4px;
+        margin-bottom: 6px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
       }
 
       .skill-list {
-        font-size: 9pt;
+        font-size: 8.5pt;
         color: var(--text-medium);
-        line-height: 1.5;
+        line-height: 1.6;
       }
 
       /* Education */
       .education-item {
-        margin-bottom: 10px;
+        display: flex;
+        gap: 16px;
+        align-items: flex-start;
+        padding: 16px;
+        background: var(--bg-subtle);
+        border-radius: 8px;
+        border: 1px solid var(--border);
+      }
+
+      .education-icon {
+        width: 44px;
+        height: 44px;
+        background: var(--primary);
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        color: #fff;
+        font-size: 18pt;
+      }
+
+      .education-content {
+        flex: 1;
       }
 
       .education-header {
@@ -272,10 +426,11 @@
         align-items: baseline;
         flex-wrap: wrap;
         gap: 8px;
+        margin-bottom: 2px;
       }
 
       .education-title {
-        font-size: 10.5pt;
+        font-size: 11pt;
         font-weight: 600;
         color: var(--text-dark);
       }
@@ -283,17 +438,19 @@
       .education-period {
         font-size: 9pt;
         color: var(--text-light);
+        font-weight: 500;
       }
 
       .education-institution {
         font-size: 9.5pt;
         color: var(--text-light);
+        margin-bottom: 2px;
       }
 
       .education-details {
         font-size: 9pt;
-        color: var(--primary);
-        font-weight: 500;
+        color: var(--success);
+        font-weight: 600;
       }
 
       /* Certifications */
@@ -305,22 +462,30 @@
 
       .cert-item {
         font-size: 9pt;
-        padding: 8px 10px;
+        padding: 10px 12px;
         background: var(--bg-subtle);
         border: 1px solid var(--border);
-        border-radius: 4px;
+        border-radius: 6px;
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+        transition: border-color 0.2s;
+      }
+
+      .cert-item:hover {
+        border-color: var(--primary-light);
       }
 
       .cert-name {
         color: var(--text-dark);
-        font-weight: 500;
-        display: block;
-        margin-bottom: 2px;
+        font-weight: 600;
+        font-size: 8.5pt;
+        line-height: 1.4;
       }
 
       .cert-provider {
         color: var(--text-light);
-        font-size: 8.5pt;
+        font-size: 8pt;
       }
 
       /* Two Column Layout */
@@ -334,22 +499,31 @@
       .language-item {
         display: flex;
         justify-content: space-between;
+        align-items: center;
         font-size: 9.5pt;
-        padding: 6px 0;
-        border-bottom: 1px solid var(--border);
+        padding: 10px 14px;
+        background: var(--bg-subtle);
+        border: 1px solid var(--border);
+        border-radius: 6px;
+        margin-bottom: 8px;
       }
 
       .language-item:last-child {
-        border-bottom: none;
+        margin-bottom: 0;
       }
 
       .language-name {
         color: var(--text-dark);
-        font-weight: 500;
+        font-weight: 600;
       }
 
       .language-level {
-        color: var(--text-light);
+        color: #fff;
+        font-size: 8pt;
+        font-weight: 500;
+        background: var(--primary);
+        padding: 3px 10px;
+        border-radius: 12px;
       }
 
       /* Strengths */
@@ -361,42 +535,52 @@
       .strengths-list li {
         font-size: 9.5pt;
         color: var(--text-medium);
-        padding: 4px 0;
-        padding-left: 16px;
+        padding: 8px 12px;
+        padding-left: 32px;
         position: relative;
+        background: var(--bg-subtle);
+        border: 1px solid var(--border);
+        border-radius: 6px;
+        margin-bottom: 6px;
+      }
+
+      .strengths-list li:last-child {
+        margin-bottom: 0;
       }
 
       .strengths-list li::before {
         content: '✓';
         position: absolute;
-        left: 0;
-        color: var(--primary);
-        font-size: 9pt;
+        left: 12px;
+        color: var(--success);
+        font-weight: bold;
+        font-size: 10pt;
       }
 
       /* Download Button */
       .download-btn {
         position: fixed;
-        bottom: 24px;
-        right: 24px;
+        bottom: 28px;
+        right: 28px;
         background: var(--text-dark);
         color: white;
         border: none;
-        padding: 12px 20px;
-        border-radius: 6px;
+        padding: 14px 22px;
+        border-radius: 10px;
         font-size: 13px;
-        font-weight: 500;
+        font-weight: 600;
         cursor: pointer;
         display: flex;
         align-items: center;
-        gap: 8px;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        gap: 10px;
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
         transition: all 0.2s ease;
       }
 
       .download-btn:hover {
         background: var(--primary);
-        transform: translateY(-2px);
+        transform: translateY(-3px);
+        box-shadow: 0 8px 25px rgba(37, 99, 235, 0.3);
       }
 
       .download-btn svg {
@@ -413,10 +597,16 @@
         }
 
         .container {
-          padding: 0;
-          max-width: 100%;
           box-shadow: none;
           border-radius: 0;
+        }
+
+        .accent-bar {
+          display: none;
+        }
+
+        .content {
+          padding: 0;
         }
 
         .download-btn {
@@ -431,6 +621,18 @@
           page-break-inside: avoid;
         }
 
+        .experience-item:hover {
+          border-left-color: var(--border);
+        }
+
+        .cert-item:hover {
+          border-color: var(--border);
+        }
+
+        .skills-grid {
+          grid-template-columns: repeat(2, 1fr);
+        }
+
         @page {
           margin: 0.5in;
           size: A4;
@@ -438,235 +640,262 @@
       }
 
       /* Responsive */
-      @media (max-width: 600px) {
-        .container {
-          padding: 24px;
+      @media (max-width: 700px) {
+        .content {
+          padding: 28px 24px;
         }
 
-        .skills-grid,
+        .skills-grid {
+          grid-template-columns: repeat(2, 1fr);
+        }
+
         .cert-grid,
         .two-columns {
           grid-template-columns: 1fr;
         }
 
-        .contact-row {
+        .contact-grid {
+          gap: 6px;
+        }
+
+        .header-top {
+          flex-direction: column;
           gap: 12px;
+        }
+
+        .project-stats {
+          flex-wrap: wrap;
+        }
+      }
+
+      @media (max-width: 500px) {
+        .skills-grid {
+          grid-template-columns: 1fr;
         }
       }
     </style>
   </head>
   <body>
     <div class="container">
-      <!-- Header -->
-      <header class="header">
-        <h1>Shadi Akil</h1>
-        <h2>Senior Full Stack .NET Developer | Acting Team Lead</h2>
-        <div class="contact-row">
-          <span class="contact-item">shadeeaqeel00@gmail.com</span>
-          <span class="contact-item">+966 53 628 4611</span>
-          <span class="contact-item">Riyadh, KSA</span>
-          <span class="contact-item">Syrian</span>
-          <span class="contact-item">Transferable Iqama</span>
-        </div>
-        <div class="contact-row" style="margin-top: 8px;">
-          <span class="contact-item"><a href="https://github.com/shadiaqeel">github.com/shadiaqeel</a></span>
-          <span class="contact-item"><a href="https://www.linkedin.com/in/shadi-akil-503456107">LinkedIn</a></span>
-          <span class="contact-item"><a href="https://shadiaqeel.github.io/Portfolio/">Portfolio</a></span>
-        </div>
-      </header>
-
-      <!-- Professional Summary -->
-      <section class="section">
-        <h3 class="section-title">Professional Summary</h3>
-        <p class="summary">
-          Accomplished and solutions-driven Senior Full Stack Developer with 6+ years of expertise in designing, developing, and maintaining robust and scalable web applications. Proficient in the .NET ecosystem, including ASP.NET Core and Entity Framework, with extensive front-end experience using Vue.js to create intuitive and user-centric interfaces. Adept at managing and optimizing SQL databases to ensure high performance and data integrity. Skilled in leading projects through the full development lifecycle, collaborating cross-functionally, and implementing best practices in coding standards and software architecture.
-        </p>
-      </section>
-
-      <!-- Work Experience -->
-      <section class="section">
-        <h3 class="section-title">Work Experience</h3>
-
-        <div class="experience-item">
-          <div class="experience-header">
-            <span class="experience-title">Senior Full Stack .NET Developer | Acting Team Lead</span>
-            <span class="experience-period">Jan 2025 – Present</span>
+      <div class="accent-bar"></div>
+      <div class="content">
+        <!-- Header -->
+        <header class="header">
+          <div class="header-top">
+            <h1>Shadi Akil</h1>
+            <span class="status-badge">Open to Work</span>
           </div>
-          <div class="experience-company">T2 - Business Research & Development, Riyadh</div>
-          <ul class="experience-achievements">
-            <li>Acting as Team Lead, managing and coordinating team activities</li>
-            <li>Follow-up on teams' tasks and ensure timely delivery</li>
-            <li>Led the architecture and design of complex software systems</li>
-            <li>Mentored junior developers and conducted code reviews</li>
-            <li>Drove technical decisions and best practices across the team</li>
-            <li>Optimized application performance and scalability</li>
-          </ul>
-        </div>
-
-        <div class="experience-item">
-          <div class="experience-header">
-            <span class="experience-title">Full Stack .NET Developer</span>
-            <span class="experience-period">Feb 2020 – Dec 2024</span>
-          </div>
-          <div class="experience-company">T2 - Business Research & Development, Riyadh</div>
-          <ul class="experience-achievements">
-            <li>Designed and developed software systems for digital solutions</li>
-            <li>Facilitated team communication and followed up on task execution</li>
-            <li>Provided accurate time estimations for project roadmaps</li>
-            <li>Supported the Operations/Support team with critical resolutions</li>
-            <li>Researched and implemented new backend solutions</li>
-          </ul>
-        </div>
-
-        <div class="experience-item">
-          <div class="experience-header">
-            <span class="experience-title">Trainee Network Engineer</span>
-            <span class="experience-period">Jun 2018 – Dec 2018</span>
-          </div>
-          <div class="experience-company">Solutions by STC, Saudi Arabia</div>
-          <ul class="experience-achievements">
-            <li>Gained hands-on experience in network infrastructure and telecommunications</li>
-            <li>Assisted in network configuration and troubleshooting</li>
-            <li>Collaborated with senior engineers on network maintenance tasks</li>
-          </ul>
-        </div>
-      </section>
-
-      <!-- Key Project -->
-      <section class="section">
-        <h3 class="section-title">Key Project</h3>
-        <div class="project-item">
-          <div class="project-header">
-            <span class="project-name">RiCH - Enterprise Communication Platform</span>
-          </div>
-          <div class="project-tagline">The Most Powerful Communication Platform in Saudi Arabia</div>
+          <h2>Senior Full Stack .NET Developer | Acting Team Lead</h2>
           
-          <div class="project-stats">
-            <div class="project-stat">
-              <div class="project-stat-value">70%+</div>
-              <div class="project-stat-label">SMS Traffic in KSA</div>
-            </div>
-            <div class="project-stat">
-              <div class="project-stat-value">95%</div>
-              <div class="project-stat-label">Banks Coverage</div>
-            </div>
-            <div class="project-stat">
-              <div class="project-stat-value">5+</div>
-              <div class="project-stat-label">Channels</div>
-            </div>
+          <div class="contact-grid">
+            <span class="contact-item">📧 shadeeaqeel00@gmail.com</span>
+            <span class="contact-item">📱 +966 53 628 4611</span>
+            <span class="contact-item">📍 Riyadh, KSA</span>
+            <span class="contact-item">🇸🇾 Syrian</span>
+            <span class="contact-item">✅ Transferable Iqama</span>
           </div>
           
-          <p class="project-description">
-            A robust platform helping enterprises manage and centralize all communication. Supports multi-channel communication (SMS, Voice, Fax, Email, WhatsApp) with enterprise-grade security.
+          <div class="links-row">
+            <a href="https://github.com/shadiaqeel">→ GitHub</a>
+            <a href="https://www.linkedin.com/in/shadi-akil-503456107">→ LinkedIn</a>
+            <a href="https://shadiaqeel.github.io/Portfolio/">→ Portfolio</a>
+          </div>
+        </header>
+
+        <!-- Professional Summary -->
+        <section class="section">
+          <h3 class="section-title">Professional Summary</h3>
+          <p class="summary">
+            Accomplished and solutions-driven Senior Full Stack Developer with 6+ years of expertise in designing, developing, and maintaining robust and scalable web applications. Proficient in the .NET ecosystem, including ASP.NET Core and Entity Framework, with extensive front-end experience using Vue.js to create intuitive and user-centric interfaces. Adept at managing and optimizing SQL databases to ensure high performance and data integrity. Skilled in leading projects through the full development lifecycle and implementing best practices in software architecture.
           </p>
-          <div class="project-tech">
-            <strong>Tech:</strong> ASP.NET Core, Vue.js, SQL Server, RabbitMQ, Redis, Cassandra, Elasticsearch
-          </div>
-        </div>
-      </section>
+        </section>
 
-      <!-- Technical Skills -->
-      <section class="section">
-        <h3 class="section-title">Technical Skills</h3>
-        <div class="skills-grid">
-          <div class="skill-category">
-            <div class="skill-category-title">Backend</div>
-            <div class="skill-list">C#, ASP.NET Core, .NET 6, Entity Framework, LINQ, SignalR</div>
-          </div>
-          <div class="skill-category">
-            <div class="skill-category-title">Frontend</div>
-            <div class="skill-list">Vue.js, JavaScript, TypeScript, HTML/CSS, jQuery</div>
-          </div>
-          <div class="skill-category">
-            <div class="skill-category-title">Databases</div>
-            <div class="skill-list">SQL Server, MySQL, Oracle, Cassandra, Redis</div>
-          </div>
-          <div class="skill-category">
-            <div class="skill-category-title">Message Brokers & Search</div>
-            <div class="skill-list">RabbitMQ, Apache Kafka, IBM MQ, Elasticsearch, Solr</div>
-          </div>
-          <div class="skill-category">
-            <div class="skill-category-title">DevOps & Tools</div>
-            <div class="skill-list">Git, Azure DevOps, Docker, JetBrains Profilers</div>
-          </div>
-          <div class="skill-category">
-            <div class="skill-category-title">Architecture</div>
-            <div class="skill-list">Clean Architecture, SOLID, Microservices, .NET Aspire</div>
-          </div>
-        </div>
-      </section>
-
-      <!-- Education -->
-      <section class="section">
-        <h3 class="section-title">Education</h3>
-        <div class="education-item">
-          <div class="education-header">
-            <span class="education-title">Bachelor's Degree in Computer Science</span>
-            <span class="education-period">2014 – 2019</span>
-          </div>
-          <div class="education-institution">Yarmouk University, Jordan</div>
-          <div class="education-details">GPA: 4.0 (89.4%) • Honour list for 5 consecutive years</div>
-        </div>
-      </section>
-
-      <!-- Certifications -->
-      <section class="section">
-        <h3 class="section-title">Certifications</h3>
-        <div class="cert-grid">
-          <div class="cert-item">
-            <span class="cert-name">.NET Aspire and GenAI Distributed Architectures</span>
-            <span class="cert-provider">Udemy • Oct 2025</span>
-          </div>
-          <div class="cert-item">
-            <span class="cert-name">Project Management with ChatGPT</span>
-            <span class="cert-provider">Udemy • Jun 2025</span>
-          </div>
-          <div class="cert-item">
-            <span class="cert-name">Complete Agile & Scrum Course</span>
-            <span class="cert-provider">Udemy • Mar 2025</span>
-          </div>
-          <div class="cert-item">
-            <span class="cert-name">Understanding Cloud Computing</span>
-            <span class="cert-provider">DataCamp • Dec 2024</span>
-          </div>
-          <div class="cert-item">
-            <span class="cert-name">Data Transformation in Power BI</span>
-            <span class="cert-provider">DataCamp • Nov 2024</span>
-          </div>
-          <div class="cert-item">
-            <span class="cert-name">Problem Solving & Critical Thinking</span>
-            <span class="cert-provider">edX • Sep 2020</span>
-          </div>
-          <div class="cert-item">
-            <span class="cert-name">CCNP-RS</span>
-            <span class="cert-provider">Cisco • Nov 2019</span>
-          </div>
-        </div>
-      </section>
-
-      <!-- Languages & Strengths -->
-      <div class="two-columns">
+        <!-- Work Experience -->
         <section class="section">
-          <h3 class="section-title">Languages</h3>
-          <div class="language-item">
-            <span class="language-name">Arabic</span>
-            <span class="language-level">Native</span>
+          <h3 class="section-title">Work Experience</h3>
+
+          <div class="experience-item">
+            <div class="experience-header">
+              <span class="experience-title">Senior Full Stack .NET Developer | Acting Team Lead</span>
+              <span class="experience-period">Jan 2025 – Present</span>
+            </div>
+            <div class="experience-company">T2 - Business Research & Development, Riyadh</div>
+            <ul class="experience-achievements">
+              <li>Acting as Team Lead, managing and coordinating team activities</li>
+              <li>Led the architecture and design of complex software systems</li>
+              <li>Mentored junior developers and conducted code reviews</li>
+              <li>Drove technical decisions and best practices across the team</li>
+              <li>Optimized application performance and scalability</li>
+            </ul>
           </div>
-          <div class="language-item">
-            <span class="language-name">English</span>
-            <span class="language-level">Professional Working</span>
+
+          <div class="experience-item">
+            <div class="experience-header">
+              <span class="experience-title">Full Stack .NET Developer</span>
+              <span class="experience-period">Feb 2020 – Dec 2024</span>
+            </div>
+            <div class="experience-company">T2 - Business Research & Development, Riyadh</div>
+            <ul class="experience-achievements">
+              <li>Designed and developed software systems for digital solutions</li>
+              <li>Facilitated team communication and followed up on task execution</li>
+              <li>Provided accurate time estimations for project roadmaps</li>
+              <li>Researched and implemented new backend solutions</li>
+            </ul>
+          </div>
+
+          <div class="experience-item">
+            <div class="experience-header">
+              <span class="experience-title">Trainee Network Engineer</span>
+              <span class="experience-period">Jun – Dec 2018</span>
+            </div>
+            <div class="experience-company">Solutions by STC, Saudi Arabia</div>
+            <ul class="experience-achievements">
+              <li>Gained hands-on experience in network infrastructure</li>
+              <li>Assisted in network configuration and troubleshooting</li>
+              <li>Collaborated with senior engineers on maintenance tasks</li>
+            </ul>
           </div>
         </section>
 
+        <!-- Key Project -->
         <section class="section">
-          <h3 class="section-title">Strengths</h3>
-          <ul class="strengths-list">
-            <li>Problem-solving & Analytical Thinking</li>
-            <li>Strong Attention to Detail</li>
-            <li>Team Leadership & Collaboration</li>
-            <li>Adaptability & Quick Learning</li>
-          </ul>
+          <h3 class="section-title">Key Project</h3>
+          <div class="project-item">
+            <div class="project-name">RiCH - Enterprise Communication Platform</div>
+            <div class="project-tagline">The Most Powerful Communication Platform in Saudi Arabia</div>
+            
+            <div class="project-stats">
+              <div class="project-stat">
+                <div class="project-stat-value">70%+</div>
+                <div class="project-stat-label">SMS Traffic KSA</div>
+              </div>
+              <div class="project-stat">
+                <div class="project-stat-value">95%</div>
+                <div class="project-stat-label">Banks Coverage</div>
+              </div>
+              <div class="project-stat">
+                <div class="project-stat-value">5+</div>
+                <div class="project-stat-label">Channels</div>
+              </div>
+            </div>
+            
+            <p class="project-description">
+              A robust platform helping enterprises manage and centralize all communication. Supports multi-channel communication (SMS, Voice, Fax, Email, WhatsApp) with enterprise-grade security.
+            </p>
+            <div class="project-tech">
+              <span class="tech-tag">ASP.NET Core</span>
+              <span class="tech-tag">Vue.js</span>
+              <span class="tech-tag">SQL Server</span>
+              <span class="tech-tag">RabbitMQ</span>
+              <span class="tech-tag">Redis</span>
+              <span class="tech-tag">Cassandra</span>
+              <span class="tech-tag">Elasticsearch</span>
+            </div>
+          </div>
         </section>
+
+        <!-- Technical Skills -->
+        <section class="section">
+          <h3 class="section-title">Technical Skills</h3>
+          <div class="skills-grid">
+            <div class="skill-category">
+              <div class="skill-category-title">Backend</div>
+              <div class="skill-list">C#, ASP.NET Core, .NET 6, Entity Framework, LINQ, SignalR</div>
+            </div>
+            <div class="skill-category">
+              <div class="skill-category-title">Frontend</div>
+              <div class="skill-list">Vue.js, JavaScript, TypeScript, HTML/CSS, jQuery</div>
+            </div>
+            <div class="skill-category">
+              <div class="skill-category-title">Databases</div>
+              <div class="skill-list">SQL Server, MySQL, Oracle, Cassandra, Redis</div>
+            </div>
+            <div class="skill-category">
+              <div class="skill-category-title">Messaging</div>
+              <div class="skill-list">RabbitMQ, Kafka, IBM MQ, Elasticsearch, Solr</div>
+            </div>
+            <div class="skill-category">
+              <div class="skill-category-title">DevOps</div>
+              <div class="skill-list">Git, Azure DevOps, Docker, JetBrains Tools</div>
+            </div>
+            <div class="skill-category">
+              <div class="skill-category-title">Architecture</div>
+              <div class="skill-list">Clean Architecture, SOLID, Microservices, .NET Aspire</div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Education -->
+        <section class="section">
+          <h3 class="section-title">Education</h3>
+          <div class="education-item">
+            <div class="education-icon">🎓</div>
+            <div class="education-content">
+              <div class="education-header">
+                <span class="education-title">Bachelor's Degree in Computer Science</span>
+                <span class="education-period">2014 – 2019</span>
+              </div>
+              <div class="education-institution">Yarmouk University, Jordan</div>
+              <div class="education-details">GPA: 4.0 (89.4%) • Honour list for 5 consecutive years</div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Certifications -->
+        <section class="section">
+          <h3 class="section-title">Certifications</h3>
+          <div class="cert-grid">
+            <div class="cert-item">
+              <span class="cert-name">.NET Aspire and GenAI Distributed Architectures</span>
+              <span class="cert-provider">Udemy • Oct 2025</span>
+            </div>
+            <div class="cert-item">
+              <span class="cert-name">Project Management with ChatGPT</span>
+              <span class="cert-provider">Udemy • Jun 2025</span>
+            </div>
+            <div class="cert-item">
+              <span class="cert-name">Complete Agile & Scrum Course</span>
+              <span class="cert-provider">Udemy • Mar 2025</span>
+            </div>
+            <div class="cert-item">
+              <span class="cert-name">Understanding Cloud Computing</span>
+              <span class="cert-provider">DataCamp • Dec 2024</span>
+            </div>
+            <div class="cert-item">
+              <span class="cert-name">Data Transformation in Power BI</span>
+              <span class="cert-provider">DataCamp • Nov 2024</span>
+            </div>
+            <div class="cert-item">
+              <span class="cert-name">CCNP-RS (Cisco Network Professional)</span>
+              <span class="cert-provider">Cisco • Nov 2019</span>
+            </div>
+          </div>
+        </section>
+
+        <!-- Languages & Strengths -->
+        <div class="two-columns">
+          <section class="section">
+            <h3 class="section-title">Languages</h3>
+            <div class="language-item">
+              <span class="language-name">Arabic</span>
+              <span class="language-level">Native</span>
+            </div>
+            <div class="language-item">
+              <span class="language-name">English</span>
+              <span class="language-level">Professional</span>
+            </div>
+          </section>
+
+          <section class="section">
+            <h3 class="section-title">Strengths</h3>
+            <ul class="strengths-list">
+              <li>Problem-solving & Analytical Thinking</li>
+              <li>Team Leadership & Collaboration</li>
+              <li>Adaptability & Quick Learning</li>
+              <li>Strong Attention to Detail</li>
+            </ul>
+          </section>
+        </div>
       </div>
     </div>
 
