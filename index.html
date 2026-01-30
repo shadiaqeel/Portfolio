@@ -448,17 +448,27 @@
                 class="p-6 rounded-2xl border transition-all duration-300 card-glow"
                 :class="darkMode ? 'bg-slate-900/50 border-slate-800' : 'bg-white border-slate-200 shadow-sm'"
               >
-                <div class="flex justify-between items-start mb-3 gap-4">
-                  <h3 class="font-bold text-lg" :class="darkMode ? 'text-slate-100' : 'text-slate-800'">{{ edu.degree }}</h3>
-                  <span
-                    class="text-xs px-3 py-1.5 rounded-lg font-semibold flex-shrink-0"
-                    :class="darkMode ? 'bg-purple-500/10 text-purple-400 border border-purple-500/20' : 'bg-purple-50 text-purple-700 border border-purple-200'"
-                  >
-                    {{ edu.period }}
-                  </span>
+                <div class="flex gap-4">
+                  <!-- University logo -->
+                  <div v-if="edu.logo" class="flex-shrink-0">
+                    <div class="w-16 h-16 rounded-xl overflow-hidden bg-white p-1 border" :class="darkMode ? 'border-slate-700' : 'border-slate-200'">
+                      <img :src="edu.logo" :alt="edu.institution + ' logo'" class="w-full h-full object-contain" />
+                    </div>
+                  </div>
+                  <div class="flex-1 min-w-0">
+                    <div class="flex justify-between items-start mb-2 gap-4">
+                      <h3 class="font-bold text-lg" :class="darkMode ? 'text-slate-100' : 'text-slate-800'">{{ edu.degree }}</h3>
+                      <span
+                        class="text-xs px-3 py-1.5 rounded-lg font-semibold flex-shrink-0"
+                        :class="darkMode ? 'bg-purple-500/10 text-purple-400 border border-purple-500/20' : 'bg-purple-50 text-purple-700 border border-purple-200'"
+                      >
+                        {{ edu.period }}
+                      </span>
+                    </div>
+                    <p class="font-medium mb-2" :class="darkMode ? 'text-slate-300' : 'text-slate-600'">{{ edu.institution }}</p>
+                    <p class="text-sm" :class="darkMode ? 'text-slate-500' : 'text-slate-500'">{{ edu.details }}</p>
+                  </div>
                 </div>
-                <p class="font-medium mb-2" :class="darkMode ? 'text-slate-300' : 'text-slate-600'">{{ edu.institution }}</p>
-                <p class="text-sm" :class="darkMode ? 'text-slate-500' : 'text-slate-500'">{{ edu.details }}</p>
               </div>
             </div>
           </section>
@@ -471,23 +481,74 @@
               </span>
               {{ t.certifications }}
             </h2>
-            <div class="space-y-3 max-h-[400px] overflow-y-auto pr-2">
-              <div
+            <div class="space-y-3 max-h-[450px] overflow-y-auto pr-2 custom-scrollbar">
+              <a
                 v-for="(cert, index) in certifications"
                 :key="index"
-                class="p-4 rounded-xl border flex items-center justify-between group transition-all duration-300 hover:scale-[1.02] cursor-pointer"
-                :class="darkMode ? 'bg-slate-900/50 border-slate-800 hover:border-slate-700' : 'bg-white border-slate-200 hover:border-slate-300 shadow-sm'"
+                :href="cert.url || 'javascript:void(0)'"
+                :target="cert.url ? '_blank' : '_self'"
+                rel="noopener noreferrer"
+                class="p-4 rounded-xl border flex items-center gap-4 group transition-all duration-300 hover:scale-[1.01] block no-underline relative overflow-hidden"
+                :class="[
+                  darkMode ? 'bg-slate-900/50 border-slate-800 hover:border-slate-600' : 'bg-white border-slate-200 hover:border-slate-300 shadow-sm hover:shadow-md',
+                  cert.url ? 'cursor-pointer' : 'cursor-default'
+                ]"
               >
-                <div class="flex-1 min-w-0">
-                  <h3 class="font-semibold text-sm truncate" :class="darkMode ? 'text-slate-100' : 'text-slate-800'">{{ cert.name }}</h3>
-                  <p class="text-xs mt-1" :class="darkMode ? 'text-slate-500' : 'text-slate-500'">{{ cert.provider }} • {{ cert.date }}</p>
+                <!-- Provider accent bar -->
+                <div 
+                  class="absolute left-0 top-0 bottom-0 w-1 transition-all duration-300 group-hover:w-1.5"
+                  :class="{
+                    'bg-gradient-to-b from-purple-500 to-purple-600': cert.provider === 'Udemy',
+                    'bg-gradient-to-b from-green-500 to-green-600': cert.provider === 'DataCamp',
+                    'bg-gradient-to-b from-red-500 to-red-600': cert.provider.includes('edX'),
+                    'bg-gradient-to-b from-blue-500 to-blue-600': cert.provider === 'Cisco'
+                  }"
+                ></div>
+                
+                <!-- Provider logo -->
+                <div class="w-11 h-11 rounded-lg overflow-hidden flex-shrink-0 transition-transform duration-300 group-hover:scale-110 bg-white">
+                  <img 
+                    :src="cert.logo" 
+                    :alt="cert.provider + ' logo'"
+                    class="w-full h-full object-cover"
+                  />
                 </div>
-                <icon
-                  name="external-link"
-                  :size="16"
-                  class="ml-3 opacity-0 group-hover:opacity-100 transition-opacity text-blue-500 flex-shrink-0"
-                ></icon>
-              </div>
+                
+                <!-- Certificate info -->
+                <div class="flex-1 min-w-0">
+                  <h3 class="font-semibold text-sm leading-tight" :class="darkMode ? 'text-slate-100' : 'text-slate-800'">{{ cert.name }}</h3>
+                  <div class="flex items-center gap-2 mt-1.5">
+                    <span 
+                      class="text-xs font-medium px-2 py-0.5 rounded-full"
+                      :class="{
+                        'bg-purple-500/10 text-purple-500': cert.provider === 'Udemy',
+                        'bg-green-500/10 text-green-500': cert.provider === 'DataCamp',
+                        'bg-red-500/10 text-red-500': cert.provider.includes('edX'),
+                        'bg-blue-500/10 text-blue-500': cert.provider === 'Cisco'
+                      }"
+                    >{{ cert.provider }}</span>
+                    <span class="text-xs" :class="darkMode ? 'text-slate-500' : 'text-slate-400'">{{ cert.date }}</span>
+                  </div>
+                </div>
+                
+                <!-- Verified badge & external link -->
+                <div class="flex items-center gap-2 flex-shrink-0">
+                  <span 
+                    v-if="cert.url"
+                    class="hidden sm:flex items-center gap-1 text-xs font-medium px-2 py-1 rounded-full"
+                    :class="darkMode ? 'bg-emerald-500/10 text-emerald-400' : 'bg-emerald-50 text-emerald-600'"
+                  >
+                    <icon name="check-circle" :size="12"></icon>
+                    <span>Verified</span>
+                  </span>
+                  <icon
+                    v-if="cert.url"
+                    name="external-link"
+                    :size="16"
+                    class="opacity-0 group-hover:opacity-100 transition-opacity text-blue-500"
+                  ></icon>
+                </div>
+              </a>
             </div>
           </section>
         </div>
@@ -899,18 +960,19 @@
               institution: "Yarmouk University, Jordan",
               period: "2014 - 2019",
               details: "GPA: 4.0 (89.4%). Placed on the honour list for five years.",
+              logo: "imgs/yu-textenORG.png",
             },
           ];
 
           const certifications = [
-            { name: ".NET Aspire and GenAI Develop Distributed Architectures", provider: "Udemy", date: "Oct 2025" },
-            { name: "Project Management with ChatGPT: AI for Project Managers", provider: "Udemy", date: "Jun 2025" },
-            { name: "The Complete Agile & Scrum Project Management Course", provider: "Udemy", date: "Mar 2025" },
-            { name: "Understanding Cloud Computing", provider: "DataCamp", date: "Dec 2024" },
-            { name: "Data Transformation in Power BI", provider: "DataCamp", date: "Nov 2024" },
-            { name: "Exploratory Data Analysis in Python", provider: "DataCamp", date: "Nov 2024" },
-            { name: "Problem Solving and Critical Thinking Skills", provider: "FullbridgeX (edX)", date: "Sep 2020" },
-            { name: "Cisco Certified Network Professional (CCNP-RS)", provider: "Cisco", date: "Nov 2019" },
+            { name: ".NET Aspire and GenAI Develop Distributed Architectures", provider: "Udemy", date: "Oct 2025", url: "https://www.udemy.com/certificate/UC-690c5332-d61d-41b7-a569-e88737616319/", logo: "imgs/udemy_logo.jpg" },
+            { name: "Project Management with ChatGPT: AI for Project Managers", provider: "Udemy", date: "Jun 2025", url: "https://www.udemy.com/certificate/UC-45a5a5ba-0d5c-42f1-934b-bbb391cd6cea/", logo: "imgs/udemy_logo.jpg" },
+            { name: "The Complete Agile & Scrum Project Management Course", provider: "Udemy", date: "Mar 2025", url: "https://www.udemy.com/certificate/UC-e1bd5642-77ed-43e7-a895-a80372291ef3/", logo: "imgs/udemy_logo.jpg" },
+            { name: "Understanding Cloud Computing", provider: "DataCamp", date: "Dec 2024", url: "https://www.datacamp.com/completed/statement-of-accomplishment/course/3f0a42653ebb39064eb5af4930b8f0b94f730861", logo: "imgs/datacampinc_logo.jpg" },
+            { name: "Data Transformation in Power BI", provider: "DataCamp", date: "Nov 2024", url: "https://www.datacamp.com/completed/statement-of-accomplishment/course/908f5a3bcdff40614b1e2d82cb200d6fde138d23", logo: "imgs/datacampinc_logo.jpg" },
+            { name: "Exploratory Data Analysis in Python", provider: "DataCamp", date: "Nov 2024", url: "https://www.datacamp.com/completed/statement-of-accomplishment/course/06f9781b332b73fda6b4bfdb72a41b7fbc31b75f", logo: "imgs/datacampinc_logo.jpg" },
+            { name: "Problem Solving and Critical Thinking Skills", provider: "FullbridgeX (edX)", date: "Sep 2020", url: "https://courses.edx.org/certificates/fd9742952d9145be875483b0486efd3d", logo: "imgs/edx_logo.jpg" },
+            { name: "Cisco Certified Network Professional (CCNP-RS)", provider: "Cisco", date: "Nov 2019", url: "", logo: "imgs/cisco_logo.jpg" },
           ];
 
           const strengths = {
