@@ -231,7 +231,9 @@
               <div class="p-2.5 rounded-xl bg-gradient-to-br from-blue-500 to-purple-600 text-white shadow-lg shadow-blue-500/25">
                 <icon name="code" :size="22"></icon>
               </div>
-              <span class="font-bold text-xl tracking-tight">Shadi<span class="gradient-text">Akil</span></span>
+              <span class="font-bold text-xl tracking-tight" :class="darkMode ? 'text-slate-100' : 'text-slate-800'"
+                >Shadi<span class="gradient-text">Akil</span></span
+              >
             </div>
 
             <div class="flex items-center gap-3">
@@ -280,7 +282,7 @@
                 {{ t.openToOpportunities }}
               </div>
 
-              <h1 class="text-5xl md:text-7xl font-black tracking-tight leading-tight">
+              <h1 class="text-5xl md:text-7xl font-black tracking-tight leading-tight" :class="darkMode ? 'text-slate-100' : 'text-slate-800'">
                 {{ t.seniorFullStack }} <br />
                 <span class="gradient-text">{{ t.dotNetDeveloper }}</span>
               </h1>
@@ -435,7 +437,7 @@
         <div class="grid md:grid-cols-2 gap-8 mb-24">
           <!-- Education -->
           <section>
-            <h2 class="text-3xl font-bold mb-8 flex items-center gap-3">
+            <h2 class="text-3xl font-bold mb-8 flex items-center gap-3" :class="darkMode ? 'text-slate-100' : 'text-slate-800'">
               <span class="p-2 rounded-lg bg-gradient-to-br from-blue-500/20 to-purple-500/20">
                 <icon name="graduation-cap" class="text-blue-500"></icon>
               </span>
@@ -475,7 +477,7 @@
 
           <!-- Certifications -->
           <section>
-            <h2 class="text-3xl font-bold mb-8 flex items-center gap-3">
+            <h2 class="text-3xl font-bold mb-8 flex items-center gap-3" :class="darkMode ? 'text-slate-100' : 'text-slate-800'">
               <span class="p-2 rounded-lg bg-gradient-to-br from-blue-500/20 to-purple-500/20">
                 <icon name="award" class="text-blue-500"></icon>
               </span>
@@ -495,7 +497,7 @@
                 ]"
               >
                 <!-- Provider accent bar -->
-                <div 
+                <div
                   class="absolute left-0 top-0 bottom-0 w-1 transition-all duration-300 group-hover:w-1.5"
                   :class="{
                     'bg-gradient-to-b from-purple-500 to-purple-600': cert.provider === 'Udemy',
@@ -504,21 +506,17 @@
                     'bg-gradient-to-b from-blue-500 to-blue-600': cert.provider === 'Cisco'
                   }"
                 ></div>
-                
+
                 <!-- Provider logo -->
                 <div class="w-11 h-11 rounded-lg overflow-hidden flex-shrink-0 transition-transform duration-300 group-hover:scale-110 bg-white">
-                  <img 
-                    :src="cert.logo" 
-                    :alt="cert.provider + ' logo'"
-                    class="w-full h-full object-cover"
-                  />
+                  <img :src="cert.logo" :alt="cert.provider + ' logo'" class="w-full h-full object-cover" />
                 </div>
-                
+
                 <!-- Certificate info -->
                 <div class="flex-1 min-w-0">
                   <h3 class="font-semibold text-sm leading-tight" :class="darkMode ? 'text-slate-100' : 'text-slate-800'">{{ cert.name }}</h3>
                   <div class="flex items-center gap-2 mt-1.5">
-                    <span 
+                    <span
                       class="text-xs font-medium px-2 py-0.5 rounded-full"
                       :class="{
                         'bg-purple-500/10 text-purple-500': cert.provider === 'Udemy',
@@ -526,14 +524,15 @@
                         'bg-red-500/10 text-red-500': cert.provider.includes('edX'),
                         'bg-blue-500/10 text-blue-500': cert.provider === 'Cisco'
                       }"
-                    >{{ cert.provider }}</span>
+                      >{{ cert.provider }}</span
+                    >
                     <span class="text-xs" :class="darkMode ? 'text-slate-500' : 'text-slate-400'">{{ cert.date }}</span>
                   </div>
                 </div>
-                
+
                 <!-- Verified badge & external link -->
                 <div class="flex items-center gap-2 flex-shrink-0">
-                  <span 
+                  <span
                     v-if="cert.url"
                     class="hidden sm:flex items-center gap-1 text-xs font-medium px-2 py-1 rounded-full"
                     :class="darkMode ? 'bg-emerald-500/10 text-emerald-400' : 'bg-emerald-50 text-emerald-600'"
@@ -557,7 +556,7 @@
         <div class="grid md:grid-cols-3 gap-8 mb-24">
           <!-- Strengths -->
           <section>
-            <h2 class="text-2xl font-bold mb-6 flex items-center gap-3">
+            <h2 class="text-2xl font-bold mb-6 flex items-center gap-3" :class="darkMode ? 'text-slate-100' : 'text-slate-800'">
               <span class="p-2 rounded-lg bg-gradient-to-br from-yellow-500/20 to-orange-500/20">
                 <icon name="star" class="text-yellow-500"></icon>
               </span>
@@ -578,7 +577,7 @@
 
           <!-- Languages -->
           <section>
-            <h2 class="text-2xl font-bold mb-6 flex items-center gap-3">
+            <h2 class="text-2xl font-bold mb-6 flex items-center gap-3" :class="darkMode ? 'text-slate-100' : 'text-slate-800'">
               <span class="p-2 rounded-lg bg-gradient-to-br from-green-500/20 to-emerald-500/20">
                 <icon name="languages" class="text-green-500"></icon>
               </span>
@@ -612,7 +611,7 @@
 
           <!-- Personal Skills -->
           <section>
-            <h2 class="text-2xl font-bold mb-6 flex items-center gap-3">
+            <h2 class="text-2xl font-bold mb-6 flex items-center gap-3" :class="darkMode ? 'text-slate-100' : 'text-slate-800'">
               <span class="p-2 rounded-lg bg-gradient-to-br from-pink-500/20 to-rose-500/20">
                 <icon name="heart" class="text-pink-500"></icon>
               </span>
@@ -635,13 +634,13 @@
         <section class="mb-24">
           <div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-10 gap-6">
             <div>
-              <h2 class="text-3xl font-bold mb-3 flex items-center gap-3">
+              <h2 class="text-3xl font-bold mb-3 flex items-center gap-3" :class="darkMode ? 'text-slate-100' : 'text-slate-800'">
                 <span class="p-2 rounded-lg bg-gradient-to-br from-blue-500/20 to-purple-500/20">
                   <icon name="terminal" class="text-blue-500"></icon>
                 </span>
                 {{ t.skills }}
               </h2>
-              <p class="text-lg" :class="darkMode ? 'text-slate-400' : 'text-slate-600'">
+              <p class="text-lg" :class="darkMode ? 'text-slate-300' : 'text-slate-600'">
                 {{ lang === 'ar' ? 'مجموعة شاملة من الأدوات لبناء حلول قابلة للتوسع' : 'A comprehensive toolset for building scalable solutions.' }}
               </p>
             </div>
@@ -801,7 +800,7 @@
                 document.documentElement.classList.remove("dark");
               }
             },
-            { immediate: true },
+            { immediate: true }
           );
 
           watch(
@@ -811,7 +810,7 @@
               document.documentElement.setAttribute("lang", newVal);
               document.documentElement.setAttribute("dir", newVal === "ar" ? "rtl" : "ltr");
             },
-            { immediate: true },
+            { immediate: true }
           );
 
           // Translations
@@ -965,13 +964,55 @@
           ];
 
           const certifications = [
-            { name: ".NET Aspire and GenAI Develop Distributed Architectures", provider: "Udemy", date: "Oct 2025", url: "https://www.udemy.com/certificate/UC-690c5332-d61d-41b7-a569-e88737616319/", logo: "imgs/udemy_logo.jpg" },
-            { name: "Project Management with ChatGPT: AI for Project Managers", provider: "Udemy", date: "Jun 2025", url: "https://www.udemy.com/certificate/UC-45a5a5ba-0d5c-42f1-934b-bbb391cd6cea/", logo: "imgs/udemy_logo.jpg" },
-            { name: "The Complete Agile & Scrum Project Management Course", provider: "Udemy", date: "Mar 2025", url: "https://www.udemy.com/certificate/UC-e1bd5642-77ed-43e7-a895-a80372291ef3/", logo: "imgs/udemy_logo.jpg" },
-            { name: "Understanding Cloud Computing", provider: "DataCamp", date: "Dec 2024", url: "https://www.datacamp.com/completed/statement-of-accomplishment/course/3f0a42653ebb39064eb5af4930b8f0b94f730861", logo: "imgs/datacampinc_logo.jpg" },
-            { name: "Data Transformation in Power BI", provider: "DataCamp", date: "Nov 2024", url: "https://www.datacamp.com/completed/statement-of-accomplishment/course/908f5a3bcdff40614b1e2d82cb200d6fde138d23", logo: "imgs/datacampinc_logo.jpg" },
-            { name: "Exploratory Data Analysis in Python", provider: "DataCamp", date: "Nov 2024", url: "https://www.datacamp.com/completed/statement-of-accomplishment/course/06f9781b332b73fda6b4bfdb72a41b7fbc31b75f", logo: "imgs/datacampinc_logo.jpg" },
-            { name: "Problem Solving and Critical Thinking Skills", provider: "FullbridgeX (edX)", date: "Sep 2020", url: "https://courses.edx.org/certificates/fd9742952d9145be875483b0486efd3d", logo: "imgs/edx_logo.jpg" },
+            {
+              name: ".NET Aspire and GenAI Develop Distributed Architectures",
+              provider: "Udemy",
+              date: "Oct 2025",
+              url: "https://www.udemy.com/certificate/UC-690c5332-d61d-41b7-a569-e88737616319/",
+              logo: "imgs/udemy_logo.jpg",
+            },
+            {
+              name: "Project Management with ChatGPT: AI for Project Managers",
+              provider: "Udemy",
+              date: "Jun 2025",
+              url: "https://www.udemy.com/certificate/UC-45a5a5ba-0d5c-42f1-934b-bbb391cd6cea/",
+              logo: "imgs/udemy_logo.jpg",
+            },
+            {
+              name: "The Complete Agile & Scrum Project Management Course",
+              provider: "Udemy",
+              date: "Mar 2025",
+              url: "https://www.udemy.com/certificate/UC-e1bd5642-77ed-43e7-a895-a80372291ef3/",
+              logo: "imgs/udemy_logo.jpg",
+            },
+            {
+              name: "Understanding Cloud Computing",
+              provider: "DataCamp",
+              date: "Dec 2024",
+              url: "https://www.datacamp.com/completed/statement-of-accomplishment/course/3f0a42653ebb39064eb5af4930b8f0b94f730861",
+              logo: "imgs/datacampinc_logo.jpg",
+            },
+            {
+              name: "Data Transformation in Power BI",
+              provider: "DataCamp",
+              date: "Nov 2024",
+              url: "https://www.datacamp.com/completed/statement-of-accomplishment/course/908f5a3bcdff40614b1e2d82cb200d6fde138d23",
+              logo: "imgs/datacampinc_logo.jpg",
+            },
+            {
+              name: "Exploratory Data Analysis in Python",
+              provider: "DataCamp",
+              date: "Nov 2024",
+              url: "https://www.datacamp.com/completed/statement-of-accomplishment/course/06f9781b332b73fda6b4bfdb72a41b7fbc31b75f",
+              logo: "imgs/datacampinc_logo.jpg",
+            },
+            {
+              name: "Problem Solving and Critical Thinking Skills",
+              provider: "FullbridgeX (edX)",
+              date: "Sep 2020",
+              url: "https://courses.edx.org/certificates/fd9742952d9145be875483b0486efd3d",
+              logo: "imgs/edx_logo.jpg",
+            },
             { name: "Cisco Certified Network Professional (CCNP-RS)", provider: "Cisco", date: "Nov 2019", url: "", logo: "imgs/cisco_logo.jpg" },
           ];
 
