@@ -24,6 +24,7 @@ Accomplished and solutions-driven **Senior Full Stack Developer** with **6+ year
 - 💬 Ask me about **C#, ASP.NET Core, Vue.js, Clean Architecture, Microservices**
 - 📫 How to reach me: **shadeeaqeel00@gmail.com**
 - 📍 Based in **Riyadh, Saudi Arabia** | Originally from **Syria**
+- 🛂 **Transferable Iqama** (Saudi Residency Permit)
 - ⚡ Fun fact: **I've been on the honour list for 5 consecutive years during my CS degree!**
 
 ---
