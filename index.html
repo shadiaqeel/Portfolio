@@ -82,6 +82,16 @@
   gtag('js', new Date());
 
   gtag('config', 'G-JLKJH9GSHB');
+
+// Get the button element
+  const downloadBtn = document.getElementById('download-cv');
+
+  // Add click listener
+  downloadBtn.addEventListener('click', () => {
+    gtag('event', 'download_cv', { 
+      event_category: 'Portfolio', 
+      event_label: 'CV Download'
+    });
 </script>
 
     <!-- Google Fonts -->
@@ -276,6 +286,7 @@
               <button
                 @click="downloadCV"
                 :disabled="isDownloading"
+                id="download-cv"
                 class="hidden sm:flex items-center px-5 py-2.5 rounded-xl text-sm font-semibold transition-all duration-300 bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white shadow-lg shadow-blue-500/25 hover:shadow-blue-500/40 hover:scale-105 disabled:opacity-70 disabled:cursor-wait"
               >
                 <icon :name="isDownloading ? 'coffee' : 'download'" :size="16" :class="[isRTL ? 'ml-2' : 'mr-2', isDownloading ? 'animate-pulse' : '']"></icon>
