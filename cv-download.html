@@ -4,7 +4,47 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Shadi Akil - Senior Full Stack .NET Developer - CV</title>
-    
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-JLKJH9GSHB"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
+
+      // Track CV page view
+      gtag("config", "G-JLKJH9GSHB", {
+        page_title: "CV Download Page",
+        page_location: window.location.href,
+      });
+
+      // Track that user viewed CV
+      gtag("event", "view_cv", {
+        event_category: "engagement",
+        event_label: "CV Page Viewed",
+      });
+
+      // Track time spent on CV page
+      let cvStartTime = Date.now();
+      window.addEventListener("beforeunload", () => {
+        const timeOnCV = Math.round((Date.now() - cvStartTime) / 1000);
+        gtag("event", "cv_time_spent", {
+          event_category: "engagement",
+          event_label: "Time on CV Page",
+          value: timeOnCV,
+        });
+      });
+
+      // Track if user prints the CV
+      window.addEventListener("beforeprint", () => {
+        gtag("event", "print_cv", {
+          event_category: "conversion",
+          event_label: "CV Printed",
+        });
+      });
+    </script>
 
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
