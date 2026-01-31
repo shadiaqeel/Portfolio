@@ -1159,6 +1159,11 @@
             isDownloading.value = true;
 
             try {
+
+gtag('event', 'download_cv', { 
+      event_category: 'Portfolio', 
+      event_label: 'CV Download'
+    });
               // Fetch the CV HTML content
               const response = await fetch('cv-download.html');
               const htmlContent = await response.text();
