@@ -75,7 +75,7 @@
       };
     </script>
 
-    <!-- Google tag (gtag.js) -->
+    <!-- Google tag (gtag.js) - Enhanced Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-JLKJH9GSHB"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
@@ -84,7 +84,132 @@
       }
       gtag("js", new Date());
 
-      gtag("config", "G-JLKJH9GSHB");
+      // Enhanced GA4 configuration
+      gtag("config", "G-JLKJH9GSHB", {
+        send_page_view: true,
+        allow_google_signals: true,
+        allow_ad_personalization_signals: false,
+        cookie_flags: "SameSite=None;Secure",
+      });
+
+      // Analytics helper functions
+      const Analytics = {
+        // Track custom events
+        trackEvent(eventName, params = {}) {
+          gtag("event", eventName, {
+            ...params,
+            timestamp: new Date().toISOString(),
+          });
+        },
+
+        // Track outbound link clicks
+        trackOutboundLink(url, linkType, linkLabel) {
+          this.trackEvent("click", {
+            event_category: "outbound",
+            event_label: linkLabel || url,
+            link_type: linkType,
+            link_url: url,
+            transport_type: "beacon",
+          });
+        },
+
+        // Track section views (for scroll tracking)
+        trackSectionView(sectionName) {
+          this.trackEvent("section_view", {
+            event_category: "engagement",
+            section_name: sectionName,
+          });
+        },
+
+        // Track user preferences
+        trackPreference(preferenceType, value) {
+          this.trackEvent("preference_change", {
+            event_category: "user_settings",
+            preference_type: preferenceType,
+            preference_value: value,
+          });
+          // Also set as user property for segmentation
+          gtag("set", "user_properties", {
+            [preferenceType]: value,
+          });
+        },
+
+        // Track engagement time
+        trackEngagement(action, details = {}) {
+          this.trackEvent("user_engagement", {
+            event_category: "engagement",
+            engagement_action: action,
+            ...details,
+          });
+        },
+
+        // Track CV/Resume interactions
+        trackCVInteraction(action, success = true) {
+          this.trackEvent("cv_interaction", {
+            event_category: "conversion",
+            action: action,
+            success: success,
+          });
+        },
+
+        // Track skill/category filter usage
+        trackFilter(filterType, filterValue) {
+          this.trackEvent("filter_applied", {
+            event_category: "navigation",
+            filter_type: filterType,
+            filter_value: filterValue,
+          });
+        },
+      };
+
+      // Intersection Observer for section tracking
+      document.addEventListener("DOMContentLoaded", () => {
+        const sections = document.querySelectorAll("section[id]");
+        const trackedSections = new Set();
+
+        const sectionObserver = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting && !trackedSections.has(entry.target.id)) {
+                trackedSections.add(entry.target.id);
+                Analytics.trackSectionView(entry.target.id);
+              }
+            });
+          },
+          { threshold: 0.3 }
+        );
+
+        sections.forEach((section) => sectionObserver.observe(section));
+
+        // Track time on page before leaving
+        let startTime = Date.now();
+        window.addEventListener("beforeunload", () => {
+          const timeOnPage = Math.round((Date.now() - startTime) / 1000);
+          Analytics.trackEngagement("page_exit", {
+            time_on_page_seconds: timeOnPage,
+          });
+        });
+
+        // Track scroll depth
+        let maxScrollDepth = 0;
+        window.addEventListener("scroll", () => {
+          const scrollDepth = Math.round(
+            ((window.scrollY + window.innerHeight) / document.documentElement.scrollHeight) * 100
+          );
+          if (scrollDepth > maxScrollDepth) {
+            maxScrollDepth = scrollDepth;
+            // Track at 25%, 50%, 75%, 100% milestones
+            if ([25, 50, 75, 100].includes(scrollDepth) || scrollDepth === maxScrollDepth) {
+              if (scrollDepth % 25 === 0) {
+                Analytics.trackEngagement("scroll_depth", { depth_percent: scrollDepth });
+              }
+            }
+          }
+        });
+      });
+
+      // Make Analytics available globally
+      window.Analytics = Analytics;
     </script>
 
     <!-- Google Fonts -->
@@ -296,7 +421,7 @@
 
       <main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16 relative">
         <!-- Hero Section -->
-        <section class="mb-24">
+        <section id="hero" class="mb-24">
           <div class="flex flex-col md:flex-row items-start md:items-center gap-12">
             <div class="flex-1 space-y-8">
               <div
@@ -363,6 +488,7 @@
                   :key="social.href"
                   :href="social.href"
                   target="_blank"
+                  @click="trackOutboundLink(social.href, 'social', social.icon)"
                   class="p-3 rounded-xl border transition-all duration-300 hover:scale-110"
                   :class="darkMode ? 'bg-slate-800/80 border-slate-700 text-slate-400 hover:border-blue-500 hover:text-blue-400 hover:bg-slate-800' : 'bg-white border-slate-200 text-slate-500 hover:border-blue-500 hover:text-blue-500 shadow-sm'"
                 >
@@ -398,7 +524,7 @@
         </section>
 
         <!-- Statistics Section -->
-        <section class="mb-24">
+        <section id="statistics" class="mb-24">
           <!-- Section Container with Background -->
           <div
             class="relative p-8 md:p-12 rounded-3xl overflow-hidden"
@@ -513,7 +639,7 @@
         </section>
 
         <!-- Experience Section -->
-        <section class="mb-24">
+        <section id="experience" class="mb-24">
           <h2 class="text-3xl font-bold mb-10 flex items-center gap-3" :class="darkMode ? 'text-slate-100' : 'text-slate-800'">
             <span class="p-2 rounded-lg bg-gradient-to-br from-blue-500/20 to-purple-500/20">
               <icon name="briefcase" class="text-blue-500"></icon>
@@ -603,7 +729,7 @@
         </section>
 
         <!-- Projects Section -->
-        <section class="mb-24">
+        <section id="projects" class="mb-24">
           <h2 class="text-3xl font-bold mb-10 flex items-center gap-3" :class="darkMode ? 'text-slate-100' : 'text-slate-800'">
             <span class="p-2 rounded-lg bg-gradient-to-br from-blue-500/20 to-purple-500/20">
               <icon name="rocket" class="text-blue-500"></icon>
@@ -653,6 +779,7 @@
                       :href="project.url"
                       target="_blank"
                       rel="noopener noreferrer"
+                      @click="trackOutboundLink(project.url, 'project', project.title.en)"
                       class="flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold transition-all duration-300 hover:scale-105 bg-gradient-to-r from-blue-500 to-purple-600 text-white shadow-lg shadow-blue-500/25 hover:shadow-blue-500/40"
                     >
                       {{ lang === 'ar' ? 'زيارة الموقع' : 'Visit Website' }}
@@ -728,7 +855,7 @@
         <!-- Education & Certifications Grid -->
         <div class="grid md:grid-cols-2 gap-8 mb-24">
           <!-- Education -->
-          <section>
+          <section id="education">
             <h2 class="text-3xl font-bold mb-8 flex items-center gap-3" :class="darkMode ? 'text-slate-100' : 'text-slate-800'">
               <span class="p-2 rounded-lg bg-gradient-to-br from-blue-500/20 to-purple-500/20">
                 <icon name="graduation-cap" class="text-blue-500"></icon>
@@ -768,7 +895,7 @@
           </section>
 
           <!-- Certifications -->
-          <section>
+          <section id="certifications">
             <h2 class="text-3xl font-bold mb-8 flex items-center gap-3" :class="darkMode ? 'text-slate-100' : 'text-slate-800'">
               <span class="p-2 rounded-lg bg-gradient-to-br from-blue-500/20 to-purple-500/20">
                 <icon name="award" class="text-blue-500"></icon>
@@ -782,6 +909,7 @@
                 :href="cert.url || 'javascript:void(0)'"
                 :target="cert.url ? '_blank' : '_self'"
                 rel="noopener noreferrer"
+                @click="cert.url && trackOutboundLink(cert.url, 'certificate', cert.name)"
                 class="p-4 rounded-xl border flex items-center gap-4 group transition-all duration-300 hover:scale-[1.01] block no-underline relative overflow-hidden"
                 :class="[
                   darkMode ? 'bg-slate-900/50 border-slate-800 hover:border-slate-600' : 'bg-white border-slate-200 hover:border-slate-300 shadow-sm hover:shadow-md',
@@ -847,7 +975,7 @@
         <!-- Strengths, Languages, Personal Skills Grid -->
         <div class="grid md:grid-cols-3 gap-8 mb-24">
           <!-- Strengths -->
-          <section>
+          <section id="strengths">
             <h2 class="text-2xl font-bold mb-6 flex items-center gap-3" :class="darkMode ? 'text-slate-100' : 'text-slate-800'">
               <span class="p-2 rounded-lg bg-gradient-to-br from-yellow-500/20 to-orange-500/20">
                 <icon name="star" class="text-yellow-500"></icon>
@@ -868,7 +996,7 @@
           </section>
 
           <!-- Languages -->
-          <section>
+          <section id="languages">
             <h2 class="text-2xl font-bold mb-6 flex items-center gap-3" :class="darkMode ? 'text-slate-100' : 'text-slate-800'">
               <span class="p-2 rounded-lg bg-gradient-to-br from-green-500/20 to-emerald-500/20">
                 <icon name="languages" class="text-green-500"></icon>
@@ -902,7 +1030,7 @@
           </section>
 
           <!-- Personal Skills -->
-          <section>
+          <section id="personal-skills">
             <h2 class="text-2xl font-bold mb-6 flex items-center gap-3" :class="darkMode ? 'text-slate-100' : 'text-slate-800'">
               <span class="p-2 rounded-lg bg-gradient-to-br from-pink-500/20 to-rose-500/20">
                 <icon name="heart" class="text-pink-500"></icon>
@@ -923,7 +1051,7 @@
         </div>
 
         <!-- Technical Skills Section -->
-        <section class="mb-24">
+        <section id="technical-skills" class="mb-24">
           <div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-10 gap-6">
             <div>
               <h2 class="text-3xl font-bold mb-3 flex items-center gap-3" :class="darkMode ? 'text-slate-100' : 'text-slate-800'">
@@ -940,7 +1068,7 @@
               <button
                 v-for="cat in categories"
                 :key="cat"
-                @click="activeCategory = cat"
+                @click="setActiveCategory(cat)"
                 class="group/btn relative px-4 py-2.5 rounded-xl text-sm font-bold transition-all duration-300 overflow-hidden"
                 :class="[
                   activeCategory === cat ? 'text-white shadow-lg scale-105' : '',
@@ -1159,22 +1287,33 @@
 
           const toggleDarkMode = () => {
             darkMode.value = !darkMode.value;
+            // Track dark mode preference
+            if (window.Analytics) {
+              window.Analytics.trackPreference("dark_mode", darkMode.value ? "enabled" : "disabled");
+            }
           };
 
           const toggleLang = () => {
             lang.value = lang.value === "en" ? "ar" : "en";
             activeCategory.value = lang.value === "ar" ? "الكل" : "All";
+            // Track language preference
+            if (window.Analytics) {
+              window.Analytics.trackPreference("language", lang.value);
+            }
           };
 
           const downloadCV = async () => {
             if (isDownloading.value) return;
             isDownloading.value = true;
 
+            // Send GA4 event on click
+            gtag("event", "download_cv_click", {
+              event_category: "engagement",
+              event_label: "CV Download Button Clicked",
+              language: lang.value,
+            });
+
             try {
-              gtag("event", "download_cv", {
-                event_category: "Portfolio",
-                event_label: "CV Download",
-              });
               // Fetch the CV HTML content
               const response = await fetch("cv-download.html");
               const htmlContent = await response.text();
@@ -1221,16 +1360,56 @@
 
               // Generate and download PDF
               await html2pdf().set(opt).from(bodyContent).save();
+
+              // Track successful download
+              gtag("event", "download_cv_success", {
+                event_category: "conversion",
+                event_label: "CV Downloaded Successfully",
+                language: lang.value,
+              });
             } catch (error) {
               console.error("Error generating PDF:", error);
+
+              // Track failed download
+              gtag("event", "download_cv_error", {
+                event_category: "error",
+                event_label: error.message,
+                language: lang.value,
+              });
+
               // Fallback: open the HTML CV in a new tab
               window.open("cv-download.html", "_blank");
+
+              // Track fallback used
+              gtag("event", "download_cv_fallback", {
+                event_category: "engagement",
+                event_label: "CV Opened in New Tab (Fallback)",
+                language: lang.value,
+              });
             } finally {
               isDownloading.value = false;
             }
           };
 
           const isRTL = computed(() => lang.value === "ar");
+
+          // Analytics tracking methods
+          const trackOutboundLink = (url, linkType, linkLabel) => {
+            if (window.Analytics) {
+              window.Analytics.trackOutboundLink(url, linkType, linkLabel);
+            }
+          };
+
+          const trackCategoryFilter = (category) => {
+            if (window.Analytics) {
+              window.Analytics.trackFilter("skills_category", category);
+            }
+          };
+
+          const setActiveCategory = (cat) => {
+            activeCategory.value = cat;
+            trackCategoryFilter(cat);
+          };
 
           watch(
             darkMode,
@@ -1736,6 +1915,8 @@
             downloadCV,
             t,
             activeCategory,
+            setActiveCategory,
+            trackOutboundLink,
             categories,
             categoryMap,
             categoryColors,
