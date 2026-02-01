@@ -264,6 +264,27 @@
           display: none !important;
         }
       }
+
+      /* Safe area for mobile devices with notches */
+      .safe-area-bottom {
+        padding-bottom: env(safe-area-inset-bottom, 0);
+      }
+
+      /* Add padding at bottom for mobile nav */
+      @media (max-width: 767px) {
+        main {
+          padding-bottom: 5rem !important;
+        }
+      }
+
+      /* Hide scrollbar on mobile nav */
+      .hide-scrollbar {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+      }
+      .hide-scrollbar::-webkit-scrollbar {
+        display: none;
+      }
     </style>
 
     <!-- Prevent flash of wrong theme -->
@@ -1283,6 +1304,101 @@
         </footer>
       </main>
 
+      <!-- Mobile Bottom Tab Navigation -->
+      <nav 
+        class="fixed bottom-0 left-0 right-0 z-50 md:hidden backdrop-blur-xl border-t safe-area-bottom"
+        :class="darkMode ? 'bg-slate-950/95 border-slate-800' : 'bg-white/95 border-slate-200'"
+      >
+        <div class="flex justify-around items-center h-16 px-2">
+          <button
+            v-for="tab in mobileNavTabs"
+            :key="tab.id"
+            @click="scrollToSection(tab.id); mobileMenuOpen = false"
+            class="flex flex-col items-center justify-center gap-1 px-3 py-2 rounded-xl transition-all duration-300 min-w-[60px]"
+            :class="[
+              activeSection === tab.id 
+                ? (darkMode ? 'text-blue-400 bg-blue-500/10' : 'text-blue-600 bg-blue-50') 
+                : (darkMode ? 'text-slate-400' : 'text-slate-500')
+            ]"
+          >
+            <div class="relative">
+              <icon :name="tab.icon" :size="20"></icon>
+              <!-- Active Indicator -->
+              <span 
+                v-if="activeSection === tab.id"
+                class="absolute -top-1 -right-1 w-2 h-2 rounded-full bg-gradient-to-r from-blue-500 to-purple-500"
+              ></span>
+            </div>
+            <span class="text-[10px] font-semibold">{{ tab.label[lang] }}</span>
+          </button>
+        </div>
+      </nav>
+
+      <!-- Floating Dot Navigation (Section Indicator) -->
+      <div 
+        class="fixed top-1/2 -translate-y-1/2 z-50 hidden md:flex flex-col gap-3 p-2"
+        :class="isRTL ? 'left-4' : 'right-4'"
+      >
+        <div
+          v-for="(navItem, index) in navItems"
+          :key="navItem.id"
+          class="group relative flex items-center"
+          :class="isRTL ? 'flex-row-reverse' : 'flex-row'"
+        >
+          <!-- Tooltip Label -->
+          <div 
+            class="absolute whitespace-nowrap px-3 py-1.5 rounded-lg text-xs font-semibold opacity-0 group-hover:opacity-100 transition-all duration-300 pointer-events-none"
+            :class="[
+              isRTL ? 'left-full ml-3' : 'right-full mr-3',
+              darkMode ? 'bg-slate-800 text-slate-200 border border-slate-700' : 'bg-white text-slate-700 border border-slate-200 shadow-lg'
+            ]"
+          >
+            {{ navItem.label[lang] }}
+            <!-- Arrow -->
+            <div 
+              class="absolute top-1/2 -translate-y-1/2 w-2 h-2 rotate-45"
+              :class="[
+                isRTL ? '-left-1' : '-right-1',
+                darkMode ? 'bg-slate-800 border-r border-b border-slate-700' : 'bg-white border-r border-b border-slate-200'
+              ]"
+            ></div>
+          </div>
+
+          <!-- Dot Button -->
+          <button
+            @click="scrollToSection(navItem.id)"
+            class="relative w-3 h-3 rounded-full transition-all duration-300 group-hover:scale-150"
+            :class="[
+              activeSection === navItem.id 
+                ? 'bg-gradient-to-r from-blue-500 to-purple-500 scale-125 shadow-lg shadow-blue-500/50' 
+                : (darkMode ? 'bg-slate-600 hover:bg-slate-400' : 'bg-slate-300 hover:bg-slate-500')
+            ]"
+            :aria-label="'Navigate to ' + navItem.label['en']"
+          >
+            <!-- Active Ring Animation -->
+            <span 
+              v-if="activeSection === navItem.id"
+              class="absolute inset-0 rounded-full bg-blue-500/30 animate-ping"
+            ></span>
+          </button>
+        </div>
+
+        <!-- Progress Line -->
+        <div 
+          class="absolute top-0 bottom-0 w-0.5 -z-10"
+          :class="[
+            isRTL ? 'left-1/2 -translate-x-1/2' : 'left-1/2 -translate-x-1/2',
+            darkMode ? 'bg-slate-800' : 'bg-slate-200'
+          ]"
+        >
+          <!-- Filled Progress -->
+          <div 
+            class="w-full bg-gradient-to-b from-blue-500 to-purple-500 rounded-full transition-all duration-300"
+            :style="{ height: ((navItems.findIndex(n => n.id === activeSection) + 1) / navItems.length) * 100 + '%' }"
+          ></div>
+        </div>
+      </div>
+
       <!-- Back to Top Button -->
       <transition
         enter-active-class="transition-all duration-300 ease-out"
@@ -1295,10 +1411,10 @@
         <button
           v-if="showBackToTop"
           @click="scrollToTop"
-          class="fixed bottom-8 z-50 p-3 rounded-full shadow-lg transition-all duration-300 hover:scale-110 group"
+          class="fixed z-50 p-3 rounded-full shadow-lg transition-all duration-300 hover:scale-110 group bottom-24 md:bottom-8"
           :class="[
             darkMode ? 'bg-slate-800 text-blue-400 hover:bg-slate-700 border border-slate-700' : 'bg-white text-blue-600 hover:bg-slate-50 border border-slate-200 shadow-xl',
-            isRTL ? 'left-8' : 'right-8'
+            isRTL ? 'left-4 md:left-8' : 'right-4 md:right-8'
           ]"
           aria-label="Back to top"
         >
@@ -1425,6 +1541,15 @@
             { id: 'skills', label: { en: 'Skills', ar: 'المهارات' }, icon: 'terminal' },
             { id: 'education', label: { en: 'Education', ar: 'التعليم' }, icon: 'graduation-cap' },
             { id: 'about', label: { en: 'About', ar: 'حول' }, icon: 'user' },
+            { id: 'contact', label: { en: 'Contact', ar: 'تواصل' }, icon: 'mail' },
+          ];
+
+          // Mobile Bottom Tabs (condensed for small screens)
+          const mobileNavTabs = [
+            { id: 'hero', label: { en: 'Home', ar: 'الرئيسية' }, icon: 'code' },
+            { id: 'experience', label: { en: 'Work', ar: 'العمل' }, icon: 'briefcase' },
+            { id: 'projects', label: { en: 'Projects', ar: 'مشاريع' }, icon: 'rocket' },
+            { id: 'skills', label: { en: 'Skills', ar: 'مهارات' }, icon: 'terminal' },
             { id: 'contact', label: { en: 'Contact', ar: 'تواصل' }, icon: 'mail' },
           ];
 
@@ -2069,6 +2194,7 @@
             showBackToTop,
             activeSection,
             navItems,
+            mobileNavTabs,
             scrollToSection,
             scrollToTop,
           };
