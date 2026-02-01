@@ -922,77 +922,120 @@
 
           <!-- Certifications -->
           <section>
-            <h2 class="text-3xl font-bold mb-8 flex items-center gap-3" :class="darkMode ? 'text-slate-100' : 'text-slate-800'">
-              <span class="p-2 rounded-lg bg-gradient-to-br from-blue-500/20 to-purple-500/20">
-                <icon name="award" class="text-blue-500"></icon>
-              </span>
-              {{ t.certifications }}
-            </h2>
-            <div class="space-y-3 max-h-[450px] overflow-y-auto pr-2 custom-scrollbar">
-              <a
-                v-for="(cert, index) in certifications"
-                :key="index"
-                :href="cert.url || 'javascript:void(0)'"
-                :target="cert.url ? '_blank' : '_self'"
-                rel="noopener noreferrer"
-                class="p-4 rounded-xl border flex items-center gap-4 group transition-all duration-300 hover:scale-[1.01] block no-underline relative overflow-hidden"
-                :class="[
-                  darkMode ? 'bg-slate-900/50 border-slate-800 hover:border-slate-600' : 'bg-white border-slate-200 hover:border-slate-300 shadow-sm hover:shadow-md',
-                  cert.url ? 'cursor-pointer' : 'cursor-default'
-                ]"
-              >
-                <!-- Provider accent bar -->
-                <div
-                  class="absolute left-0 top-0 bottom-0 w-1 transition-all duration-300 group-hover:w-1.5"
-                  :class="{
-                    'bg-gradient-to-b from-purple-500 to-purple-600': cert.provider === 'Udemy',
-                    'bg-gradient-to-b from-green-500 to-green-600': cert.provider === 'DataCamp',
-                    'bg-gradient-to-b from-red-500 to-red-600': cert.provider.includes('edX'),
-                    'bg-gradient-to-b from-blue-500 to-blue-600': cert.provider === 'Cisco'
-                  }"
-                ></div>
-
-                <!-- Provider logo -->
-                <div class="w-11 h-11 rounded-lg overflow-hidden flex-shrink-0 transition-transform duration-300 group-hover:scale-110 bg-white">
-                  <img :src="cert.logo" :alt="cert.provider + ' logo'" class="w-full h-full object-cover" />
-                </div>
-
-                <!-- Certificate info -->
-                <div class="flex-1 min-w-0">
-                  <h3 class="font-semibold text-sm leading-tight" :class="darkMode ? 'text-slate-100' : 'text-slate-800'">{{ cert.name }}</h3>
-                  <div class="flex items-center gap-2 mt-1.5">
+            <div class="flex items-center justify-between mb-8">
+              <h2 class="text-3xl font-bold flex items-center gap-3" :class="darkMode ? 'text-slate-100' : 'text-slate-800'">
+                <span class="p-2 rounded-lg bg-gradient-to-br from-blue-500/20 to-purple-500/20">
+                  <icon name="award" class="text-blue-500"></icon>
+                </span>
+                {{ t.certifications }}
+              </h2>
+              <!-- Group By Toggle -->
+              <div class="flex items-center gap-2 p-1 rounded-lg" :class="darkMode ? 'bg-slate-800' : 'bg-slate-100'">
+                <button
+                  @click="certGroupBy = 'provider'"
+                  class="flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-medium transition-all duration-200"
+                  :class="certGroupBy === 'provider'
+                    ? (darkMode ? 'bg-slate-700 text-white shadow-sm' : 'bg-white text-slate-800 shadow-sm')
+                    : (darkMode ? 'text-slate-400 hover:text-slate-200' : 'text-slate-500 hover:text-slate-700')"
+                >
+                  <icon name="building" :size="14"></icon>
+                  <span class="hidden sm:inline">{{ lang === 'ar' ? 'المصدر' : 'Source' }}</span>
+                </button>
+                <button
+                  @click="certGroupBy = 'category'"
+                  class="flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-medium transition-all duration-200"
+                  :class="certGroupBy === 'category'
+                    ? (darkMode ? 'bg-slate-700 text-white shadow-sm' : 'bg-white text-slate-800 shadow-sm')
+                    : (darkMode ? 'text-slate-400 hover:text-slate-200' : 'text-slate-500 hover:text-slate-700')"
+                >
+                  <icon name="layers" :size="14"></icon>
+                  <span class="hidden sm:inline">{{ lang === 'ar' ? 'الفئة' : 'Category' }}</span>
+                </button>
+              </div>
+            </div>
+            <div class="space-y-4 max-h-[500px] overflow-y-auto pr-2 custom-scrollbar">
+              <!-- Certificate Group -->
+              <div v-for="group in groupedCertifications" :key="group.name" class="rounded-xl border overflow-hidden" :class="darkMode ? 'border-slate-800' : 'border-slate-200'">
+                <!-- Group Header -->
+                <button
+                  @click="toggleCertGroup(group.name)"
+                  class="w-full px-4 py-3 flex items-center justify-between transition-colors duration-200"
+                  :class="darkMode ? 'bg-slate-900/70 hover:bg-slate-900' : 'bg-slate-50 hover:bg-slate-100'"
+                >
+                  <div class="flex items-center gap-3">
+                    <div class="w-1.5 h-8 rounded-full bg-gradient-to-b" :class="'bg-gradient-to-b ' + group.config.gradient"></div>
+                    <icon :name="group.config.icon" :size="16" :class="group.config.textClass"></icon>
+                    <span class="font-semibold" :class="darkMode ? 'text-slate-100' : 'text-slate-800'">{{ group.name }}</span>
                     <span
                       class="text-xs font-medium px-2 py-0.5 rounded-full"
-                      :class="{
-                        'bg-purple-500/10 text-purple-500': cert.provider === 'Udemy',
-                        'bg-green-500/10 text-green-500': cert.provider === 'DataCamp',
-                        'bg-red-500/10 text-red-500': cert.provider.includes('edX'),
-                        'bg-blue-500/10 text-blue-500': cert.provider === 'Cisco'
-                      }"
-                      >{{ cert.provider }}</span
-                    >
-                    <span class="text-xs" :class="darkMode ? 'text-slate-500' : 'text-slate-400'">{{ cert.date }}</span>
+                      :class="[group.config.bgClass, group.config.textClass]"
+                    >{{ group.certs.length }}</span>
                   </div>
-                </div>
-
-                <!-- Verified badge & external link -->
-                <div class="flex items-center gap-2 flex-shrink-0">
-                  <span
-                    v-if="cert.url"
-                    class="hidden sm:flex items-center gap-1 text-xs font-medium px-2 py-1 rounded-full"
-                    :class="darkMode ? 'bg-emerald-500/10 text-emerald-400' : 'bg-emerald-50 text-emerald-600'"
-                  >
-                    <icon name="check-circle" :size="12"></icon>
-                    <span>Verified</span>
-                  </span>
                   <icon
-                    v-if="cert.url"
-                    name="external-link"
-                    :size="16"
-                    class="opacity-0 group-hover:opacity-100 transition-opacity text-blue-500"
+                    name="chevron-down"
+                    :size="18"
+                    class="transition-transform duration-300"
+                    :class="[
+                      darkMode ? 'text-slate-400' : 'text-slate-500',
+                      expandedCertGroups[group.name] ? 'rotate-180' : ''
+                    ]"
                   ></icon>
+                </button>
+
+                <!-- Certificates List -->
+                <div
+                  v-show="expandedCertGroups[group.name]"
+                  class="divide-y"
+                  :class="darkMode ? 'divide-slate-800' : 'divide-slate-100'"
+                >
+                  <a
+                    v-for="(cert, index) in group.certs"
+                    :key="index"
+                    :href="cert.url || 'javascript:void(0)'"
+                    :target="cert.url ? '_blank' : '_self'"
+                    rel="noopener noreferrer"
+                    class="p-4 flex items-center gap-4 group transition-all duration-300 block no-underline relative overflow-hidden"
+                    :class="[
+                      darkMode ? 'bg-slate-900/30 hover:bg-slate-900/60' : 'bg-white hover:bg-slate-50',
+                      cert.url ? 'cursor-pointer' : 'cursor-default'
+                    ]"
+                  >
+                    <!-- Provider logo -->
+                    <div class="w-10 h-10 rounded-lg overflow-hidden flex-shrink-0 transition-transform duration-300 group-hover:scale-110 bg-white">
+                      <img :src="cert.logo" :alt="cert.provider + ' logo'" class="w-full h-full object-cover" />
+                    </div>
+
+                    <!-- Certificate info -->
+                    <div class="flex-1 min-w-0">
+                      <h3 class="font-semibold text-sm leading-tight" :class="darkMode ? 'text-slate-100' : 'text-slate-800'">{{ cert.name }}</h3>
+                      <div class="flex items-center gap-2 mt-1">
+                        <span class="text-xs" :class="darkMode ? 'text-slate-500' : 'text-slate-400'">{{ cert.date }}</span>
+                        <span class="text-xs px-1.5 py-0.5 rounded" :class="darkMode ? 'bg-slate-800 text-slate-400' : 'bg-slate-100 text-slate-500'">
+                          {{ certGroupBy === 'provider' ? cert.category : cert.provider }}
+                        </span>
+                      </div>
+                    </div>
+
+                    <!-- Verified badge & external link -->
+                    <div class="flex items-center gap-2 flex-shrink-0">
+                      <span
+                        v-if="cert.url"
+                        class="hidden sm:flex items-center gap-1 text-xs font-medium px-2 py-1 rounded-full"
+                        :class="darkMode ? 'bg-emerald-500/10 text-emerald-400' : 'bg-emerald-50 text-emerald-600'"
+                      >
+                        <icon name="check-circle" :size="12"></icon>
+                        <span>Verified</span>
+                      </span>
+                      <icon
+                        v-if="cert.url"
+                        name="external-link"
+                        :size="16"
+                        class="opacity-0 group-hover:opacity-100 transition-opacity text-blue-500"
+                      ></icon>
+                    </div>
+                  </a>
                 </div>
-              </a>
+              </div>
             </div>
           </section>
         </div>
@@ -1499,8 +1542,14 @@
             menu: '<line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="18" y2="18"/>',
             x: '<path d="M18 6 6 18"/><path d="m6 6 12 12"/>',
             "chevron-right": '<path d="m9 18 6-6-6-6"/>',
+            "chevron-down": '<path d="m6 9 6 6 6-6"/>',
             "arrow-up": '<path d="m5 12 7-7 7 7"/><path d="M12 19V5"/>',
             user: '<path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>',
+            cloud: '<path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"/>',
+            wifi: '<path d="M5 13a10 10 0 0 1 14 0"/><path d="M8.5 16.5a5 5 0 0 1 7 0"/><path d="M2 9.5a15.5 15.5 0 0 1 20 0"/><circle cx="12" cy="20" r="1"/>',
+            "clipboard-list": '<rect width="8" height="4" x="8" y="2" rx="1" ry="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><path d="M12 11h4"/><path d="M12 16h4"/><path d="M8 11h.01"/><path d="M8 16h.01"/>',
+            "bar-chart": '<line x1="12" x2="12" y1="20" y2="10"/><line x1="18" x2="18" y1="20" y2="4"/><line x1="6" x2="6" y1="20" y2="16"/>',
+            filter: '<polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/>',
           };
 
           const path = computed(() => icons[props.name] || "");
@@ -1989,6 +2038,7 @@
             {
               name: ".NET Aspire and GenAI Develop Distributed Architectures",
               provider: "Udemy",
+              category: "Development",
               date: "Oct 2025",
               url: "https://www.udemy.com/certificate/UC-690c5332-d61d-41b7-a569-e88737616319/",
               logo: "imgs/udemy_logo.jpg",
@@ -1996,6 +2046,7 @@
             {
               name: "Project Management with ChatGPT: AI for Project Managers",
               provider: "Udemy",
+              category: "Project Management",
               date: "Jun 2025",
               url: "https://www.udemy.com/certificate/UC-45a5a5ba-0d5c-42f1-934b-bbb391cd6cea/",
               logo: "imgs/udemy_logo.jpg",
@@ -2003,6 +2054,7 @@
             {
               name: "The Complete Agile & Scrum Project Management Course",
               provider: "Udemy",
+              category: "Project Management",
               date: "Mar 2025",
               url: "https://www.udemy.com/certificate/UC-e1bd5642-77ed-43e7-a895-a80372291ef3/",
               logo: "imgs/udemy_logo.jpg",
@@ -2010,6 +2062,7 @@
             {
               name: "Understanding Cloud Computing",
               provider: "DataCamp",
+              category: "Cloud & Infrastructure",
               date: "Dec 2024",
               url: "https://www.datacamp.com/completed/statement-of-accomplishment/course/3f0a42653ebb39064eb5af4930b8f0b94f730861",
               logo: "imgs/datacampinc_logo.jpg",
@@ -2017,6 +2070,7 @@
             {
               name: "Data Transformation in Power BI",
               provider: "DataCamp",
+              category: "Data & Analytics",
               date: "Nov 2024",
               url: "https://www.datacamp.com/completed/statement-of-accomplishment/course/908f5a3bcdff40614b1e2d82cb200d6fde138d23",
               logo: "imgs/datacampinc_logo.jpg",
@@ -2024,6 +2078,7 @@
             {
               name: "Exploratory Data Analysis in Python",
               provider: "DataCamp",
+              category: "Data & Analytics",
               date: "Nov 2024",
               url: "https://www.datacamp.com/completed/statement-of-accomplishment/course/06f9781b332b73fda6b4bfdb72a41b7fbc31b75f",
               logo: "imgs/datacampinc_logo.jpg",
@@ -2031,12 +2086,64 @@
             {
               name: "Problem Solving and Critical Thinking Skills",
               provider: "FullbridgeX (edX)",
+              category: "Soft Skills",
               date: "Sep 2020",
               url: "https://courses.edx.org/certificates/fd9742952d9145be875483b0486efd3d",
               logo: "imgs/edx_logo.jpg",
             },
-            { name: "Cisco Certified Network Professional (CCNP-RS)", provider: "Cisco", date: "Nov 2019", url: "", logo: "imgs/cisco_logo.jpg" },
+            { name: "Cisco Certified Network Professional (CCNP-RS)", provider: "Cisco", category: "Cloud & Infrastructure", date: "Nov 2019", url: "", logo: "imgs/cisco_logo.jpg" },
           ];
+
+          // Certification grouping configuration
+          const certGroupBy = Vue.ref("provider"); // "provider" or "category"
+
+          const certProviderOrder = ["Udemy", "DataCamp", "edX", "Cisco"];
+          const certProviderConfig = {
+            Udemy: { icon: "award", gradient: "from-purple-500 to-purple-600", bgClass: "bg-purple-500/10", textClass: "text-purple-500" },
+            DataCamp: { icon: "bar-chart", gradient: "from-green-500 to-green-600", bgClass: "bg-green-500/10", textClass: "text-green-500" },
+            edX: { icon: "book-open", gradient: "from-red-500 to-red-600", bgClass: "bg-red-500/10", textClass: "text-red-500" },
+            Cisco: { icon: "wifi", gradient: "from-blue-500 to-blue-600", bgClass: "bg-blue-500/10", textClass: "text-blue-500" },
+          };
+
+          const certCategoryOrder = ["Development", "Project Management", "Data & Analytics", "Cloud & Infrastructure", "Soft Skills"];
+          const certCategoryConfig = {
+            Development: { icon: "code", gradient: "from-cyan-500 to-blue-600", bgClass: "bg-cyan-500/10", textClass: "text-cyan-500" },
+            "Project Management": { icon: "clipboard-list", gradient: "from-amber-500 to-orange-600", bgClass: "bg-amber-500/10", textClass: "text-amber-500" },
+            "Data & Analytics": { icon: "bar-chart", gradient: "from-emerald-500 to-teal-600", bgClass: "bg-emerald-500/10", textClass: "text-emerald-500" },
+            "Cloud & Infrastructure": { icon: "cloud", gradient: "from-indigo-500 to-violet-600", bgClass: "bg-indigo-500/10", textClass: "text-indigo-500" },
+            "Soft Skills": { icon: "users", gradient: "from-pink-500 to-rose-600", bgClass: "bg-pink-500/10", textClass: "text-pink-500" },
+          };
+
+          const groupedCertifications = Vue.computed(() => {
+            const groups = {};
+            const isProvider = certGroupBy.value === "provider";
+            const order = isProvider ? certProviderOrder : certCategoryOrder;
+            const config = isProvider ? certProviderConfig : certCategoryConfig;
+
+            certifications.forEach((cert) => {
+              let groupKey;
+              if (isProvider) {
+                groupKey = cert.provider.includes("edX") ? "edX" : cert.provider;
+              } else {
+                groupKey = cert.category;
+              }
+              if (!groups[groupKey]) {
+                groups[groupKey] = [];
+              }
+              groups[groupKey].push(cert);
+            });
+
+            return order.filter((key) => groups[key]).map((key) => ({
+              name: key,
+              config: config[key],
+              certs: groups[key],
+            }));
+          });
+
+          const expandedCertGroups = Vue.ref([...certProviderOrder, ...certCategoryOrder].reduce((acc, p) => ({ ...acc, [p]: true }), {}));
+          const toggleCertGroup = (groupName) => {
+            expandedCertGroups.value[groupName] = !expandedCertGroups.value[groupName];
+          };
 
           const strengths = {
             en: [
@@ -2183,6 +2290,12 @@
             experience,
             education,
             certifications,
+            certGroupBy,
+            groupedCertifications,
+            certProviderConfig,
+            certCategoryConfig,
+            expandedCertGroups,
+            toggleCertGroup,
             strengths,
             languagesData,
             personalSkills,
