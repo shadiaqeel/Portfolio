@@ -1,0 +1,66 @@
+[
+  {
+    "name": ".NET Aspire and GenAI Develop Distributed Architectures",
+    "provider": "Udemy",
+    "category": "Development",
+    "date": "Oct 2025",
+    "url": "https://www.udemy.com/certificate/UC-690c5332-d61d-41b7-a569-e88737616319/",
+    "logo": "imgs/udemy_logo.jpg"
+  },
+  {
+    "name": "Project Management with ChatGPT: AI for Project Managers",
+    "provider": "Udemy",
+    "category": "Project Management",
+    "date": "Jun 2025",
+    "url": "https://www.udemy.com/certificate/UC-45a5a5ba-0d5c-42f1-934b-bbb391cd6cea/",
+    "logo": "imgs/udemy_logo.jpg"
+  },
+  {
+    "name": "The Complete Agile & Scrum Project Management Course",
+    "provider": "Udemy",
+    "category": "Project Management",
+    "date": "Mar 2025",
+    "url": "https://www.udemy.com/certificate/UC-e1bd5642-77ed-43e7-a895-a80372291ef3/",
+    "logo": "imgs/udemy_logo.jpg"
+  },
+  {
+    "name": "Understanding Cloud Computing",
+    "provider": "DataCamp",
+    "category": "Cloud & Infrastructure",
+    "date": "Dec 2024",
+    "url": "https://www.datacamp.com/completed/statement-of-accomplishment/course/3f0a42653ebb39064eb5af4930b8f0b94f730861",
+    "logo": "imgs/datacampinc_logo.jpg"
+  },
+  {
+    "name": "Data Transformation in Power BI",
+    "provider": "DataCamp",
+    "category": "Data & Analytics",
+    "date": "Nov 2024",
+    "url": "https://www.datacamp.com/completed/statement-of-accomplishment/course/908f5a3bcdff40614b1e2d82cb200d6fde138d23",
+    "logo": "imgs/datacampinc_logo.jpg"
+  },
+  {
+    "name": "Exploratory Data Analysis in Python",
+    "provider": "DataCamp",
+    "category": "Data & Analytics",
+    "date": "Nov 2024",
+    "url": "https://www.datacamp.com/completed/statement-of-accomplishment/course/06f9781b332b73fda6b4bfdb72a41b7fbc31b75f",
+    "logo": "imgs/datacampinc_logo.jpg"
+  },
+  {
+    "name": "Problem Solving and Critical Thinking Skills",
+    "provider": "FullbridgeX (edX)",
+    "category": "Soft Skills",
+    "date": "Sep 2020",
+    "url": "https://courses.edx.org/certificates/fd9742952d9145be875483b0486efd3d",
+    "logo": "imgs/edx_logo.jpg"
+  },
+  {
+    "name": "Cisco Certified Network Professional (CCNP-RS)",
+    "provider": "Cisco",
+    "category": "Cloud & Infrastructure",
+    "date": "Nov 2019",
+    "url": "",
+    "logo": "imgs/cisco_logo.jpg"
+  }
+]

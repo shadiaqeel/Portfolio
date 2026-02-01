@@ -1,0 +1,31 @@
+{
+  "name": "Shadi Akil - Senior Full Stack .NET Developer",
+  "short_name": "Shadi Akil",
+  "description": "Portfolio of Shadi Akil - Senior Full Stack .NET Developer with 6+ years experience in Vue.js, Angular, React, .NET, and Azure cloud technologies.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#020617",
+  "theme_color": "#3b82f6",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "lang": "en",
+  "categories": ["portfolio", "technology", "software"],
+  "icons": [
+    {
+      "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><defs><linearGradient id='grad' x1='0%25' y1='0%25' x2='100%25' y2='100%25'><stop offset='0%25' style='stop-color:%233b82f6'/><stop offset='100%25' style='stop-color:%238b5cf6'/></linearGradient></defs><rect width='100' height='100' rx='20' fill='url(%23grad)'/><text x='50' y='68' font-size='50' text-anchor='middle' fill='white' font-family='monospace'>&lt;/&gt;</text></svg>",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "screenshots": [],
+  "shortcuts": [
+    {
+      "name": "View CV",
+      "short_name": "CV",
+      "description": "View and download CV",
+      "url": "/cv-download.html",
+      "icons": []
+    }
+  ]
+}

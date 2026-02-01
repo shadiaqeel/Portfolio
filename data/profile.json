@@ -1,0 +1,66 @@
+{
+  "en": {
+    "name": "Shadi Akil",
+    "summary": "Accomplished and solutions-driven Senior Full Stack Developer with expertise in designing, developing, and maintaining robust and scalable web applications. Proficient in the .NET ecosystem, including ASP.NET Core and Entity Framework, with extensive front-end experience using Vue.js to create intuitive and user-centric interfaces. Adept at managing and optimizing SQL databases to ensure high performance and data integrity. Skilled in leading projects through the full development lifecycle, collaborating cross-functionally, and implementing best practices in coding standards and software architecture. Committed to continuous learning and leveraging new technologies to deliver innovative solutions and drive project success."
+  },
+  "ar": {
+    "name": "شادي عقيل",
+    "summary": "مطور Full Stack أول متميز وموجه نحو الحلول، ذو خبرة واسعة في تصميم وتطوير وصيانة تطبيقات الويب القوية والقابلة للتوسع. متمكن من منظومة .NET بما في ذلك ASP.NET Core و Entity Framework، مع خبرة واسعة في تطوير الواجهات الأمامية باستخدام Vue.js لإنشاء واجهات سهلة الاستخدام. بارع في إدارة وتحسين قواعد بيانات SQL لضمان الأداء العالي وسلامة البيانات. ماهر في قيادة المشاريع خلال دورة التطوير الكاملة، والتعاون مع الفرق المختلفة، وتطبيق أفضل الممارسات في معايير البرمجة وهندسة البرمجيات. ملتزم بالتعلم المستمر واستخدام التقنيات الجديدة لتقديم حلول مبتكرة وتحقيق نجاح المشاريع."
+  },
+  "contact": [
+    { "icon": "mail", "text": "shadeeaqeel00@gmail.com" },
+    { "icon": "phone", "text": "+966 53 628 4611" },
+    { "icon": "map-pin", "text": "Riyadh, KSA" },
+    { "icon": "flag", "text": "Syrian" },
+    { "icon": "check-circle", "text": "Transferable Iqama" }
+  ],
+  "social": [
+    { "icon": "github", "href": "https://github.com/shadiaqeel" },
+    { "icon": "linkedin", "href": "https://www.linkedin.com/in/shadi-akil-503456107" }
+  ],
+  "techStack": [
+    { "name": "Backend", "tech": ".NET Core", "icon": "server", "color": "text-blue-500" },
+    { "name": "Frontend", "tech": "Vue.js", "icon": "layout", "color": "text-emerald-500" },
+    { "name": "Database", "tech": "SQL / Redis", "icon": "database", "color": "text-purple-500" },
+    { "name": "DevOps", "tech": "Azure / Docker", "icon": "cpu", "color": "text-orange-500" }
+  ],
+  "careerStats": [
+    { "value": "6+", "label": { "en": "Years Experience", "ar": "سنوات الخبرة" }, "icon": "calendar" },
+    { "value": "30+", "label": { "en": "Technologies", "ar": "تقنية" }, "icon": "terminal" },
+    { "value": "8", "label": { "en": "Certificates", "ar": "شهادات" }, "icon": "award" },
+    { "value": "∞", "label": { "en": "Cups of Coffee", "ar": "أكواب قهوة" }, "icon": "coffee" }
+  ],
+  "summaryHighlights": [
+    { "en": "Full Stack Development", "ar": "تطوير متكامل" },
+    { "en": ".NET Expert", "ar": "خبير .NET" },
+    { "en": "Vue.js Specialist", "ar": "متخصص Vue.js" },
+    { "en": "Team Leadership", "ar": "قيادة الفريق" },
+    { "en": "Clean Architecture", "ar": "هندسة نظيفة" }
+  ],
+  "strengths": {
+    "en": [
+      "Problem-solving and analytical thinking",
+      "Strong attention to detail",
+      "Excellent communication skills",
+      "Team leadership and collaboration",
+      "Adaptability and quick learning",
+      "Time management and organization"
+    ],
+    "ar": [
+      "حل المشكلات والتفكير التحليلي",
+      "الاهتمام الدقيق بالتفاصيل",
+      "مهارات تواصل ممتازة",
+      "قيادة الفريق والتعاون",
+      "التكيف والتعلم السريع",
+      "إدارة الوقت والتنظيم"
+    ]
+  },
+  "languages": [
+    { "name": { "en": "Arabic", "ar": "العربية" }, "level": { "en": "Native", "ar": "اللغة الأم" }, "percent": 100 },
+    { "name": { "en": "English", "ar": "الإنجليزية" }, "level": { "en": "Professional Working", "ar": "مهني عملي" }, "percent": 50 }
+  ],
+  "personalSkills": {
+    "en": ["Critical Thinking", "Problem Solving", "Leadership", "Teamwork", "Communication", "Time Management", "Creativity", "Adaptability"],
+    "ar": ["التفكير النقدي", "حل المشكلات", "القيادة", "العمل الجماعي", "التواصل", "إدارة الوقت", "الإبداع", "التكيف"]
+  }
+}

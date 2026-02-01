@@ -5,6 +5,63 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Shadi Akil | Senior Full Stack .NET Developer</title>
 
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Shadi Akil - Senior Full Stack .NET Developer with 6+ years experience in Vue.js, Angular, React, .NET, and cloud technologies. Building scalable web applications and enterprise solutions.">
+    <meta name="keywords" content="software engineer, full stack developer, .NET developer, Vue.js, Angular, React, C#, Azure, portfolio, web development">
+    <meta name="author" content="Shadi Akil">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://shadiakil.com">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://shadiakil.com">
+    <meta property="og:title" content="Shadi Akil | Senior Full Stack .NET Developer">
+    <meta property="og:description" content="Senior Full Stack Developer with 6+ years experience building scalable web applications with Vue.js, Angular, React, .NET, and Azure cloud technologies.">
+    <meta property="og:image" content="https://shadiakil.com/imgs/og-preview.png">
+    <meta property="og:site_name" content="Shadi Akil Portfolio">
+    <meta property="og:locale" content="en_US">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="https://shadiakil.com">
+    <meta name="twitter:title" content="Shadi Akil | Senior Full Stack .NET Developer">
+    <meta name="twitter:description" content="Senior Full Stack Developer with 6+ years experience building scalable web applications with Vue.js, Angular, React, .NET, and Azure cloud technologies.">
+    <meta name="twitter:image" content="https://shadiakil.com/imgs/og-preview.png">
+
+    <!-- Structured Data (JSON-LD) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Person",
+      "name": "Shadi Akil",
+      "url": "https://shadiakil.com",
+      "jobTitle": "Senior Full Stack .NET Developer",
+      "description": "Senior Full Stack Developer with 6+ years experience in building scalable web applications",
+      "knowsAbout": ["Vue.js", "Angular", "React", ".NET", "C#", "Azure", "SQL Server", "Web Development"],
+      "sameAs": [
+        "https://github.com/shadiaqeel",
+        "https://www.linkedin.com/in/shadi-akil-503456107"
+      ],
+      "alumniOf": {
+        "@type": "Organization",
+        "name": "University"
+      },
+      "worksFor": {
+        "@type": "Organization",
+        "name": "Current Employer"
+      }
+    }
+    </script>
+
+    <!-- Resource Hints for Performance -->
+    <link rel="dns-prefetch" href="//unpkg.com">
+    <link rel="dns-prefetch" href="//cdn.tailwindcss.com">
+    <link rel="dns-prefetch" href="//www.googletagmanager.com">
+    <link rel="preconnect" href="https://unpkg.com" crossorigin>
+    <link rel="preconnect" href="https://cdn.tailwindcss.com" crossorigin>
+    <link rel="preload" href="js/app.js" as="script">
+    <link rel="preload" href="css/main.css" as="style">
+
     <!-- Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-JLKJH9GSHB"></script>
     <script src="js/analytics.js"></script>
@@ -20,12 +77,23 @@
       });
     </script>
 
+    <!-- Theme Color for Browser UI -->
+    <meta name="theme-color" content="#3b82f6" media="(prefers-color-scheme: light)">
+    <meta name="theme-color" content="#020617" media="(prefers-color-scheme: dark)">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Shadi Akil">
+
     <!-- Favicon -->
     <link
       rel="icon"
       type="image/svg+xml"
       href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><defs><linearGradient id='grad' x1='0%25' y1='0%25' x2='100%25' y2='100%25'><stop offset='0%25' style='stop-color:%233b82f6'/><stop offset='100%25' style='stop-color:%238b5cf6'/></linearGradient></defs><rect width='100' height='100' rx='20' fill='url(%23grad)'/><text x='50' y='68' font-size='50' text-anchor='middle' fill='white' font-family='monospace'>&lt;/&gt;</text></svg>"
     />
+    <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><defs><linearGradient id='grad' x1='0%25' y1='0%25' x2='100%25' y2='100%25'><stop offset='0%25' style='stop-color:%233b82f6'/><stop offset='100%25' style='stop-color:%238b5cf6'/></linearGradient></defs><rect width='100' height='100' rx='20' fill='url(%23grad)'/><text x='50' y='68' font-size='50' text-anchor='middle' fill='white' font-family='monospace'>&lt;/&gt;</text></svg>">
+
+    <!-- Web App Manifest -->
+    <link rel="manifest" href="manifest.json">
 
     <!-- Vue 3 -->
     <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
@@ -111,6 +179,11 @@
     </script>
   </head>
   <body class="antialiased transition-colors duration-500">
+    <!-- Skip to Main Content Link (Accessibility) -->
+    <a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[100] focus:px-4 focus:py-2 focus:bg-blue-600 focus:text-white focus:rounded-lg focus:shadow-lg focus:outline-none focus:ring-2 focus:ring-blue-400">
+      Skip to main content
+    </a>
+
     <div id="app" v-cloak :class="[darkMode ? 'bg-slate-950 text-slate-100' : 'bg-slate-50 text-slate-800', 'min-h-screen relative noise-overlay']">
       <!-- Animated Background Blobs -->
       <div class="fixed inset-0 overflow-hidden pointer-events-none">
@@ -129,6 +202,8 @@
 
       <!-- Navigation -->
       <nav
+        role="navigation"
+        aria-label="Main navigation"
         class="sticky top-0 z-50 backdrop-blur-xl border-b transition-all duration-300"
         :class="[
           darkMode ? 'bg-slate-950/80 border-slate-800' : 'bg-white/80 border-slate-200',
@@ -161,12 +236,25 @@
                     ? (darkMode ? 'text-blue-400' : 'text-blue-600') 
                     : (darkMode ? 'text-slate-400 hover:text-slate-200' : 'text-slate-600 hover:text-slate-800')
                 ]"
+                :aria-current="activeSection === navItem.id ? 'page' : null"
+                :aria-keyshortcuts="'Alt+' + navItem.shortcut"
               >
                 {{ navItem.label[lang] }}
+                <!-- Active indicator -->
                 <span 
                   class="absolute bottom-0 left-1/2 -translate-x-1/2 h-0.5 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full transition-all duration-300"
                   :class="activeSection === navItem.id ? 'w-3/4' : 'w-0 group-hover:w-1/2'"
                 ></span>
+                <!-- Keyboard shortcut tooltip -->
+                <span 
+                  class="shortcut-tooltip absolute -bottom-7 left-1/2 -translate-x-1/2 px-2 py-1 text-[10px] font-mono rounded transition-opacity duration-200 pointer-events-none whitespace-nowrap z-50"
+                  :class="[
+                    darkMode ? 'bg-slate-700 text-slate-200' : 'bg-slate-800 text-white',
+                    altKeyPressed ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'
+                  ]"
+                >
+                  Alt+{{ navItem.shortcut }}
+                </span>
               </a>
             </div>
 
@@ -174,21 +262,45 @@
               <!-- Language Toggle -->
               <button
                 @click="toggleLang"
-                class="p-2 sm:p-2.5 rounded-xl transition-all duration-300 hover:scale-110 flex items-center gap-1.5"
+                class="relative p-2 sm:p-2.5 rounded-xl transition-all duration-300 hover:scale-110 flex items-center gap-1.5 group"
                 :class="darkMode ? 'bg-slate-800 text-blue-400 hover:bg-slate-700' : 'bg-slate-100 text-blue-600 hover:bg-slate-200'"
-                aria-label="Toggle Language"
+                aria-label="Toggle Language (Alt+L)"
+                aria-keyshortcuts="Alt+L"
+                title="Toggle Language (Alt+L)"
               >
                 <icon name="globe" :size="18"></icon>
                 <span class="text-sm font-semibold hidden sm:inline">{{ lang === 'en' ? 'عربي' : 'EN' }}</span>
+                <!-- Keyboard shortcut tooltip -->
+                <span 
+                  class="shortcut-tooltip absolute -bottom-7 left-1/2 -translate-x-1/2 px-2 py-1 text-[10px] font-mono rounded transition-opacity duration-200 pointer-events-none whitespace-nowrap z-50"
+                  :class="[
+                    darkMode ? 'bg-slate-700 text-slate-200' : 'bg-slate-800 text-white',
+                    altKeyPressed ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'
+                  ]"
+                >
+                  Alt+L
+                </span>
               </button>
               <!-- Dark Mode Toggle -->
               <button
                 @click="toggleDarkMode"
-                class="p-2 sm:p-2.5 rounded-xl transition-all duration-300 hover:scale-110"
+                class="relative p-2 sm:p-2.5 rounded-xl transition-all duration-300 hover:scale-110 group"
                 :class="darkMode ? 'bg-slate-800 text-yellow-400 hover:bg-slate-700' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'"
-                aria-label="Toggle Dark Mode"
+                aria-label="Toggle Theme (Alt+T)"
+                aria-keyshortcuts="Alt+T"
+                title="Toggle Theme (Alt+T)"
               >
                 <icon :name="darkMode ? 'sun' : 'moon'" :size="20"></icon>
+                <!-- Keyboard shortcut tooltip -->
+                <span 
+                  class="shortcut-tooltip absolute -bottom-7 left-1/2 -translate-x-1/2 px-2 py-1 text-[10px] font-mono rounded transition-opacity duration-200 pointer-events-none whitespace-nowrap z-50"
+                  :class="[
+                    darkMode ? 'bg-slate-700 text-slate-200' : 'bg-slate-800 text-white',
+                    altKeyPressed ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'
+                  ]"
+                >
+                  Alt+T
+                </span>
               </button>
               <!-- Download CV Button -->
               <button
@@ -204,6 +316,8 @@
                 class="lg:hidden p-2 sm:p-2.5 rounded-xl transition-all duration-300"
                 :class="darkMode ? 'bg-slate-800 text-slate-300 hover:bg-slate-700' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'"
                 aria-label="Toggle Menu"
+                :aria-expanded="mobileMenuOpen"
+                aria-controls="mobile-menu"
               >
                 <icon :name="mobileMenuOpen ? 'x' : 'menu'" :size="20"></icon>
               </button>
@@ -219,10 +333,11 @@
             leave-from-class="opacity-100 translate-y-0"
             leave-to-class="opacity-0 -translate-y-2"
           >
-            <div v-if="mobileMenuOpen" class="lg:hidden pb-4">
+            <div v-if="mobileMenuOpen" id="mobile-menu" class="lg:hidden pb-4">
               <div 
                 class="flex flex-col gap-1 p-3 rounded-2xl border"
                 :class="darkMode ? 'bg-slate-900/90 border-slate-800' : 'bg-slate-50/90 border-slate-200'"
+                role="menu"
               >
                 <a
                   v-for="navItem in navItems"
@@ -235,6 +350,8 @@
                       ? (darkMode ? 'bg-blue-500/10 text-blue-400' : 'bg-blue-50 text-blue-600') 
                       : (darkMode ? 'text-slate-300 hover:bg-slate-800' : 'text-slate-600 hover:bg-slate-100')
                   ]"
+                  role="menuitem"
+                  :aria-current="activeSection === navItem.id ? 'page' : null"
                 >
                   <icon :name="navItem.icon" :size="18" :class="activeSection === navItem.id ? 'text-blue-500' : ''"></icon>
                   {{ navItem.label[lang] }}
@@ -253,9 +370,9 @@
         </div>
       </nav>
 
-      <main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16 relative">
+      <main id="main-content" role="main" class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16 relative">
         <!-- Hero Section -->
-        <section id="hero" class="mb-24 scroll-mt-20">
+        <section id="hero" aria-labelledby="hero-title" class="mb-24 scroll-mt-20">
           <div class="flex flex-col md:flex-row items-start md:items-center gap-12">
             <div class="flex-1 space-y-8">
               <div
@@ -266,7 +383,7 @@
                 {{ t.openToOpportunities }}
               </div>
 
-              <h1 class="text-5xl md:text-7xl font-black tracking-tight leading-tight" :class="darkMode ? 'text-slate-100' : 'text-slate-800'">
+              <h1 id="hero-title" class="text-5xl md:text-7xl font-black tracking-tight leading-tight" :class="darkMode ? 'text-slate-100' : 'text-slate-800'">
                 {{ t.seniorFullStack }} <br />
                 <span class="gradient-text">{{ t.dotNetDeveloper }}</span>
               </h1>
@@ -525,7 +642,7 @@
                         class="w-14 h-14 rounded-xl flex items-center justify-center flex-shrink-0 p-2"
                         :class="darkMode ? 'bg-white' : 'bg-slate-100'"
                       >
-                        <img :src="job.logo" :alt="job.company + ' logo'" class="w-full h-full object-contain" />
+                        <img :src="job.logo" :alt="job.company + ' logo'" class="w-full h-full object-contain" loading="lazy" decoding="async" />
                       </div>
                       <div
                         v-else
@@ -706,7 +823,7 @@
                   <!-- University logo -->
                   <div v-if="edu.logo" class="flex-shrink-0">
                     <div class="w-16 h-16 rounded-xl overflow-hidden bg-white p-1 border" :class="darkMode ? 'border-slate-700' : 'border-slate-200'">
-                      <img :src="edu.logo" :alt="edu.institution + ' logo'" class="w-full h-full object-contain" />
+                      <img :src="edu.logo" :alt="edu.institution + ' logo'" class="w-full h-full object-contain" loading="lazy" decoding="async" />
                     </div>
                   </div>
                   <div class="flex-1 min-w-0">
@@ -810,7 +927,7 @@
                   >
                     <!-- Provider logo -->
                     <div class="w-10 h-10 rounded-lg overflow-hidden flex-shrink-0 transition-transform duration-300 group-hover:scale-110 bg-white">
-                      <img :src="cert.logo" :alt="cert.provider + ' logo'" class="w-full h-full object-cover" />
+                      <img :src="cert.logo" :alt="cert.provider + ' logo'" class="w-full h-full object-cover" loading="lazy" decoding="async" />
                     </div>
 
                     <!-- Certificate info -->
@@ -940,17 +1057,22 @@
                 {{ lang === 'ar' ? 'مجموعة شاملة من الأدوات لبناء حلول قابلة للتوسع' : 'A comprehensive toolset for building scalable solutions.' }}
               </p>
             </div>
-            <div class="flex flex-wrap gap-2">
+            <div class="flex flex-wrap gap-2" role="tablist" aria-label="Skill categories">
               <button
                 v-for="cat in categories"
                 :key="cat"
                 @click="activeCategory = cat; window.trackSkillCategory? window.trackSkillCategory(cat) : null"
-                class="group/btn relative px-4 py-2.5 rounded-xl text-sm font-bold transition-all duration-300 overflow-hidden"
+                @keydown.enter="activeCategory = cat"
+                @keydown.space.prevent="activeCategory = cat"
+                class="group/btn relative px-4 py-2.5 rounded-xl text-sm font-bold transition-all duration-300 overflow-hidden focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
                 :class="[
                   activeCategory === cat ? 'text-white shadow-lg scale-105' : '',
                   activeCategory !== cat && darkMode ? 'bg-slate-800/80 text-slate-400 hover:text-slate-200 border border-slate-700 hover:border-slate-600' : '',
                   activeCategory !== cat && !darkMode ? 'bg-white text-slate-600 border border-slate-200 hover:border-slate-300 hover:shadow-md' : ''
                 ]"
+                role="tab"
+                :aria-selected="activeCategory === cat"
+                :tabindex="activeCategory === cat ? 0 : -1"
               >
                 <!-- Active Button Gradient Background -->
                 <div
@@ -1276,5 +1398,20 @@
 
     <!-- Vue.js Application -->
     <script src="js/app.js"></script>
+
+    <!-- Service Worker Registration -->
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/sw.js')
+            .then((registration) => {
+              console.log('SW registered:', registration.scope);
+            })
+            .catch((error) => {
+              console.log('SW registration failed:', error);
+            });
+        });
+      }
+    </script>
   </body>
 </html>

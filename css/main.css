@@ -222,6 +222,36 @@ a:focus-visible {
   outline-offset: 2px;
 }
 
+/* Keyboard shortcut tooltips */
+.shortcut-tooltip {
+  font-size: 10px;
+  line-height: 1;
+  letter-spacing: 0.5px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+/* Add small arrow/caret to tooltip */
+.shortcut-tooltip::before {
+  content: "";
+  position: absolute;
+  top: -4px;
+  left: 50%;
+  transform: translateX(-50%);
+  border-left: 4px solid transparent;
+  border-right: 4px solid transparent;
+  border-bottom: 4px solid currentColor;
+}
+
+/* Dark mode tooltip arrow */
+.dark .shortcut-tooltip::before {
+  border-bottom-color: rgb(51, 65, 85); /* slate-700 */
+}
+
+/* Light mode tooltip arrow */
+.shortcut-tooltip::before {
+  border-bottom-color: rgb(30, 41, 59); /* slate-800 */
+}
+
 /* ============================================
    Print Styles
    ============================================ */

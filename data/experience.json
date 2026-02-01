@@ -1,0 +1,46 @@
+[
+  {
+    "id": 1,
+    "role": "Senior Full Stack .NET Developer | Acting Team Lead",
+    "company": "T2 - Business Research & Development",
+    "logo": "imgs/t2logo.png",
+    "period": "Jan 2025 - Present",
+    "description": "Promoted to senior role, leading technical initiatives and mentoring team members as Acting Team Lead.",
+    "achievements": [
+      "Acting as Team Lead, managing and coordinating team activities.",
+      "Follow-up on teams' tasks and ensure timely delivery.",
+      "Led the architecture and design of complex software systems.",
+      "Mentored junior developers and conducted code reviews.",
+      "Drove technical decisions and best practices across the team.",
+      "Optimized application performance and scalability."
+    ]
+  },
+  {
+    "id": 2,
+    "role": "Full Stack .NET Developer",
+    "company": "T2 - Business Research & Development",
+    "logo": "imgs/t2logo.png",
+    "period": "Feb 2020 - Dec 2024",
+    "description": "A company focused on providing digital solutions and engaging services.",
+    "achievements": [
+      "Designed and developed software systems for digital solutions.",
+      "Facilitated team communication and followed up on task execution.",
+      "Provided accurate time estimations for project roadmaps.",
+      "Supported the Operations/Support team with critical resolutions.",
+      "Researched and implemented new backend solutions."
+    ]
+  },
+  {
+    "id": 3,
+    "role": "Trainee Network Engineer",
+    "company": "Solutions by STC",
+    "logo": "imgs/stclogo.svg",
+    "period": "Jun 2018 - Dec 2018",
+    "description": "Saudi Telecom Company is a Saudi Arabia-based telecommunications company that offers landline, mobile, Internet services and computer networks.",
+    "achievements": [
+      "Gained hands-on experience in network infrastructure and telecommunications.",
+      "Assisted in network configuration and troubleshooting.",
+      "Collaborated with senior engineers on network maintenance tasks."
+    ]
+  }
+]

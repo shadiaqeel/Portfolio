@@ -1,0 +1,14 @@
+# robots.txt for Shadi Akil Portfolio
+# https://shadiakil.com
+
+User-agent: *
+Allow: /
+
+# Sitemap location
+Sitemap: https://shadiakil.com/sitemap.xml
+
+# Crawl-delay for polite crawling
+Crawl-delay: 1
+
+# Disallow archive folder
+Disallow: /archive/

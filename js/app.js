@@ -2,6 +2,16 @@
  * Portfolio Vue.js Application
  * Author: Shadi Akil
  * Description: Main Vue.js application for the portfolio website
+ *
+ * Data Files Location:
+ * The following data is also available as separate JSON files in the /data folder
+ * for easier maintenance and potential future API integration:
+ * - /data/experience.json   - Work experience data
+ * - /data/education.json    - Education data
+ * - /data/certifications.json - Certifications data
+ * - /data/skills.json       - Skills data
+ * - /data/projects.json     - Projects data
+ * - /data/profile.json      - Profile, contact, and personal data
  */
 
 const { createApp, ref, computed, watch } = Vue;
@@ -126,18 +136,19 @@ const app = createApp({
     const scrolled = ref(false);
     const showBackToTop = ref(false);
     const activeSection = ref("hero");
+    const altKeyPressed = ref(false);
 
     // ============================================
     // Navigation Items
     // ============================================
     const navItems = [
-      { id: "hero", label: { en: "Home", ar: "الرئيسية" }, icon: "code" },
-      { id: "experience", label: { en: "Experience", ar: "الخبرة" }, icon: "briefcase" },
-      { id: "projects", label: { en: "Projects", ar: "المشاريع" }, icon: "rocket" },
-      { id: "skills", label: { en: "Skills", ar: "المهارات" }, icon: "terminal" },
-      { id: "education", label: { en: "Education", ar: "التعليم" }, icon: "graduation-cap" },
-      { id: "about", label: { en: "About", ar: "حول" }, icon: "user" },
-      { id: "contact", label: { en: "Contact", ar: "تواصل" }, icon: "mail" },
+      { id: "hero", label: { en: "Home", ar: "الرئيسية" }, icon: "code", shortcut: "H" },
+      { id: "experience", label: { en: "Experience", ar: "الخبرة" }, icon: "briefcase", shortcut: "E" },
+      { id: "projects", label: { en: "Projects", ar: "المشاريع" }, icon: "rocket", shortcut: "P" },
+      { id: "skills", label: { en: "Skills", ar: "المهارات" }, icon: "terminal", shortcut: "S" },
+      { id: "education", label: { en: "Education", ar: "التعليم" }, icon: "graduation-cap", shortcut: "D" },
+      { id: "about", label: { en: "About", ar: "حول" }, icon: "user", shortcut: "A" },
+      { id: "contact", label: { en: "Contact", ar: "تواصل" }, icon: "mail", shortcut: "C" },
     ];
 
     // Mobile Bottom Tabs (condensed for small screens)
@@ -188,6 +199,73 @@ const app = createApp({
     // Add scroll listener on mounted
     if (typeof window !== "undefined") {
       window.addEventListener("scroll", handleScroll, { passive: true });
+    }
+
+    // ============================================
+    // Keyboard Navigation Support
+    // ============================================
+    const handleKeydown = (event) => {
+      // Close mobile menu on Escape key
+      if (event.key === "Escape" && mobileMenuOpen.value) {
+        mobileMenuOpen.value = false;
+        // Return focus to menu toggle button
+        const menuToggle = document.querySelector('[aria-controls="mobile-menu"]');
+        if (menuToggle) menuToggle.focus();
+        return;
+      }
+
+      // Show shortcut tooltips when Alt is pressed
+      if (event.key === "Alt") {
+        altKeyPressed.value = true;
+      }
+
+      // Alt+Key navigation shortcuts
+      if (event.altKey && !event.ctrlKey && !event.metaKey) {
+        const key = event.key.toUpperCase();
+        
+        // Navigation shortcuts
+        const navItem = navItems.find(item => item.shortcut === key);
+        if (navItem) {
+          event.preventDefault();
+          scrollToSection(navItem.id);
+          altKeyPressed.value = false;
+          return;
+        }
+        
+        // Theme toggle: Alt+T
+        if (key === "T") {
+          event.preventDefault();
+          toggleDarkMode();
+          altKeyPressed.value = false;
+          return;
+        }
+        
+        // Language toggle: Alt+L
+        if (key === "L") {
+          event.preventDefault();
+          toggleLang();
+          altKeyPressed.value = false;
+          return;
+        }
+      }
+    };
+
+    const handleKeyup = (event) => {
+      // Hide shortcut tooltips when Alt is released
+      if (event.key === "Alt") {
+        altKeyPressed.value = false;
+      }
+    };
+
+    // Handle window blur to reset Alt state when window loses focus
+    const handleWindowBlur = () => {
+      altKeyPressed.value = false;
+    };
+
+    if (typeof window !== "undefined") {
+      window.addEventListener("keydown", handleKeydown);
+      window.addEventListener("keyup", handleKeyup);
+      window.addEventListener("blur", handleWindowBlur);
     }
 
     // ============================================
@@ -861,6 +939,7 @@ const app = createApp({
       scrolled,
       showBackToTop,
       activeSection,
+      altKeyPressed,
       navItems,
       mobileNavTabs,
       scrollToSection,

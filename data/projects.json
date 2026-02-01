@@ -1,0 +1,36 @@
+[
+  {
+    "id": 1,
+    "name": "RiCH",
+    "tagline": {
+      "en": "The Most Powerful Communication Platform in Saudi Arabia",
+      "ar": "أقوى منصة اتصالات في المملكة العربية السعودية"
+    },
+    "description": {
+      "en": "A robust platform that helps enterprises manage and centralize all their communication in one place. By using this intuitive platform, businesses can communicate with their targeted audiences using SMS, Voice, Fax, Email, and WhatsApp in an easier and more effective way. The service is highly secure with a sophisticated encryption system to ensure confidentiality and security.",
+      "ar": "منصة قوية تساعد المؤسسات على إدارة ومركزة جميع اتصالاتها في مكان واحد. من خلال استخدام هذه المنصة السهلة، يمكن للشركات التواصل مع جمهورها المستهدف عبر الرسائل القصيرة والمكالمات الصوتية والفاكس والبريد الإلكتروني والواتساب بطريقة أسهل وأكثر فعالية. الخدمة آمنة للغاية مع نظام تشفير متطور لضمان السرية والأمان."
+    },
+    "url": "https://t2.sa/rich-en",
+    "status": "live",
+    "stats": [
+      { "value": "70%+", "label": { "en": "SMS Traffic in KSA", "ar": "حركة الرسائل في السعودية" }, "icon": "trending-up" },
+      { "value": "95%", "label": { "en": "Banks Coverage", "ar": "تغطية البنوك" }, "icon": "building" },
+      { "value": "5+", "label": { "en": "Channels", "ar": "قنوات الاتصال" }, "icon": "message-circle" }
+    ],
+    "technologies": ["ASP.NET Core", "Vue.js", "SQL Server", "RabbitMQ", "Redis", "Cassandra", "Elasticsearch"],
+    "features": {
+      "en": [
+        "Multi-channel communication (SMS, Voice, Fax, Email, WhatsApp)",
+        "Serves almost all government sectors",
+        "Enterprise-grade security & sophisticated encryption",
+        "Unified platform for all communication needs"
+      ],
+      "ar": [
+        "اتصال متعدد القنوات (رسائل، صوت، فاكس، بريد، واتساب)",
+        "يخدم جميع القطاعات الحكومية تقريباً",
+        "أمان بمستوى المؤسسات وتشفير متطور",
+        "منصة موحدة لجميع احتياجات الاتصال"
+      ]
+    }
+  }
+]
