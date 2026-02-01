@@ -14,6 +14,42 @@
 
 ---
 
+## Project Structure
+
+```
+Portfolio/
+├── index.html          # Main portfolio page (Vue.js SPA)
+├── cv-download.html    # Printable CV/Resume page
+├── package.json        # Project configuration & scripts
+├── css/
+│   ├── main.css        # Portfolio styles
+│   └── cv.css          # CV page styles
+├── js/
+│   ├── analytics.js    # Google Analytics tracking module
+│   └── app.js          # Vue.js application
+├── imgs/               # Image assets (logos, icons)
+├── pdf/                # CV PDF files
+├── archive/            # Archived versions
+├── .gitignore          # Git ignore configuration
+├── .prettierrc         # Code formatting configuration
+└── .prettierignore     # Prettier ignore patterns
+```
+
+### Development Scripts
+
+```bash
+# Start local development server
+npm start
+
+# Run code formatter
+npm run format
+
+# Check formatting without changes
+npm run format:check
+```
+
+---
+
 ## About Me
 
 Accomplished and solutions-driven **Senior Full Stack Developer** with **6+ years of experience** in designing, developing, and maintaining robust and scalable web applications. Currently serving as **Acting Team Lead** at T2 - Business Research & Development.

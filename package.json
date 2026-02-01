@@ -1,0 +1,31 @@
+{
+  "name": "shadi-akil-portfolio",
+  "version": "1.0.0",
+  "description": "Personal portfolio website for Shadi Akil - Senior Full Stack .NET Developer",
+  "author": "Shadi Akil <shadeeaqeel00@gmail.com>",
+  "license": "MIT",
+  "homepage": "https://shadiaqeel.github.io/Portfolio/",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/shadiaqeel/Portfolio.git"
+  },
+  "keywords": [
+    "portfolio",
+    "developer",
+    "dotnet",
+    "vue",
+    "fullstack"
+  ],
+  "scripts": {
+    "start": "npx live-server --port=3000 --open=/index.html",
+    "serve": "npx live-server --port=3000",
+    "format": "npx prettier --write \"**/*.{html,css,js,json,md}\"",
+    "format:check": "npx prettier --check \"**/*.{html,css,js,json,md}\""
+  },
+  "devDependencies": {},
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not dead"
+  ]
+}
