@@ -14,16 +14,32 @@
       }
       gtag("js", new Date());
 
-      // Track CV page view
+      // Detect device type
+      const getDeviceType = () => {
+        const width = window.innerWidth;
+        if (width < 768) return "mobile";
+        if (width < 1024) return "tablet";
+        return "desktop";
+      };
+
+      // Track CV page view with enhanced data
       gtag("config", "G-JLKJH9GSHB", {
         page_title: "CV Download Page",
         page_location: window.location.href,
+        custom_map: {
+          dimension1: "referrer_source",
+          dimension2: "device_type",
+        },
       });
 
-      // Track that user viewed CV
+      // Track that user viewed CV with context
       gtag("event", "view_cv", {
         event_category: "engagement",
         event_label: "CV Page Viewed",
+        referrer_source: document.referrer || "direct",
+        device_type: getDeviceType(),
+        viewport_size: `${window.innerWidth}x${window.innerHeight}`,
+        came_from_portfolio: document.referrer.includes("shadiaqeel.github.io") || document.referrer.includes("localhost"),
       });
 
       // Track time spent on CV page
@@ -37,12 +53,110 @@
         });
       });
 
-      // Track if user prints the CV
+      // Track scroll depth on CV
+      const scrollMilestones = { 25: false, 50: false, 75: false, 100: false };
+      window.addEventListener("scroll", () => {
+        const scrollPercent = Math.round(
+          (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100
+        );
+        [25, 50, 75, 100].forEach((milestone) => {
+          if (scrollPercent >= milestone && !scrollMilestones[milestone]) {
+            scrollMilestones[milestone] = true;
+            gtag("event", "cv_scroll_depth", {
+              event_category: "engagement",
+              event_label: `CV Scrolled ${milestone}%`,
+              value: milestone,
+            });
+          }
+        });
+      });
+
+      // Track if user prints/saves the CV
       window.addEventListener("beforeprint", () => {
         gtag("event", "print_cv", {
           event_category: "conversion",
-          event_label: "CV Printed",
+          event_label: "CV Printed/Saved as PDF",
+          time_before_print: Math.round((Date.now() - cvStartTime) / 1000),
         });
+      });
+
+      // Track after print (completed or cancelled)
+      window.addEventListener("afterprint", () => {
+        gtag("event", "print_dialog_closed", {
+          event_category: "engagement",
+          event_label: "Print Dialog Closed",
+        });
+      });
+
+      // Track external link clicks on CV
+      document.addEventListener("DOMContentLoaded", () => {
+        document.addEventListener("click", (e) => {
+          const link = e.target.closest("a[href]");
+          if (link) {
+            const href = link.getAttribute("href");
+            if (href && href.startsWith("http")) {
+              let linkType = "external";
+              if (href.includes("linkedin.com")) linkType = "linkedin";
+              else if (href.includes("github.com")) linkType = "github";
+              else if (href.includes("shadiaqeel.github.io")) linkType = "portfolio";
+
+              gtag("event", "cv_outbound_click", {
+                event_category: "engagement",
+                event_label: href,
+                link_type: linkType,
+                link_url: href,
+              });
+            }
+          }
+        });
+
+        // Track text selection/copy attempts (indicates interest in specific content)
+        document.addEventListener("copy", () => {
+          const selectedText = window.getSelection().toString().substring(0, 100);
+          gtag("event", "cv_content_copied", {
+            event_category: "engagement",
+            event_label: "Content Copied from CV",
+            copied_preview: selectedText,
+          });
+        });
+
+        // Track print button clicks specifically
+        const printBtn = document.querySelector(".download-btn");
+        if (printBtn) {
+          printBtn.addEventListener("click", () => {
+            gtag("event", "save_pdf_button_click", {
+              event_category: "conversion",
+              event_label: "Save as PDF Button Clicked",
+              time_on_page: Math.round((Date.now() - cvStartTime) / 1000),
+            });
+          });
+        }
+
+        // Track CV section visibility
+        const sections = document.querySelectorAll(".section");
+        const viewedSections = new Set();
+
+        if (sections.length > 0) {
+          const observer = new IntersectionObserver(
+            (entries) => {
+              entries.forEach((entry) => {
+                const sectionTitle = entry.target.querySelector("h2, h3");
+                const sectionName = sectionTitle ? sectionTitle.textContent.trim() : "Unknown Section";
+                if (entry.isIntersecting && !viewedSections.has(sectionName)) {
+                  viewedSections.add(sectionName);
+                  gtag("event", "cv_section_view", {
+                    event_category: "engagement",
+                    event_label: sectionName,
+                    section_name: sectionName,
+                  });
+                }
+              });
+            },
+            { threshold: 0.3 }
+          );
+
+          sections.forEach((section) => observer.observe(section));
+        }
       });
     </script>
 

@@ -5,6 +5,194 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Shadi Akil | Senior Full Stack .NET Developer</title>
 
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-JLKJH9GSHB"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
+
+      // Track portfolio page view with enhanced data
+      gtag("config", "G-JLKJH9GSHB", {
+        page_title: "Portfolio Home",
+        page_location: window.location.href,
+        custom_map: {
+          dimension1: "referrer_source",
+          dimension2: "device_type",
+          dimension3: "viewport_size",
+        },
+      });
+
+      // Detect device type and viewport
+      const getDeviceType = () => {
+        const width = window.innerWidth;
+        if (width < 768) return "mobile";
+        if (width < 1024) return "tablet";
+        return "desktop";
+      };
+
+      // Track initial page view with context
+      gtag("event", "view_portfolio", {
+        event_category: "engagement",
+        event_label: "Portfolio Page Viewed",
+        referrer_source: document.referrer || "direct",
+        device_type: getDeviceType(),
+        viewport_size: `${window.innerWidth}x${window.innerHeight}`,
+      });
+
+      // Track time spent on portfolio page
+      let portfolioStartTime = Date.now();
+      window.addEventListener("beforeunload", () => {
+        const timeOnPortfolio = Math.round((Date.now() - portfolioStartTime) / 1000);
+        gtag("event", "portfolio_time_spent", {
+          event_category: "engagement",
+          event_label: "Time on Portfolio Page",
+          value: timeOnPortfolio,
+        });
+      });
+
+      // Track scroll depth milestones
+      const scrollMilestones = { 25: false, 50: false, 75: false, 100: false };
+      window.addEventListener("scroll", () => {
+        const scrollPercent = Math.round(
+          (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100
+        );
+        [25, 50, 75, 100].forEach((milestone) => {
+          if (scrollPercent >= milestone && !scrollMilestones[milestone]) {
+            scrollMilestones[milestone] = true;
+            gtag("event", "scroll_depth", {
+              event_category: "engagement",
+              event_label: `Scrolled ${milestone}%`,
+              value: milestone,
+            });
+          }
+        });
+      });
+
+      // Track section visibility using Intersection Observer
+      document.addEventListener("DOMContentLoaded", () => {
+        const sections = ["hero", "stats", "experience", "projects", "education", "about", "skills"];
+        const viewedSections = new Set();
+
+        const observer = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting && !viewedSections.has(entry.target.id)) {
+                viewedSections.add(entry.target.id);
+                gtag("event", "section_view", {
+                  event_category: "engagement",
+                  event_label: entry.target.id,
+                  section_name: entry.target.id,
+                });
+              }
+            });
+          },
+          { threshold: 0.3 }
+        );
+
+        sections.forEach((id) => {
+          const section = document.getElementById(id);
+          if (section) observer.observe(section);
+        });
+
+        // Track external link clicks
+        document.addEventListener("click", (e) => {
+          const link = e.target.closest("a[href]");
+          if (link) {
+            const href = link.getAttribute("href");
+            // Track external links
+            if (href && (href.startsWith("http") || href.startsWith("mailto:"))) {
+              let linkType = "external";
+              if (href.includes("linkedin.com")) linkType = "linkedin";
+              else if (href.includes("github.com")) linkType = "github";
+              else if (href.startsWith("mailto:")) linkType = "email";
+
+              gtag("event", "outbound_click", {
+                event_category: "engagement",
+                event_label: href,
+                link_type: linkType,
+                link_url: href,
+              });
+            }
+          }
+        });
+      });
+
+      // Analytics helper functions for Vue app
+      window.trackEvent = (eventName, params = {}) => {
+        gtag("event", eventName, {
+          event_category: params.category || "interaction",
+          event_label: params.label || eventName,
+          ...params,
+        });
+      };
+
+      // Track dark mode toggle
+      window.trackDarkModeToggle = (isDark) => {
+        gtag("event", "dark_mode_toggle", {
+          event_category: "preference",
+          event_label: isDark ? "Dark Mode Enabled" : "Dark Mode Disabled",
+          dark_mode: isDark,
+        });
+      };
+
+      // Track language toggle
+      window.trackLanguageToggle = (lang) => {
+        gtag("event", "language_toggle", {
+          event_category: "preference",
+          event_label: `Language: ${lang}`,
+          language: lang,
+        });
+      };
+
+      // Track CV download
+      window.trackCVDownload = () => {
+        gtag("event", "cv_download", {
+          event_category: "conversion",
+          event_label: "CV Downloaded from Portfolio",
+        });
+      };
+
+      // Track navigation clicks
+      window.trackNavigation = (section) => {
+        gtag("event", "navigation_click", {
+          event_category: "navigation",
+          event_label: section,
+          destination_section: section,
+        });
+      };
+
+      // Track skill category interaction
+      window.trackSkillCategory = (category) => {
+        gtag("event", "skill_category_view", {
+          event_category: "engagement",
+          event_label: category,
+          skill_category: category,
+        });
+      };
+
+      // Track project link clicks
+      window.trackProjectClick = (projectName, projectUrl) => {
+        gtag("event", "project_click", {
+          event_category: "conversion",
+          event_label: projectName,
+          project_name: projectName,
+          project_url: projectUrl,
+        });
+      };
+
+      // Track certification clicks
+      window.trackCertificationClick = (certName) => {
+        gtag("event", "certification_click", {
+          event_category: "engagement",
+          event_label: certName,
+          certification_name: certName,
+        });
+      };
+    </script>
+
     <!-- Favicon -->
     <link
       rel="icon"
@@ -427,7 +615,7 @@
                 </a>
                 <!-- Mobile Download CV -->
                 <button
-                  @click="downloadCV; mobileMenuOpen = false"
+                  @click="downloadCV(); mobileMenuOpen = false"
                   class="sm:hidden flex items-center justify-center gap-2 mt-2 px-4 py-3 rounded-xl text-sm font-semibold transition-all duration-300 bg-gradient-to-r from-blue-500 to-purple-600 text-white"
                 >
                   <icon name="download" :size="16"></icon>
@@ -798,6 +986,7 @@
                       :href="project.url"
                       target="_blank"
                       rel="noopener noreferrer"
+                      @click="if (window.trackProjectClick) window.trackProjectClick(project.name[lang], project.url)"
                       class="flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold transition-all duration-300 hover:scale-105 bg-gradient-to-r from-blue-500 to-purple-600 text-white shadow-lg shadow-blue-500/25 hover:shadow-blue-500/40"
                     >
                       {{ lang === 'ar' ? 'زيارة الموقع' : 'Visit Website' }}
@@ -986,6 +1175,7 @@
                     :href="cert.url || 'javascript:void(0)'"
                     :target="cert.url ? '_blank' : '_self'"
                     rel="noopener noreferrer"
+                    @click="if (cert.url && window.trackCertificationClick) window.trackCertificationClick(cert.name[lang])"
                     class="p-4 flex items-center gap-4 group transition-all duration-300 block no-underline relative overflow-hidden"
                     :class="[
                       darkMode ? 'bg-slate-900/30 hover:bg-slate-900/60' : 'bg-white hover:bg-slate-50',
@@ -1128,7 +1318,7 @@
               <button
                 v-for="cat in categories"
                 :key="cat"
-                @click="activeCategory = cat"
+                @click="activeCategory = cat; if (window.trackSkillCategory) window.trackSkillCategory(cat)"
                 class="group/btn relative px-4 py-2.5 rounded-xl text-sm font-bold transition-all duration-300 overflow-hidden"
                 :class="[
                   activeCategory === cat ? 'text-white shadow-lg scale-105' : '',
@@ -1598,6 +1788,7 @@
             const element = document.getElementById(sectionId);
             if (element) {
               element.scrollIntoView({ behavior: 'smooth' });
+              if (window.trackNavigation) window.trackNavigation(sectionId);
             }
           };
 
@@ -1635,14 +1826,17 @@
 
           const toggleDarkMode = () => {
             darkMode.value = !darkMode.value;
+            if (window.trackDarkModeToggle) window.trackDarkModeToggle(darkMode.value);
           };
 
           const toggleLang = () => {
             lang.value = lang.value === "en" ? "ar" : "en";
             activeCategory.value = lang.value === "ar" ? "الكل" : "All";
+            if (window.trackLanguageToggle) window.trackLanguageToggle(lang.value);
           };
 
           const downloadCV = () => {
+            if (window.trackCVDownload) window.trackCVDownload();
             window.open("cv-download.html", "_blank");
           };
 
