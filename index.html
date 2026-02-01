@@ -15,6 +15,9 @@
     <!-- Vue 3 -->
     <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
 
+    <!-- html2pdf.js for PDF generation -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -70,143 +73,6 @@
           },
         },
       };
-    </script>
-
-    <!-- Google tag (gtag.js) - Enhanced Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-JLKJH9GSHB"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag() {
-        dataLayer.push(arguments);
-      }
-      gtag("js", new Date());
-
-      // Enhanced GA4 configuration
-      gtag("config", "G-JLKJH9GSHB", {
-        send_page_view: true,
-        allow_google_signals: true,
-        allow_ad_personalization_signals: false,
-        cookie_flags: "SameSite=None;Secure",
-      });
-
-      // Analytics helper functions
-      const Analytics = {
-        // Track custom events
-        trackEvent(eventName, params = {}) {
-          gtag("event", eventName, {
-            ...params,
-            timestamp: new Date().toISOString(),
-          });
-        },
-
-        // Track outbound link clicks
-        trackOutboundLink(url, linkType, linkLabel) {
-          this.trackEvent("click", {
-            event_category: "outbound",
-            event_label: linkLabel || url,
-            link_type: linkType,
-            link_url: url,
-            transport_type: "beacon",
-          });
-        },
-
-        // Track section views (for scroll tracking)
-        trackSectionView(sectionName) {
-          this.trackEvent("section_view", {
-            event_category: "engagement",
-            section_name: sectionName,
-          });
-        },
-
-        // Track user preferences
-        trackPreference(preferenceType, value) {
-          this.trackEvent("preference_change", {
-            event_category: "user_settings",
-            preference_type: preferenceType,
-            preference_value: value,
-          });
-          // Also set as user property for segmentation
-          gtag("set", "user_properties", {
-            [preferenceType]: value,
-          });
-        },
-
-        // Track engagement time
-        trackEngagement(action, details = {}) {
-          this.trackEvent("user_engagement", {
-            event_category: "engagement",
-            engagement_action: action,
-            ...details,
-          });
-        },
-
-        // Track CV/Resume interactions
-        trackCVInteraction(action, success = true) {
-          this.trackEvent("cv_interaction", {
-            event_category: "conversion",
-            action: action,
-            success: success,
-          });
-        },
-
-        // Track skill/category filter usage
-        trackFilter(filterType, filterValue) {
-          this.trackEvent("filter_applied", {
-            event_category: "navigation",
-            filter_type: filterType,
-            filter_value: filterValue,
-          });
-        },
-      };
-
-      // Intersection Observer for section tracking
-      document.addEventListener("DOMContentLoaded", () => {
-        const sections = document.querySelectorAll("section[id]");
-        const trackedSections = new Set();
-
-        const sectionObserver = new IntersectionObserver(
-          (entries) => {
-            entries.forEach((entry) => {
-              if (entry.isIntersecting && !trackedSections.has(entry.target.id)) {
-                trackedSections.add(entry.target.id);
-                Analytics.trackSectionView(entry.target.id);
-              }
-            });
-          },
-          { threshold: 0.3 }
-        );
-
-        sections.forEach((section) => sectionObserver.observe(section));
-
-        // Track time on page before leaving
-        let startTime = Date.now();
-        window.addEventListener("beforeunload", () => {
-          const timeOnPage = Math.round((Date.now() - startTime) / 1000);
-          Analytics.trackEngagement("page_exit", {
-            time_on_page_seconds: timeOnPage,
-          });
-        });
-
-        // Track scroll depth
-        let maxScrollDepth = 0;
-        window.addEventListener("scroll", () => {
-          const scrollDepth = Math.round(
-            ((window.scrollY + window.innerHeight) / document.documentElement.scrollHeight) * 100
-          );
-          if (scrollDepth > maxScrollDepth) {
-            maxScrollDepth = scrollDepth;
-            // Track at 25%, 50%, 75%, 100% milestones
-            if ([25, 50, 75, 100].includes(scrollDepth) || scrollDepth === maxScrollDepth) {
-              if (scrollDepth % 25 === 0) {
-                Analytics.trackEngagement("scroll_depth", { depth_percent: scrollDepth });
-              }
-            }
-          }
-        });
-      });
-
-      // Make Analytics available globally
-      window.Analytics = Analytics;
     </script>
 
     <!-- Google Fonts -->
@@ -340,6 +206,64 @@
         opacity: 0.02;
         pointer-events: none;
       }
+
+      /* Smooth section transitions */
+      section {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      /* Custom scrollbar for certifications */
+      .custom-scrollbar::-webkit-scrollbar {
+        width: 6px;
+      }
+      .custom-scrollbar::-webkit-scrollbar-track {
+        background: transparent;
+      }
+      .custom-scrollbar::-webkit-scrollbar-thumb {
+        background: linear-gradient(180deg, #3b82f6, #8b5cf6);
+        border-radius: 3px;
+      }
+
+      /* Nav link hover effect */
+      .nav-link-glow {
+        position: relative;
+      }
+      .nav-link-glow::after {
+        content: '';
+        position: absolute;
+        bottom: -2px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 0;
+        height: 2px;
+        background: linear-gradient(90deg, #3b82f6, #8b5cf6);
+        border-radius: 1px;
+        transition: width 0.3s ease;
+      }
+      .nav-link-glow:hover::after {
+        width: 80%;
+      }
+
+      /* Section divider */
+      .section-divider {
+        height: 1px;
+        background: linear-gradient(90deg, transparent, rgba(59, 130, 246, 0.3), transparent);
+      }
+
+      /* Improved focus states for accessibility */
+      button:focus-visible,
+      a:focus-visible {
+        outline: 2px solid #3b82f6;
+        outline-offset: 2px;
+      }
+
+      /* Print styles */
+      @media print {
+        .no-print {
+          display: none !important;
+        }
+      }
     </style>
 
     <!-- Prevent flash of wrong theme -->
@@ -362,62 +286,149 @@
         <div class="absolute -bottom-40 right-1/3 w-72 h-72 bg-pink-500/15 rounded-full blur-3xl float-3"></div>
       </div>
 
+      <!-- Scroll Progress Indicator -->
+      <div class="fixed top-0 left-0 right-0 h-1 z-[60]">
+        <div 
+          class="h-full bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 transition-all duration-150"
+          :style="{ width: scrollProgress + '%' }"
+        ></div>
+      </div>
+
       <!-- Navigation -->
       <nav
         class="sticky top-0 z-50 backdrop-blur-xl border-b transition-all duration-300"
-        :class="darkMode ? 'bg-slate-950/80 border-slate-800' : 'bg-white/80 border-slate-200'"
+        :class="[
+          darkMode ? 'bg-slate-950/80 border-slate-800' : 'bg-white/80 border-slate-200',
+          scrolled ? 'shadow-lg' : ''
+        ]"
       >
         <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div class="flex justify-between items-center h-16">
             <div class="flex items-center space-x-3">
-              <div class="p-2.5 rounded-xl bg-gradient-to-br from-blue-500 to-purple-600 text-white shadow-lg shadow-blue-500/25">
-                <icon name="code" :size="22"></icon>
-              </div>
-              <span class="font-bold text-xl tracking-tight" :class="darkMode ? 'text-slate-100' : 'text-slate-800'"
-                >Shadi<span class="gradient-text">Akil</span></span
-              >
+              <a href="#hero" class="flex items-center space-x-3 group">
+                <div class="p-2.5 rounded-xl bg-gradient-to-br from-blue-500 to-purple-600 text-white shadow-lg shadow-blue-500/25 transition-transform duration-300 group-hover:scale-110 group-hover:rotate-3">
+                  <icon name="code" :size="22"></icon>
+                </div>
+                <span class="font-bold text-xl tracking-tight" :class="darkMode ? 'text-slate-100' : 'text-slate-800'"
+                  >Shadi<span class="gradient-text">Akil</span></span
+                >
+              </a>
             </div>
 
-            <div class="flex items-center gap-3">
+            <!-- Desktop Navigation Links -->
+            <div class="hidden lg:flex items-center gap-1">
+              <a
+                v-for="navItem in navItems"
+                :key="navItem.id"
+                :href="'#' + navItem.id"
+                @click.prevent="scrollToSection(navItem.id)"
+                class="relative px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 group"
+                :class="[
+                  activeSection === navItem.id 
+                    ? (darkMode ? 'text-blue-400' : 'text-blue-600') 
+                    : (darkMode ? 'text-slate-400 hover:text-slate-200' : 'text-slate-600 hover:text-slate-800')
+                ]"
+              >
+                {{ navItem.label[lang] }}
+                <span 
+                  class="absolute bottom-0 left-1/2 -translate-x-1/2 h-0.5 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full transition-all duration-300"
+                  :class="activeSection === navItem.id ? 'w-3/4' : 'w-0 group-hover:w-1/2'"
+                ></span>
+              </a>
+            </div>
+
+            <div class="flex items-center gap-2 sm:gap-3">
               <!-- Language Toggle -->
               <button
                 @click="toggleLang"
-                class="p-2.5 rounded-xl transition-all duration-300 hover:scale-110 flex items-center gap-1.5"
+                class="p-2 sm:p-2.5 rounded-xl transition-all duration-300 hover:scale-110 flex items-center gap-1.5"
                 :class="darkMode ? 'bg-slate-800 text-blue-400 hover:bg-slate-700' : 'bg-slate-100 text-blue-600 hover:bg-slate-200'"
                 aria-label="Toggle Language"
               >
                 <icon name="globe" :size="18"></icon>
-                <span class="text-sm font-semibold">{{ lang === 'en' ? 'عربي' : 'EN' }}</span>
+                <span class="text-sm font-semibold hidden sm:inline">{{ lang === 'en' ? 'عربي' : 'EN' }}</span>
               </button>
               <!-- Dark Mode Toggle -->
               <button
                 @click="toggleDarkMode"
-                class="p-2.5 rounded-xl transition-all duration-300 hover:scale-110"
+                class="p-2 sm:p-2.5 rounded-xl transition-all duration-300 hover:scale-110"
                 :class="darkMode ? 'bg-slate-800 text-yellow-400 hover:bg-slate-700' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'"
                 aria-label="Toggle Dark Mode"
               >
                 <icon :name="darkMode ? 'sun' : 'moon'" :size="20"></icon>
               </button>
+              <!-- Download CV Button -->
               <button
                 @click="downloadCV"
-                id="download-cv"
-                class="hidden sm:flex items-center px-5 py-2.5 rounded-xl text-sm font-semibold transition-all duration-300 bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white shadow-lg shadow-blue-500/25 hover:shadow-blue-500/40 hover:scale-105"
+                :disabled="isDownloading"
+                class="hidden sm:flex items-center px-4 py-2 sm:px-5 sm:py-2.5 rounded-xl text-sm font-semibold transition-all duration-300 bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white shadow-lg shadow-blue-500/25 hover:shadow-blue-500/40 hover:scale-105 disabled:opacity-70 disabled:cursor-wait"
               >
                 <icon
-                  name="download"
+                  :name="isDownloading ? 'coffee' : 'download'"
                   :size="16"
-                  :class="isRTL ? 'ml-2' : 'mr-2'"
+                  :class="[isRTL ? 'ml-2' : 'mr-2', isDownloading ? 'animate-pulse' : '']"
                 ></icon>
-                {{ t.downloadCV }}
+                {{ isDownloading ? (lang === 'ar' ? 'جاري التحميل...' : 'Generating...') : t.downloadCV }}
+              </button>
+              <!-- Mobile Menu Toggle -->
+              <button
+                @click="mobileMenuOpen = !mobileMenuOpen"
+                class="lg:hidden p-2 sm:p-2.5 rounded-xl transition-all duration-300"
+                :class="darkMode ? 'bg-slate-800 text-slate-300 hover:bg-slate-700' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'"
+                aria-label="Toggle Menu"
+              >
+                <icon :name="mobileMenuOpen ? 'x' : 'menu'" :size="20"></icon>
               </button>
             </div>
           </div>
+
+          <!-- Mobile Navigation Menu -->
+          <transition
+            enter-active-class="transition-all duration-300 ease-out"
+            leave-active-class="transition-all duration-200 ease-in"
+            enter-from-class="opacity-0 -translate-y-2"
+            enter-to-class="opacity-100 translate-y-0"
+            leave-from-class="opacity-100 translate-y-0"
+            leave-to-class="opacity-0 -translate-y-2"
+          >
+            <div v-if="mobileMenuOpen" class="lg:hidden pb-4">
+              <div 
+                class="flex flex-col gap-1 p-3 rounded-2xl border"
+                :class="darkMode ? 'bg-slate-900/90 border-slate-800' : 'bg-slate-50/90 border-slate-200'"
+              >
+                <a
+                  v-for="navItem in navItems"
+                  :key="navItem.id"
+                  :href="'#' + navItem.id"
+                  @click.prevent="scrollToSection(navItem.id); mobileMenuOpen = false"
+                  class="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all duration-300"
+                  :class="[
+                    activeSection === navItem.id 
+                      ? (darkMode ? 'bg-blue-500/10 text-blue-400' : 'bg-blue-50 text-blue-600') 
+                      : (darkMode ? 'text-slate-300 hover:bg-slate-800' : 'text-slate-600 hover:bg-slate-100')
+                  ]"
+                >
+                  <icon :name="navItem.icon" :size="18" :class="activeSection === navItem.id ? 'text-blue-500' : ''"></icon>
+                  {{ navItem.label[lang] }}
+                </a>
+                <!-- Mobile Download CV -->
+                <button
+                  @click="downloadCV; mobileMenuOpen = false"
+                  :disabled="isDownloading"
+                  class="sm:hidden flex items-center justify-center gap-2 mt-2 px-4 py-3 rounded-xl text-sm font-semibold transition-all duration-300 bg-gradient-to-r from-blue-500 to-purple-600 text-white"
+                >
+                  <icon :name="isDownloading ? 'coffee' : 'download'" :size="16"></icon>
+                  {{ isDownloading ? (lang === 'ar' ? 'جاري التحميل...' : 'Generating...') : t.downloadCV }}
+                </button>
+              </div>
+            </div>
+          </transition>
         </div>
       </nav>
 
       <main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16 relative">
         <!-- Hero Section -->
-        <section id="hero" class="mb-24">
+        <section id="hero" class="mb-24 scroll-mt-20">
           <div class="flex flex-col md:flex-row items-start md:items-center gap-12">
             <div class="flex-1 space-y-8">
               <div
@@ -484,7 +495,6 @@
                   :key="social.href"
                   :href="social.href"
                   target="_blank"
-                  @click="trackOutboundLink(social.href, 'social', social.icon)"
                   class="p-3 rounded-xl border transition-all duration-300 hover:scale-110"
                   :class="darkMode ? 'bg-slate-800/80 border-slate-700 text-slate-400 hover:border-blue-500 hover:text-blue-400 hover:bg-slate-800' : 'bg-white border-slate-200 text-slate-500 hover:border-blue-500 hover:text-blue-500 shadow-sm'"
                 >
@@ -520,7 +530,7 @@
         </section>
 
         <!-- Statistics Section -->
-        <section id="statistics" class="mb-24">
+        <section id="stats" class="mb-24 scroll-mt-20">
           <!-- Section Container with Background -->
           <div
             class="relative p-8 md:p-12 rounded-3xl overflow-hidden"
@@ -635,7 +645,7 @@
         </section>
 
         <!-- Experience Section -->
-        <section id="experience" class="mb-24">
+        <section id="experience" class="mb-24 scroll-mt-20">
           <h2 class="text-3xl font-bold mb-10 flex items-center gap-3" :class="darkMode ? 'text-slate-100' : 'text-slate-800'">
             <span class="p-2 rounded-lg bg-gradient-to-br from-blue-500/20 to-purple-500/20">
               <icon name="briefcase" class="text-blue-500"></icon>
@@ -725,7 +735,7 @@
         </section>
 
         <!-- Projects Section -->
-        <section id="projects" class="mb-24">
+        <section id="projects" class="mb-24 scroll-mt-20">
           <h2 class="text-3xl font-bold mb-10 flex items-center gap-3" :class="darkMode ? 'text-slate-100' : 'text-slate-800'">
             <span class="p-2 rounded-lg bg-gradient-to-br from-blue-500/20 to-purple-500/20">
               <icon name="rocket" class="text-blue-500"></icon>
@@ -775,7 +785,6 @@
                       :href="project.url"
                       target="_blank"
                       rel="noopener noreferrer"
-                      @click="trackOutboundLink(project.url, 'project', project.title.en)"
                       class="flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold transition-all duration-300 hover:scale-105 bg-gradient-to-r from-blue-500 to-purple-600 text-white shadow-lg shadow-blue-500/25 hover:shadow-blue-500/40"
                     >
                       {{ lang === 'ar' ? 'زيارة الموقع' : 'Visit Website' }}
@@ -849,9 +858,9 @@
         </section>
 
         <!-- Education & Certifications Grid -->
-        <div class="grid md:grid-cols-2 gap-8 mb-24">
+        <div id="education" class="grid md:grid-cols-2 gap-8 mb-24 scroll-mt-20">
           <!-- Education -->
-          <section id="education">
+          <section>
             <h2 class="text-3xl font-bold mb-8 flex items-center gap-3" :class="darkMode ? 'text-slate-100' : 'text-slate-800'">
               <span class="p-2 rounded-lg bg-gradient-to-br from-blue-500/20 to-purple-500/20">
                 <icon name="graduation-cap" class="text-blue-500"></icon>
@@ -891,7 +900,7 @@
           </section>
 
           <!-- Certifications -->
-          <section id="certifications">
+          <section>
             <h2 class="text-3xl font-bold mb-8 flex items-center gap-3" :class="darkMode ? 'text-slate-100' : 'text-slate-800'">
               <span class="p-2 rounded-lg bg-gradient-to-br from-blue-500/20 to-purple-500/20">
                 <icon name="award" class="text-blue-500"></icon>
@@ -905,7 +914,6 @@
                 :href="cert.url || 'javascript:void(0)'"
                 :target="cert.url ? '_blank' : '_self'"
                 rel="noopener noreferrer"
-                @click="cert.url && trackOutboundLink(cert.url, 'certificate', cert.name)"
                 class="p-4 rounded-xl border flex items-center gap-4 group transition-all duration-300 hover:scale-[1.01] block no-underline relative overflow-hidden"
                 :class="[
                   darkMode ? 'bg-slate-900/50 border-slate-800 hover:border-slate-600' : 'bg-white border-slate-200 hover:border-slate-300 shadow-sm hover:shadow-md',
@@ -969,9 +977,9 @@
         </div>
 
         <!-- Strengths, Languages, Personal Skills Grid -->
-        <div class="grid md:grid-cols-3 gap-8 mb-24">
+        <div id="about" class="grid md:grid-cols-3 gap-8 mb-24 scroll-mt-20">
           <!-- Strengths -->
-          <section id="strengths">
+          <section>
             <h2 class="text-2xl font-bold mb-6 flex items-center gap-3" :class="darkMode ? 'text-slate-100' : 'text-slate-800'">
               <span class="p-2 rounded-lg bg-gradient-to-br from-yellow-500/20 to-orange-500/20">
                 <icon name="star" class="text-yellow-500"></icon>
@@ -992,7 +1000,7 @@
           </section>
 
           <!-- Languages -->
-          <section id="languages">
+          <section>
             <h2 class="text-2xl font-bold mb-6 flex items-center gap-3" :class="darkMode ? 'text-slate-100' : 'text-slate-800'">
               <span class="p-2 rounded-lg bg-gradient-to-br from-green-500/20 to-emerald-500/20">
                 <icon name="languages" class="text-green-500"></icon>
@@ -1026,7 +1034,7 @@
           </section>
 
           <!-- Personal Skills -->
-          <section id="personal-skills">
+          <section>
             <h2 class="text-2xl font-bold mb-6 flex items-center gap-3" :class="darkMode ? 'text-slate-100' : 'text-slate-800'">
               <span class="p-2 rounded-lg bg-gradient-to-br from-pink-500/20 to-rose-500/20">
                 <icon name="heart" class="text-pink-500"></icon>
@@ -1047,7 +1055,7 @@
         </div>
 
         <!-- Technical Skills Section -->
-        <section id="technical-skills" class="mb-24">
+        <section id="skills" class="mb-24 scroll-mt-20">
           <div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-10 gap-6">
             <div>
               <h2 class="text-3xl font-bold mb-3 flex items-center gap-3" :class="darkMode ? 'text-slate-100' : 'text-slate-800'">
@@ -1064,7 +1072,7 @@
               <button
                 v-for="cat in categories"
                 :key="cat"
-                @click="setActiveCategory(cat)"
+                @click="activeCategory = cat"
                 class="group/btn relative px-4 py-2.5 rounded-xl text-sm font-bold transition-all duration-300 overflow-hidden"
                 :class="[
                   activeCategory === cat ? 'text-white shadow-lg scale-105' : '',
@@ -1173,12 +1181,130 @@
         </section>
 
         <!-- Footer -->
-        <footer class="pt-10 border-t text-center" :class="darkMode ? 'border-slate-800' : 'border-slate-200'">
-          <p class="text-sm" :class="darkMode ? 'text-slate-500' : 'text-slate-500'">
-            &copy; {{ new Date().getFullYear() }} {{ lang === 'ar' ? 'شادي عقيل' : 'Shadi Akil' }}.
-          </p>
+        <footer id="contact" class="pt-16 border-t scroll-mt-20" :class="darkMode ? 'border-slate-800' : 'border-slate-200'">
+          <div class="grid md:grid-cols-3 gap-12 mb-12">
+            <!-- Brand & About -->
+            <div>
+              <div class="flex items-center gap-3 mb-4">
+                <div class="p-2.5 rounded-xl bg-gradient-to-br from-blue-500 to-purple-600 text-white shadow-lg shadow-blue-500/25">
+                  <icon name="code" :size="22"></icon>
+                </div>
+                <span class="font-bold text-xl tracking-tight" :class="darkMode ? 'text-slate-100' : 'text-slate-800'"
+                  >Shadi<span class="gradient-text">Akil</span></span
+                >
+              </div>
+              <p class="text-sm leading-relaxed mb-4" :class="darkMode ? 'text-slate-400' : 'text-slate-600'">
+                {{ lang === 'ar' ? 'مطور Full Stack متخصص في بناء تطبيقات ويب قوية وقابلة للتوسع باستخدام .NET و Vue.js.' : 'Senior Full Stack Developer specializing in building robust, scalable web applications with .NET and Vue.js.' }}
+              </p>
+              <div class="flex gap-3">
+                <a
+                  v-for="social in socialLinks"
+                  :key="social.href"
+                  :href="social.href"
+                  target="_blank"
+                  class="p-2.5 rounded-xl border transition-all duration-300 hover:scale-110"
+                  :class="darkMode ? 'bg-slate-800/80 border-slate-700 text-slate-400 hover:border-blue-500 hover:text-blue-400' : 'bg-white border-slate-200 text-slate-500 hover:border-blue-500 hover:text-blue-500 shadow-sm'"
+                >
+                  <icon :name="social.icon" :size="18"></icon>
+                </a>
+              </div>
+            </div>
+
+            <!-- Quick Links -->
+            <div>
+              <h3 class="font-bold text-lg mb-4" :class="darkMode ? 'text-slate-100' : 'text-slate-800'">
+                {{ lang === 'ar' ? 'روابط سريعة' : 'Quick Links' }}
+              </h3>
+              <div class="grid grid-cols-2 gap-2">
+                <a
+                  v-for="navItem in navItems"
+                  :key="navItem.id"
+                  :href="'#' + navItem.id"
+                  @click.prevent="scrollToSection(navItem.id)"
+                  class="flex items-center gap-2 text-sm py-1.5 transition-all duration-300 hover:translate-x-1"
+                  :class="darkMode ? 'text-slate-400 hover:text-blue-400' : 'text-slate-600 hover:text-blue-600'"
+                >
+                  <icon name="chevron-right" :size="14"></icon>
+                  {{ navItem.label[lang] }}
+                </a>
+              </div>
+            </div>
+
+            <!-- Contact Info -->
+            <div>
+              <h3 class="font-bold text-lg mb-4" :class="darkMode ? 'text-slate-100' : 'text-slate-800'">
+                {{ lang === 'ar' ? 'تواصل معي' : 'Get in Touch' }}
+              </h3>
+              <div class="space-y-3">
+                <a 
+                  href="mailto:shadeeaqeel00@gmail.com"
+                  class="flex items-center gap-3 text-sm transition-all duration-300 group"
+                  :class="darkMode ? 'text-slate-400 hover:text-blue-400' : 'text-slate-600 hover:text-blue-600'"
+                >
+                  <span class="p-2 rounded-lg transition-colors duration-300" :class="darkMode ? 'bg-slate-800 group-hover:bg-blue-500/10' : 'bg-slate-100 group-hover:bg-blue-50'">
+                    <icon name="mail" :size="16" class="text-blue-500"></icon>
+                  </span>
+                  shadeeaqeel00@gmail.com
+                </a>
+                <a 
+                  href="tel:+966536284611"
+                  class="flex items-center gap-3 text-sm transition-all duration-300 group"
+                  :class="darkMode ? 'text-slate-400 hover:text-blue-400' : 'text-slate-600 hover:text-blue-600'"
+                >
+                  <span class="p-2 rounded-lg transition-colors duration-300" :class="darkMode ? 'bg-slate-800 group-hover:bg-blue-500/10' : 'bg-slate-100 group-hover:bg-blue-50'">
+                    <icon name="phone" :size="16" class="text-blue-500"></icon>
+                  </span>
+                  +966 53 628 4611
+                </a>
+                <div 
+                  class="flex items-center gap-3 text-sm"
+                  :class="darkMode ? 'text-slate-400' : 'text-slate-600'"
+                >
+                  <span class="p-2 rounded-lg" :class="darkMode ? 'bg-slate-800' : 'bg-slate-100'">
+                    <icon name="map-pin" :size="16" class="text-blue-500"></icon>
+                  </span>
+                  Riyadh, KSA
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Bottom Bar -->
+          <div class="py-6 border-t flex flex-col sm:flex-row justify-between items-center gap-4" :class="darkMode ? 'border-slate-800' : 'border-slate-200'">
+            <p class="text-sm" :class="darkMode ? 'text-slate-500' : 'text-slate-500'">
+              &copy; {{ new Date().getFullYear() }} {{ lang === 'ar' ? 'شادي عقيل' : 'Shadi Akil' }}. {{ lang === 'ar' ? 'جميع الحقوق محفوظة.' : 'All rights reserved.' }}
+            </p>
+            <div class="flex items-center gap-2 text-sm" :class="darkMode ? 'text-slate-500' : 'text-slate-500'">
+              <span>{{ lang === 'ar' ? 'صنع بـ' : 'Built with' }}</span>
+              <icon name="heart" :size="14" class="text-red-500 animate-pulse"></icon>
+              <span>{{ lang === 'ar' ? 'باستخدام Vue.js و Tailwind CSS' : 'using Vue.js & Tailwind CSS' }}</span>
+            </div>
+          </div>
         </footer>
       </main>
+
+      <!-- Back to Top Button -->
+      <transition
+        enter-active-class="transition-all duration-300 ease-out"
+        leave-active-class="transition-all duration-200 ease-in"
+        enter-from-class="opacity-0 translate-y-4"
+        enter-to-class="opacity-100 translate-y-0"
+        leave-from-class="opacity-100 translate-y-0"
+        leave-to-class="opacity-0 translate-y-4"
+      >
+        <button
+          v-if="showBackToTop"
+          @click="scrollToTop"
+          class="fixed bottom-8 z-50 p-3 rounded-full shadow-lg transition-all duration-300 hover:scale-110 group"
+          :class="[
+            darkMode ? 'bg-slate-800 text-blue-400 hover:bg-slate-700 border border-slate-700' : 'bg-white text-blue-600 hover:bg-slate-50 border border-slate-200 shadow-xl',
+            isRTL ? 'left-8' : 'right-8'
+          ]"
+          aria-label="Back to top"
+        >
+          <icon name="arrow-up" :size="20" class="transition-transform duration-300 group-hover:-translate-y-0.5"></icon>
+        </button>
+      </transition>
     </div>
 
     <script>
@@ -1254,6 +1380,11 @@
             layers: '<polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/>',
             coffee:
               '<path d="M17 8h1a4 4 0 1 1 0 8h-1"/><path d="M3 8h14v9a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4Z"/><line x1="6" y1="2" x2="6" y2="4"/><line x1="10" y1="2" x2="10" y2="4"/><line x1="14" y1="2" x2="14" y2="4"/>',
+            menu: '<line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="18" y2="18"/>',
+            x: '<path d="M18 6 6 18"/><path d="m6 6 12 12"/>',
+            "chevron-right": '<path d="m9 18 6-6-6-6"/>',
+            "arrow-up": '<path d="m5 12 7-7 7 7"/><path d="M12 19V5"/>',
+            user: '<path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>',
           };
 
           const path = computed(() => icons[props.name] || "");
@@ -1279,55 +1410,134 @@
           const darkMode = ref(getInitialDarkMode());
           const lang = ref(getInitialLang());
           const activeCategory = ref("All");
+          const isDownloading = ref(false);
+          const mobileMenuOpen = ref(false);
+          const scrollProgress = ref(0);
+          const scrolled = ref(false);
+          const showBackToTop = ref(false);
+          const activeSection = ref('hero');
+
+          // Navigation Items
+          const navItems = [
+            { id: 'hero', label: { en: 'Home', ar: 'الرئيسية' }, icon: 'code' },
+            { id: 'experience', label: { en: 'Experience', ar: 'الخبرة' }, icon: 'briefcase' },
+            { id: 'projects', label: { en: 'Projects', ar: 'المشاريع' }, icon: 'rocket' },
+            { id: 'skills', label: { en: 'Skills', ar: 'المهارات' }, icon: 'terminal' },
+            { id: 'education', label: { en: 'Education', ar: 'التعليم' }, icon: 'graduation-cap' },
+            { id: 'about', label: { en: 'About', ar: 'حول' }, icon: 'user' },
+            { id: 'contact', label: { en: 'Contact', ar: 'تواصل' }, icon: 'mail' },
+          ];
+
+          // Scroll to section
+          const scrollToSection = (sectionId) => {
+            const element = document.getElementById(sectionId);
+            if (element) {
+              element.scrollIntoView({ behavior: 'smooth' });
+            }
+          };
+
+          // Scroll to top
+          const scrollToTop = () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+          };
+
+          // Handle scroll events
+          const handleScroll = () => {
+            const scrollTop = window.scrollY;
+            const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+            scrollProgress.value = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+            scrolled.value = scrollTop > 50;
+            showBackToTop.value = scrollTop > 500;
+
+            // Update active section based on scroll position
+            const sections = navItems.map(item => item.id);
+            for (let i = sections.length - 1; i >= 0; i--) {
+              const section = document.getElementById(sections[i]);
+              if (section) {
+                const rect = section.getBoundingClientRect();
+                if (rect.top <= 150) {
+                  activeSection.value = sections[i];
+                  break;
+                }
+              }
+            }
+          };
+
+          // Add scroll listener on mounted
+          if (typeof window !== 'undefined') {
+            window.addEventListener('scroll', handleScroll, { passive: true });
+          }
 
           const toggleDarkMode = () => {
             darkMode.value = !darkMode.value;
-            // Track dark mode preference
-            if (window.Analytics) {
-              window.Analytics.trackPreference("dark_mode", darkMode.value ? "enabled" : "disabled");
-            }
           };
 
           const toggleLang = () => {
             lang.value = lang.value === "en" ? "ar" : "en";
             activeCategory.value = lang.value === "ar" ? "الكل" : "All";
-            // Track language preference
-            if (window.Analytics) {
-              window.Analytics.trackPreference("language", lang.value);
-            }
           };
 
-          const downloadCV = () => {
-            // Send GA4 event on click
-            gtag("event", "download_cv_click", {
-              event_category: "engagement",
-              event_label: "CV Download Button Clicked",
-              language: lang.value,
-            });
+          const downloadCV = async () => {
+            if (isDownloading.value) return;
+            isDownloading.value = true;
 
-            // Open CV page in new tab
-            window.open("cv-download.html", "_blank");
+            try {
+              // Fetch the CV HTML content
+              const response = await fetch("cv-download.html");
+              const htmlContent = await response.text();
+
+              // Create a temporary container
+              const container = document.createElement("div");
+              container.innerHTML = htmlContent;
+
+              // Extract just the body content
+              const bodyContent = container.querySelector(".container");
+              if (!bodyContent) {
+                throw new Error("CV content not found");
+              }
+
+              // Extract styles from the fetched HTML
+              const styleTag = container.querySelector("style");
+              const tempDiv = document.createElement("div");
+              tempDiv.innerHTML = bodyContent.innerHTML;
+
+              // Apply inline styles for PDF generation
+              if (styleTag) {
+                const styleElement = document.createElement("style");
+                styleElement.textContent = styleTag.textContent;
+                tempDiv.prepend(styleElement);
+              }
+
+              // Configure html2pdf options
+              const opt = {
+                margin: [10, 10, 10, 10],
+                filename: "Shadi_Akil_CV.pdf",
+                image: { type: "jpeg", quality: 0.98 },
+                html2canvas: {
+                  scale: 2,
+                  useCORS: true,
+                  letterRendering: true,
+                },
+                jsPDF: {
+                  unit: "mm",
+                  format: "a4",
+                  orientation: "portrait",
+                },
+                pagebreak: { mode: ["avoid-all", "css", "legacy"] },
+              };
+
+              // Generate and download PDF
+              await html2pdf().set(opt).from(bodyContent).save();
+            } catch (error) {
+              console.error("Error generating PDF:", error);
+              // Fallback: open the HTML CV in a new tab
+              window.open("cv-download.html", "_blank");
+            } finally {
+              isDownloading.value = false;
+            }
           };
 
           const isRTL = computed(() => lang.value === "ar");
-
-          // Analytics tracking methods
-          const trackOutboundLink = (url, linkType, linkLabel) => {
-            if (window.Analytics) {
-              window.Analytics.trackOutboundLink(url, linkType, linkLabel);
-            }
-          };
-
-          const trackCategoryFilter = (category) => {
-            if (window.Analytics) {
-              window.Analytics.trackFilter("skills_category", category);
-            }
-          };
-
-          const setActiveCategory = (cat) => {
-            activeCategory.value = cat;
-            trackCategoryFilter(cat);
-          };
 
           watch(
             darkMode,
@@ -1642,7 +1852,7 @@
           const education = [
             {
               id: 1,
-              degree: "Bachelor's Degree in Computer Engineering",
+              degree: "Bachelor's Degree in Computer Science",
               institution: "Yarmouk University, Jordan",
               period: "2014 - 2019",
               details: "GPA: 4.0 (89.4%). Placed on the honour list for five years.",
@@ -1829,11 +2039,10 @@
             lang,
             toggleLang,
             isRTL,
+            isDownloading,
             downloadCV,
             t,
             activeCategory,
-            setActiveCategory,
-            trackOutboundLink,
             categories,
             categoryMap,
             categoryColors,
@@ -1853,6 +2062,15 @@
             languagesData,
             personalSkills,
             projects,
+            // Navigation
+            mobileMenuOpen,
+            scrollProgress,
+            scrolled,
+            showBackToTop,
+            activeSection,
+            navItems,
+            scrollToSection,
+            scrollToTop,
           };
         },
       });
