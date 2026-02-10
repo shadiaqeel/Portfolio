@@ -771,6 +771,12 @@ const app = createApp({
       "Soft Skills",
     ];
     const certCategoryConfig = {
+      Architecture: {
+        icon: "cog",
+        gradient: "from-purple-500 to-indigo-600",
+        bgClass: "bg-purple-500/10",
+        textClass: "text-purple-500",
+      },
       Development: {
         icon: "code",
         gradient: "from-cyan-500 to-blue-600",
