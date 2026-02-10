@@ -1,5 +1,13 @@
 [
   {
+    "name": "The Complete Microservices & Event-Driven Architecture",
+    "provider": "Udemy",
+    "category": "Architecture",
+    "date": "Feb 2026",
+    "url": "https://www.udemy.com/certificate/UC-60eec7ba-6395-4b29-aaa8-564124364e39/",
+    "logo": "imgs/udemy_logo.jpg"
+  },
+  {
     "name": ".NET Aspire and GenAI Develop Distributed Architectures",
     "provider": "Udemy",
     "category": "Development",
