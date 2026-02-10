@@ -58,7 +58,8 @@ const IconComponent = {
         '<ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/>',
       cpu: '<rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6"/><path d="M15 2v2"/><path d="M15 20v2"/><path d="M2 15h2"/><path d="M2 9h2"/><path d="M20 15h2"/><path d="M20 9h2"/><path d="M9 2v2"/><path d="M9 20v2"/>',
       terminal: '<polyline points="4 17 10 11 4 5"/><line x1="12" x2="20" y1="19" y2="19"/>',
-      briefcase: '<rect width="20" height="14" x="2" y="7" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/>',
+      briefcase:
+        '<rect width="20" height="14" x="2" y="7" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/>',
       "graduation-cap":
         '<path d="M21.42 10.922a1 1 0 0 0-.019-1.838L12.83 5.18a2 2 0 0 0-1.66 0L2.6 9.08a1 1 0 0 0 0 1.832l8.57 3.908a2 2 0 0 0 1.66 0z"/><path d="M22 10v6"/><path d="M6 12.5V16a6 3 0 0 0 12 0v-3.5"/>',
       award: '<circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/>',
@@ -85,7 +86,8 @@ const IconComponent = {
       "message-circle": '<path d="m3 21 1.9-5.7a8.5 8.5 0 1 1 3.8 3.8z"/>',
       calendar:
         '<rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>',
-      layers: '<polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/>',
+      layers:
+        '<polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/>',
       coffee:
         '<path d="M17 8h1a4 4 0 1 1 0 8h-1"/><path d="M3 8h14v9a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4Z"/><line x1="6" y1="2" x2="6" y2="4"/><line x1="10" y1="2" x2="10" y2="4"/><line x1="14" y1="2" x2="14" y2="4"/>',
       menu: '<line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="18" y2="18"/>',
@@ -98,7 +100,8 @@ const IconComponent = {
       wifi: '<path d="M5 13a10 10 0 0 1 14 0"/><path d="M8.5 16.5a5 5 0 0 1 7 0"/><path d="M2 9.5a15.5 15.5 0 0 1 20 0"/><circle cx="12" cy="20" r="1"/>',
       "clipboard-list":
         '<rect width="8" height="4" x="8" y="2" rx="1" ry="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><path d="M12 11h4"/><path d="M12 16h4"/><path d="M8 11h.01"/><path d="M8 16h.01"/>',
-      "bar-chart": '<line x1="12" x2="12" y1="20" y2="10"/><line x1="18" x2="18" y1="20" y2="4"/><line x1="6" x2="6" y1="20" y2="16"/>',
+      "bar-chart":
+        '<line x1="12" x2="12" y1="20" y2="10"/><line x1="18" x2="18" y1="20" y2="4"/><line x1="6" x2="6" y1="20" y2="16"/>',
       filter: '<polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/>',
     };
 
@@ -222,16 +225,16 @@ const app = createApp({
       // Alt+Key navigation shortcuts
       if (event.altKey && !event.ctrlKey && !event.metaKey) {
         const key = event.key.toUpperCase();
-        
+
         // Navigation shortcuts
-        const navItem = navItems.find(item => item.shortcut === key);
+        const navItem = navItems.find((item) => item.shortcut === key);
         if (navItem) {
           event.preventDefault();
           scrollToSection(navItem.id);
           altKeyPressed.value = false;
           return;
         }
-        
+
         // Theme toggle: Alt+T
         if (key === "T") {
           event.preventDefault();
@@ -239,7 +242,7 @@ const app = createApp({
           altKeyPressed.value = false;
           return;
         }
-        
+
         // Language toggle: Alt+L
         if (key === "L") {
           event.preventDefault();
@@ -363,8 +366,28 @@ const app = createApp({
     // ============================================
     const categories = computed(() => {
       return lang.value === "ar"
-        ? ["الكل", "الخلفية", "الواجهة", "قواعد البيانات", "وسطاء الرسائل", "البحث والتحليلات", "DevOps", "الاختبارات", "الهندسة والممارسات"]
-        : ["All", "Backend", "Frontend", "Database", "Message Brokers", "Search & Analytics", "DevOps", "Testing", "Architecture"];
+        ? [
+            "الكل",
+            "الخلفية",
+            "الواجهة",
+            "قواعد البيانات",
+            "وسطاء الرسائل",
+            "البحث والتحليلات",
+            "DevOps",
+            "الاختبارات",
+            "الهندسة والممارسات",
+          ]
+        : [
+            "All",
+            "Backend",
+            "Frontend",
+            "Database",
+            "Message Brokers",
+            "Search & Analytics",
+            "DevOps",
+            "Testing",
+            "Architecture",
+          ];
     });
 
     const categoryMap = {
@@ -552,7 +575,7 @@ const app = createApp({
     const careerStats = [
       { value: "6+", label: { en: "Years Experience", ar: "سنوات الخبرة" }, icon: "calendar" },
       { value: "30+", label: { en: "Technologies", ar: "تقنية" }, icon: "terminal" },
-      { value: "8", label: { en: "Certificates", ar: "شهادات" }, icon: "award" },
+      { value: "9", label: { en: "Certificates", ar: "شهادات" }, icon: "award" },
       { value: "∞", label: { en: "Cups of Coffee", ar: "أكواب قهوة" }, icon: "coffee" },
     ];
 
@@ -574,7 +597,8 @@ const app = createApp({
         company: "T2 - Business Research & Development",
         logo: "imgs/t2logo.png",
         period: "Jan 2025 - Present",
-        description: "Promoted to senior role, leading technical initiatives and mentoring team members as Acting Team Lead.",
+        description:
+          "Promoted to senior role, leading technical initiatives and mentoring team members as Acting Team Lead.",
         achievements: [
           "Acting as Team Lead, managing and coordinating team activities.",
           "Follow-up on teams' tasks and ensure timely delivery.",
@@ -712,15 +736,47 @@ const app = createApp({
 
     const certProviderOrder = ["Udemy", "DataCamp", "edX", "Cisco"];
     const certProviderConfig = {
-      Udemy: { icon: "award", gradient: "from-purple-500 to-purple-600", bgClass: "bg-purple-500/10", textClass: "text-purple-500" },
-      DataCamp: { icon: "bar-chart", gradient: "from-green-500 to-green-600", bgClass: "bg-green-500/10", textClass: "text-green-500" },
-      edX: { icon: "book-open", gradient: "from-red-500 to-red-600", bgClass: "bg-red-500/10", textClass: "text-red-500" },
-      Cisco: { icon: "wifi", gradient: "from-blue-500 to-blue-600", bgClass: "bg-blue-500/10", textClass: "text-blue-500" },
+      Udemy: {
+        icon: "award",
+        gradient: "from-purple-500 to-purple-600",
+        bgClass: "bg-purple-500/10",
+        textClass: "text-purple-500",
+      },
+      DataCamp: {
+        icon: "bar-chart",
+        gradient: "from-green-500 to-green-600",
+        bgClass: "bg-green-500/10",
+        textClass: "text-green-500",
+      },
+      edX: {
+        icon: "book-open",
+        gradient: "from-red-500 to-red-600",
+        bgClass: "bg-red-500/10",
+        textClass: "text-red-500",
+      },
+      Cisco: {
+        icon: "wifi",
+        gradient: "from-blue-500 to-blue-600",
+        bgClass: "bg-blue-500/10",
+        textClass: "text-blue-500",
+      },
     };
 
-    const certCategoryOrder = ["Development", "Project Management", "Data & Analytics", "Cloud & Infrastructure", "Soft Skills"];
+    const certCategoryOrder = [
+      "Architecture",
+      "Development",
+      "Project Management",
+      "Data & Analytics",
+      "Cloud & Infrastructure",
+      "Soft Skills",
+    ];
     const certCategoryConfig = {
-      Development: { icon: "code", gradient: "from-cyan-500 to-blue-600", bgClass: "bg-cyan-500/10", textClass: "text-cyan-500" },
+      Development: {
+        icon: "code",
+        gradient: "from-cyan-500 to-blue-600",
+        bgClass: "bg-cyan-500/10",
+        textClass: "text-cyan-500",
+      },
       "Project Management": {
         icon: "clipboard-list",
         gradient: "from-amber-500 to-orange-600",
@@ -739,7 +795,12 @@ const app = createApp({
         bgClass: "bg-indigo-500/10",
         textClass: "text-indigo-500",
       },
-      "Soft Skills": { icon: "users", gradient: "from-pink-500 to-rose-600", bgClass: "bg-pink-500/10", textClass: "text-pink-500" },
+      "Soft Skills": {
+        icon: "users",
+        gradient: "from-pink-500 to-rose-600",
+        bgClass: "bg-pink-500/10",
+        textClass: "text-pink-500",
+      },
     };
 
     const groupedCertifications = Vue.computed(() => {
@@ -770,7 +831,9 @@ const app = createApp({
         }));
     });
 
-    const expandedCertGroups = Vue.ref([...certProviderOrder, ...certCategoryOrder].reduce((acc, p) => ({ ...acc, [p]: true }), {}));
+    const expandedCertGroups = Vue.ref(
+      [...certProviderOrder, ...certCategoryOrder].reduce((acc, p) => ({ ...acc, [p]: true }), {})
+    );
     const toggleCertGroup = (groupName) => {
       expandedCertGroups.value[groupName] = !expandedCertGroups.value[groupName];
     };
@@ -799,11 +862,24 @@ const app = createApp({
 
     const languagesData = [
       { name: { en: "Arabic", ar: "العربية" }, level: { en: "Native", ar: "اللغة الأم" }, percent: 100 },
-      { name: { en: "English", ar: "الإنجليزية" }, level: { en: "Professional Working", ar: "مهني عملي" }, percent: 50 },
+      {
+        name: { en: "English", ar: "الإنجليزية" },
+        level: { en: "Professional Working", ar: "مهني عملي" },
+        percent: 50,
+      },
     ];
 
     const personalSkills = {
-      en: ["Critical Thinking", "Problem Solving", "Leadership", "Teamwork", "Communication", "Time Management", "Creativity", "Adaptability"],
+      en: [
+        "Critical Thinking",
+        "Problem Solving",
+        "Leadership",
+        "Teamwork",
+        "Communication",
+        "Time Management",
+        "Creativity",
+        "Adaptability",
+      ],
       ar: ["التفكير النقدي", "حل المشكلات", "القيادة", "العمل الجماعي", "التواصل", "إدارة الوقت", "الإبداع", "التكيف"],
     };
 
@@ -901,7 +977,9 @@ const app = createApp({
     const filteredSkills = computed(() => {
       const cat = activeCategory.value;
       const mappedCat = categoryMap[cat] || cat;
-      return mappedCat === "All" || cat === "الكل" ? skillsData : skillsData.filter((skill) => skill.category === mappedCat);
+      return mappedCat === "All" || cat === "الكل"
+        ? skillsData
+        : skillsData.filter((skill) => skill.category === mappedCat);
     });
 
     // ============================================
